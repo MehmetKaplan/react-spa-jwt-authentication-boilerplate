@@ -16,7 +16,8 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.16.4",
-    "jsonwebtoken": "^8.4.0"
+    "jsonwebtoken": "^8.4.0",
+    "mysql": "^2.16.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
