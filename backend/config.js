@@ -1,0 +1,3 @@
+export default  {
+	secret: 'DO-NOT-FORGET-TO-CHANGE-THIS-STRING-AND-KEEP-IT-SECURE'
+};

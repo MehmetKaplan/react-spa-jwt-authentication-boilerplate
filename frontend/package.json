@@ -2,6 +2,9 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "bugs": {
+		"url": "https://github.com/MehmetKaplan/react-spa-jwt-authentication-boilerplate/issues"
+	},
   "dependencies": {
     "@material-ui/core": "^3.9.0",
     "react": "^16.7.0",
