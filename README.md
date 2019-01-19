@@ -1,6 +1,8 @@
 # react-spa-jwt-authentication-boilerplate
 
-This project aims to give an opensource lean boilerplate with below configuration.
+This project aims to give an opensource lean boilerplate for email based microservice authentication that can be used by both web applications as well as native applications.
+
+Ideally, we suggest both the web apps and native apps to interact with the backend through APIs after the login. (The project aims especially SPAs.)
 
 **Please be informed that this project is under development, not yet finalized and open to any contribution from opensource community.**
 
@@ -83,13 +85,9 @@ mysql -u root -p < Generate_Database.sql
 mysql -u root -p < Generate_Objects.sql 
 `
 
-[TO BE CONTINUED]
 
-## Reference
 
-* https://medium.com/dev-bits/a-guide-for-adding-jwt-token-based-authentication-to-your-single-page-nodejs-applications-c403f7cf04f4
-
-# Current Todo List:
+# TO BE CONTINUED
 
 * Backend action: hash 
 * Backend action: login 
@@ -98,3 +96,4 @@ mysql -u root -p < Generate_Objects.sql
 * Backend action: forgot password (generate URL and send to user, URL should have JWT, JWT should keep username and an extra token, extra token should be stored in db)
 * Backend action: forgot password (user clicks url, check username and corresonding extra token againist stored value in DB, update extra token in DB and generate a new JWT - JWT2 - and return it to user)
 * Backend action: forgot password (user sends new password using JWT 2, check JWT2 content againist value in DB)
+* Frontend (not yet detailed)

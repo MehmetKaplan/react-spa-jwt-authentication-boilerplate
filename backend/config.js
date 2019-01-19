@@ -12,7 +12,8 @@ export default  {
 			user: process.env.GENERIC_MAIL_USER,
 			pass: process.env.GENERIC_MAIL_PASSWORD
 		}
-	}
+	},
+	defaultPort: 8000
 };
 
 
