@@ -30,7 +30,9 @@ Following should apply for the whole structure:
 
 * Based on [Express](https://expressjs.com/)
 * All authentication is with [JWT](https://jwt.io/) (the node library [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) is used)
+* Passwords are hashed by [bcrypt](https://www.npmjs.com/package/bcrypt)
 * Uses [MySQL] (https://www.mysql.com/) as the user repository database (*)
+* For email uses [nodemailer](https://nodemailer.com/about/)
 
 (*) It is completely OK if you swap the MySQL with other databases. The database scripts are in pure SQL so it should, in theory, be fine to use with other relateional database servers.
 
@@ -38,13 +40,30 @@ Following should apply for the whole structure:
 
 0. Please note if you are not using MySQL, you'll need to modify database connections in the code. That is why we suggest you to setup MySQL. For a clean guide to set up MySQL for Ubuntu yo can refer [here](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04).
 
-1. Download codes
+1. Set environment parameters for mail and relational database. If you choose to use MySQL and linux adding following lines to `~/.bashrc` file should be sufficient. (Please update username, password, etc correctly.)
+
+`
+############# react-spa-jwt-authentication-boilerplate #############
+# JWT Secret
+export JWT_SECRET="your-secret-do-not-forget-to-change"
+# Mail Transporter Parameters 
+export GENERIC_MAIL_SERVICE="yourmailtransporter" #Example: "gmail"
+export GENERIC_MAIL_USER="yourusername" #Example: "name.surname@gmail.com"
+export GENERIC_MAIL_PASSWORD="yourpassword #Example: "Password1:-)"
+# MySQL Parameters 
+export MYSQL_HOST="yourhost"  #Example "localhost"
+export MYSQL_USER="yourdbuser"  #Example "root"
+export MYSQL_PASSWORD="yourdbpassword"  #Example "tiger"
+############# react-spa-jwt-authentication-boilerplate #############
+`
+
+2. Download codes
 
 `
 git clone https://github.com/MehmetKaplan/react-spa-jwt-authentication-boilerplate my-authentication-app
 `
 
-2. Go to database script folder
+3. Go to database script folder
 
 `
 cd my-authentication-app/backend/database
@@ -52,13 +71,13 @@ cd my-authentication-app/backend/database
 
 Skip below 2 steps, if you have another relational database system. But assure to generate a schema named AuthUsersDB and under that schema generate the objects stated in Generate_Objects.sql file.
 
-3. Generate the schema. (You'll need to provide root password).
+4. Generate the schema. (You'll need to provide root password).
 
 `
 mysql -u root -p < Generate_Database.sql 
 `
 
-3. Generate the objects. (You'll need to provide root password).
+5. Generate the objects. (You'll need to provide root password).
 
 `
 mysql -u root -p < Generate_Objects.sql 
@@ -69,3 +88,13 @@ mysql -u root -p < Generate_Objects.sql
 ## Reference
 
 * https://medium.com/dev-bits/a-guide-for-adding-jwt-token-based-authentication-to-your-single-page-nodejs-applications-c403f7cf04f4
+
+# Current Todo List:
+
+* Backend action: hash 
+* Backend action: login 
+* Backend action: correct username password
+* Backend action: wrong username password
+* Backend action: forgot password (generate URL and send to user, URL should have JWT, JWT should keep username and an extra token, extra token should be stored in db)
+* Backend action: forgot password (user clicks url, check username and corresonding extra token againist stored value in DB, update extra token in DB and generate a new JWT - JWT2 - and return it to user)
+* Backend action: forgot password (user sends new password using JWT 2, check JWT2 content againist value in DB)

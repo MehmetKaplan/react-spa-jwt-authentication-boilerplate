@@ -12,18 +12,20 @@
     "JWT",
     "SPA",
     "React",
-	 "backend",
-	 "MySQL"
+    "backend",
+    "MySQL"
   ],
   "bugs": {
-		"url": "https://github.com/MehmetKaplan/react-spa-jwt-authentication-boilerplate/issues"
-	},
+    "url": "https://github.com/MehmetKaplan/react-spa-jwt-authentication-boilerplate/issues"
+  },
   "author": "Mehmet Kaplan",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^3.0.3",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "nodemailer": "^5.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

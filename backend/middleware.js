@@ -1,5 +1,9 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+
 import config from './config.js';
+
+const saltRounds = 10;
 
 let checkToken = (req, res, next) => {
 	let token = req.headers['x-access-token'] || req.headers['authorization']; 
@@ -11,7 +15,7 @@ let checkToken = (req, res, next) => {
 	}
 
   if (token) {
-    jwt.verify(token, config.secret, (err, decoded) => {
+    jwt.verify(token, config.jwtSecret, (err, decoded) => {
       if (err) {
         return res.json({
           success: false,
