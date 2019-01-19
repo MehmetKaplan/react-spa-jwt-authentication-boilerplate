@@ -21,6 +21,7 @@
   "author": "Mehmet Kaplan",
   "license": "MIT",
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
     "bcrypt": "^3.0.3",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",

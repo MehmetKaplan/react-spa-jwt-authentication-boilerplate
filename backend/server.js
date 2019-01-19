@@ -15,7 +15,7 @@ function main () {
 	}));
 	//app.use(bodyParser.json()); // Different routes require different bodyParsers
 	// Routes & Handlers
-	app.get('/', requestHandlers.checkJWT);
+	app.post('/checkJWT', requestHandlers.checkJWT);
 	app.post('/login', requestHandlers.login);
 	app.post('/generateResetURL', requestHandlers.generateResetURL);
 	app.post('/confirmResetURL', requestHandlers.confirmResetURL);

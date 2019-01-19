@@ -4,6 +4,8 @@ This project aims to give an opensource lean boilerplate for email based microse
 
 Ideally, we suggest both the web apps and native apps to interact with the backend through APIs after the login. (The project aims especially SPAs.)
 
+The SQL is first class here and it explicitly declares the model.
+
 **Please be informed that this project is under development, not yet finalized and open to any contribution from opensource community.**
 
 ## Principles
