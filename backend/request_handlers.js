@@ -75,22 +75,10 @@ export default class requestHandlers {
 	actionResetURL(p_req, p_res){
 
 	}
-	actionResetURL(p_req, p_res){
-
-	}
 
 	allOtherURLs(){
 		return p_res.json(config.signalsFrontendBackend.wrongAPICall);
 	}
 
-
-
-
-
 }
 
-
-
-module.exports = {
-	checkToken: checkToken
- }

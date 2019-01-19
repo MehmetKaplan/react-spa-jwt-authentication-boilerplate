@@ -1,6 +1,6 @@
 import mysql from 'mysql';
 
-export function incrementLockCount{
+export function incrementLockCount(){
 	// increment lock count
 	// if it exceeds config.maxAllowedRetry set lock-time in DB
 }
