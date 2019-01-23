@@ -33,6 +33,8 @@ function main() {
 	app.post('/login', _request_handlers2.default.login);
 	app.post('/generateResetPwdToken', _request_handlers2.default.generateResetPwdToken);
 	app.post('/resetPwd', _request_handlers2.default.resetPwd);
+	app.post('/signUp', _request_handlers2.default.signUp);
+	app.post('/generateEmailOwnershipToken', _request_handlers2.default.generateEmailOwnershipToken);
 	app.all('*', function (req, res) {
 		return res.redirect("/");
 	});

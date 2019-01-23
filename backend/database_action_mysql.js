@@ -1,6 +1,6 @@
 import mysql from 'mysql';
 
-import config from './config.js'
+import config from './config.js';
 
 export default class databaseActionMySQL {
 	constructor(){

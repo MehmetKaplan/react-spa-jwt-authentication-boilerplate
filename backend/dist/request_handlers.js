@@ -36,6 +36,10 @@ var _mailer = require('./mailer.js');
 
 var _mailer2 = _interopRequireDefault(_mailer);
 
+var _validations = require('./validations.js');
+
+var _validations2 = _interopRequireDefault(_validations);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -143,7 +147,7 @@ var requestHandlers = function () {
 					if (err) {
 						return p_res.json(_config2.default.signalsFrontendBackend.pwdResetError);
 					} else {
-						var l_email = decoded.userEMail;
+						var _l_email = decoded.userEMail;
 						var l_saved_token_rows = _database_action_mysql2.default.execute_select(_sqls2.default.readResetPasswordSecondToken, l_params);
 						if (l_saved_token_rows.length < 1) {
 							return p_res.json(_config2.default.signalsFrontendBackend.pwdResetError);
@@ -159,10 +163,10 @@ var requestHandlers = function () {
 						};
 						// Now password can be updated
 						var l_plain_password = p_req.body.password;
-						_bcrypt2.default.hash(myPlaintextPassword, saltRounds, function (err, hash) {
+						_bcrypt2.default.hash(l_plain_password, _config2.default.bcryptSaltRounds, function (err, hash) {
 							// Store hash in your password DB.
 							var l_params = [];
-							l_params << l_email;
+							l_params << _l_email;
 							l_params << hash;
 							var l_update_result = _database_action_mysql2.default.execute_updatedeleteinsert(updateEncryptedPassword, l_params);
 							if (l_update_result == "OK") {
@@ -184,8 +188,87 @@ var requestHandlers = function () {
 			}
 		}
 	}, {
+		key: 'signUp',
+		value: function signUp(p_req, p_res) {
+			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
+
+			var l_email = p_req.body.email.toLowerCase();
+			var l_password = p_req.body.password;
+			var l_gender = p_req.body.gender;
+			var l_birthday = p_req.body.birthday;
+			var l_phone = p_req.body.phone;
+			var l_name = p_req.body.name;
+			var l_midname = p_req.body.midname;
+			var l_surname = p_req.body.surname;
+
+			if (_validations2.default.email(l_email) != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.signUpInvalidEmail);
+			};
+			if (_validations2.default.password(l_password) != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.passwordStrengthTestFailed);
+			};
+			if (_validations2.default.gender(l_gender) != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.genderTValidationFailed);
+			};
+			if (_validations2.default.birthday(l_birthday) != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.birthdayValidationFailed);
+			};
+			if (_validations2.default.phone(l_phone) != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.phoneValdiationFailed);
+			};
+
+			_bcrypt2.default.hash(l_password, _config2.default.bcryptSaltRounds, function (err, hash) {
+				// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
+				var l_params = [];
+				l_params << l_email;
+				l_params << hash;
+				l_params << l_name;
+				l_params << l_midname;
+				l_params << l_surname;
+				l_params << l_gender;
+				l_params << l_birthday;
+				l_params << l_phone;
+				var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateResetPasswordSecondToken, l_params);
+				if (l_result == "OK") {
+					(0, _lock_handler.resetLockCount)();
+					var l_retval_as_json = _config2.default.signalsFrontendBackend.signUpSuccessful;
+					l_retval_as_json['JWT'] = _jsonwebtoken2.default.sign({ email: l_email }, _config2.default.jwtSecret, { expiresIn: _config2.default.jwtExpire });
+					return p_res.json(l_retval_as_json);
+				} else {
+					(0, _lock_handler.incrementLockCount)();
+					return p_res.json(_config2.default.signalsFrontendBackend.signUpGenericError);
+				}
+			});
+		}
+	}, {
+		key: 'generateEmailOwnershipToken',
+		value: function generateEmailOwnershipToken(p_req, p_res) {
+			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
+			(0, _lock_handler.incrementLockCount)();
+			var l_params = [];
+			l_params << l_email;
+			_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.emailValidationTokenClear, l_params);
+			var l_token = Math.ceil(Math.random() * 1000000000).toString();
+			l_params << l_token;
+			var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.emailValidationTokenSet, l_params);
+			if (l_result != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.signUpGenericError);
+			};
+
+			var l_email_body = _config2.default.emailValidationEMail.replace("[TAG_CODE]", l_token.toString());
+			var l_mail_result = _mailer2.default.sendMail(_config2.default.emailValidationEMailFrom, l_email, _config2.default.emailValidationEMailSubject, "", l_email_body);
+
+			if (l_mail_result == "OK") return p_res.json(_config2.default.signalsFrontendBackend.emailValidationEMailSent);else return p_res.json(_config2.default.signalsFrontendBackend.signUpGenericError);
+		}
+	}, {
 		key: 'allOtherURLs',
-		value: function allOtherURLs() {
+		value: function allOtherURLs(p_req, p_res) {
 			return p_res.json(_config2.default.signalsFrontendBackend.wrongAPICall);
 		}
 	}]);

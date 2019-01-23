@@ -7,8 +7,11 @@ import sqls from './sqls.js';
 import {incrementLockCount, resetLockCount, checkLock} from './lock_handler.js';
 import databaseActionMySQL from './database_action_mysql.js';
 import mailer from './mailer.js';
+import validations from './validations.js';
+
 
 export default class requestHandlers {
+
 	constructor(){
 
 	}
@@ -43,6 +46,7 @@ export default class requestHandlers {
 			return p_res.json(config.signalsFrontendBackend.tokenNotSupplied);
 		}
 	}
+
 	login(p_req, p_res){
 		let l_email = p_req.body.email;
 		let l_password = p_req.body.password;
@@ -68,6 +72,7 @@ export default class requestHandlers {
 			}
 		});
 	}
+
 	generateResetPwdToken(p_req, p_res){
 		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		let l_email = p_req.body.email;
@@ -142,7 +147,7 @@ export default class requestHandlers {
 					};
 					// Now password can be updated
 					let l_plain_password = p_req.body.password;
-					bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+					bcrypt.hash(l_plain_password, config.bcryptSaltRounds, function(err, hash) {
 						// Store hash in your password DB.
 						let l_params = [];
 						l_params << l_email;
@@ -171,11 +176,101 @@ export default class requestHandlers {
 			incrementLockCount();
 			return p_res.json(config.signalsFrontendBackend.tokenNotSupplied);
 		}
-
-
 	}
 
-	allOtherURLs(){
+	
+
+	signUp(p_req, p_res){
+		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+
+		let l_email = p_req.body.email.toLowerCase();
+		let l_password = p_req.body.password;
+		let l_gender = p_req.body.gender;
+		let l_birthday = p_req.body.birthday;
+		let l_phone = p_req.body.phone;
+		let l_name = p_req.body.name;
+		let l_midname = p_req.body.midname;
+		let l_surname = p_req.body.surname;
+
+		if (validations.email(l_email) != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
+		};
+		if (validations.password(l_password) != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.passwordStrengthTestFailed);
+		};
+		if (validations.gender(l_gender) != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.genderTValidationFailed);
+		};
+		if (validations.birthday(l_birthday) != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.birthdayValidationFailed);
+		};
+		if (validations.phone(l_phone) != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.phoneValdiationFailed);
+		};
+
+
+		bcrypt.hash(l_password, config.bcryptSaltRounds, function(err, hash) {
+			// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
+			let l_params = [];
+			l_params << l_email;
+			l_params << hash;
+			l_params << l_name;
+			l_params << l_midname;
+			l_params << l_surname;
+			l_params << l_gender;
+			l_params << l_birthday;
+			l_params << l_phone;
+			let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updateResetPasswordSecondToken, l_params);
+			if (l_result == "OK") {
+				resetLockCount();
+				let l_retval_as_json = config.signalsFrontendBackend.signUpSuccessful;
+				l_retval_as_json['JWT'] = jwt.sign(
+					{email: l_email},
+					config.jwtSecret,
+					{expiresIn: config.jwtExpire}
+				);
+				return p_res.json(l_retval_as_json);
+			}
+			else {
+				incrementLockCount();
+				return p_res.json(config.signalsFrontendBackend.signUpGenericError);
+			}
+		});
+	}
+
+	generateEmailOwnershipToken(p_req, p_res){
+		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+		incrementLockCount();
+		let l_params = [];
+		l_params << l_email;
+		databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenClear, l_params);
+		let l_token = Math.ceil(Math.random() * 1000000000).toString();
+		l_params << l_token;
+		let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenSet, l_params);
+		if (l_result != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.signUpGenericError);
+		};
+	
+		let l_email_body = config.emailValidationEMail
+			.replace("[TAG_CODE]", l_token.toString());
+		let l_mail_result = mailer.sendMail(
+			config.emailValidationEMailFrom, 
+			l_email,
+			config.emailValidationEMailSubject,
+			"", 
+			l_email_body);
+
+		if (l_mail_result == "OK") return p_res.json(config.signalsFrontendBackend.emailValidationEMailSent);
+		else return p_res.json(config.signalsFrontendBackend.signUpGenericError);
+	}
+
+	allOtherURLs(p_req, p_res){
 		return p_res.json(config.signalsFrontendBackend.wrongAPICall);
 	}
 

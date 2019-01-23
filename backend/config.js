@@ -21,17 +21,25 @@ export default  {
 	bcryptSaltRounds: 10,
 	lockedStateDurationMinutes: 10,
 	signalsFrontendBackend: {
-		tokenValid:               {result: "OK",  		 message: 'Token is valid'},
-		tokenNotValid:            {result: "NOK",  		 message: 'Token is not valid'},
-		tokenNotSupplied:         {result: "NOK",  		 message: 'Token not supplied'},
-		locked:                   {result: "LOCKED",		 message: 'Activity locked'},
-		wrongAPICall:             {result: "NOK",  		 message: 'You are doing something wrong'},
-		wrongPassword:            {result: "NOK",  		 message: 'Wrong username or password '},
-		authenticationSuccessful: {result: "OK",  		 message: 'Authentication is successful'},
-		pwdResetTokenGenerated:   {result: "OK",  		 message: 'Password Reset Token is generated'},
-		pwdResetError:            {result: "NOK",  		 message: 'Action can not be completed'},
-		pwdResetTokenExpired:     {result: "NOK",  		 message: 'The token had expired, please retry'},
-		pwdResetCompleted:        {result: "OK",  		 message: 'Password reset is completed'},
+		tokenValid:               		{result: "OK",  		message: 'Token is valid'},
+		tokenNotValid:            		{result: "NOK",  		message: 'Token is not valid'},
+		tokenNotSupplied:         		{result: "NOK",  		message: 'Token not supplied'},
+		locked:                   		{result: "LOCKED",	message: 'Activity locked'},
+		wrongAPICall:             		{result: "NOK",  		message: 'You are doing something wrong'},
+		wrongPassword:            		{result: "NOK",  		message: 'Wrong username or password '},
+		authenticationSuccessful: 		{result: "OK",  		message: 'Authentication is successful'},
+		pwdResetTokenGenerated:   		{result: "OK",  		message: 'Password Reset Token is generated'},
+		pwdResetError:            		{result: "NOK",  		message: 'Action can not be completed'},
+		pwdResetTokenExpired:     		{result: "NOK",  		message: 'The token had expired, please retry'},
+		pwdResetCompleted:        		{result: "OK",  		message: 'Password reset is completed'},
+		signUpInvalidEmail:       		{result: "NOK",		message: 'Email can not be used'},
+		passwordStrengthTestFailed:	{result: "NOK",   	message: 'Password strength test failed'},
+		genderTValidationFailed:   	{result: "NOK",   	message: 'Gender value validation failed'},
+		birthdayValidationFailed:  	{result: "NOK",   	message: 'Birthday alidation failed'},
+		phoneValdiationFailed:     	{result: "NOK",   	message: 'Phone validation failed'},
+		signUpGenericError:       		{result: "NOK",		message: 'Signup failed'},
+		signUpSuccessful:       		{result: "OK", 		message: 'Signup successful'},
+		emailValidationEMailSent:		{result: "OK", 		message: 'Email confirmation code '},
 	},
 	passwordResetEMailSubject: "Password Reset Request",
 	passwordResetEMail: "\
@@ -43,6 +51,17 @@ export default  {
 		<p>Best Regards,</p>\
 		<p>&nbsp;</p>",
 	passwordResetEMailFrom: "Password Reset <please_do_not_reply@pleasedonotreply.co>",
+	emailValidationEMailSubject: "Signup Email Confirmation Code",
+	emailValidationEMail: " \
+		<p>Hi there,</p> \
+		<p>Here is the code that you can use during your sign up request.</p> \
+		<p><span style=\"background-color: #ffff00;\"><strong>[CODE]</strong></span></p> \
+		<p>If it is not who requested the sign up, it means someone else is trying to register with your email address. You can simply ignore this email.</p> \
+		<p>Best Regards,</p> \
+		<p>&nbsp;</p> \
+	",
+	emailValidationEMailFrom: "EMail Validation <please_do_not_reply@pleasedonotreply.co>",
+	passwordStrengthStrong: false,
 };
 
 
