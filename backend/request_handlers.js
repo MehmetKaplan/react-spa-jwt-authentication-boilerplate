@@ -192,7 +192,9 @@ export default class requestHandlers {
 		let l_midname = p_req.body.midname;
 		let l_surname = p_req.body.surname;
 
-		if (validations.email(l_email) != "OK") {
+		let l_email_token = p_req.body.emailtoken;
+
+		if (validations.email(l_email, l_email_token) != "OK") {
 			incrementLockCount();
 			return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
 		};
@@ -254,7 +256,7 @@ export default class requestHandlers {
 		let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenSet, l_params);
 		if (l_result != "OK") {
 			incrementLockCount();
-			return p_res.json(config.signalsFrontendBackend.signUpGenericError);
+			return p_res.json(config.signalsFrontendBackend.eMailValidationGenericError);
 		};
 	
 		let l_email_body = config.emailValidationEMail
@@ -267,7 +269,95 @@ export default class requestHandlers {
 			l_email_body);
 
 		if (l_mail_result == "OK") return p_res.json(config.signalsFrontendBackend.emailValidationEMailSent);
-		else return p_res.json(config.signalsFrontendBackend.signUpGenericError);
+		else return p_res.json(config.signalsFrontendBackend.eMailValidationGenericError);
+	}
+
+	updateEMail(p_req, p_res){
+		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+
+		let l_email = p_req.body.email.toLowerCase();
+		let l_email_token = p_req.body.emailtoken;
+
+		if (validations.email(l_email, l_email_token) != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
+		};	
+
+		let l_params = [];
+		l_params << l_email;
+		databaseActionMySQL.execute_updatedeleteinsert(sqls.updateEMail, l_params);
+		if (l_result != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.signUpGenericError);
+		};
+		return p_res.json(config.signalsFrontendBackend.eMailUpdated);
+	}
+
+	updatePassword(p_req, p_res){
+		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+		let l_email = p_req.body.email.toLowerCase();
+		let l_password = p_req.body.password;
+		if (validations.password(l_password) != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.passwordStrengthTestFailed);
+		};
+		bcrypt.hash(l_password, config.bcryptSaltRounds, function(err, hash) {
+			// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
+			let l_params = [];
+			l_params << hash;
+			l_params << l_email;
+			let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updatePassword, l_params);
+			if (l_result == "OK") {
+				resetLockCount();
+				return p_res.json(config.signalsFrontendBackend.updatePasswordSuccessful);
+			}
+			else {
+				incrementLockCount();
+				return p_res.json(config.signalsFrontendBackend.updatePasswordFailed);
+			}
+		});
+	}
+
+	updateData(p_req, p_res){
+		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+
+		let l_email = p_req.body.email.toLowerCase();
+		let l_gender = p_req.body.gender;
+		let l_birthday = p_req.body.birthday;
+		let l_phone = p_req.body.phone;
+		let l_name = p_req.body.name;
+		let l_midname = p_req.body.midname;
+		let l_surname = p_req.body.surname;
+
+		if (validations.gender(l_gender) != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.genderTValidationFailed);
+		};
+		if (validations.birthday(l_birthday) != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.birthdayValidationFailed);
+		};
+		if (validations.phone(l_phone) != "OK") {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.phoneValdiationFailed);
+		};
+		let l_params = [];
+		l_params << l_name;
+		l_params << l_midname;
+		l_params << l_surname;
+		l_params << l_gender;
+		l_params << l_birthday;
+		l_params << l_phone;
+		l_params << l_email;
+		let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updateData, l_params);
+		if (l_result == "OK") {
+			resetLockCount();
+			return p_res.json(config.signalsFrontendBackend.updateDataSuccessful);
+		}
+		else {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.updateDataFailed);
+		}
 	}
 
 	allOtherURLs(p_req, p_res){

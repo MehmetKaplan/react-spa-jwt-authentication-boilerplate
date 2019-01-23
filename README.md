@@ -91,11 +91,5 @@ mysql -u root -p < Generate_Objects.sql
 
 # TO BE CONTINUED
 
-* Backend action: hash 
-* Backend action: login 
-* Backend action: correct username password
-* Backend action: wrong username password
-* Backend action: forgot password (generate URL and send to user, URL should have JWT, JWT should keep username and an extra token, extra token should be stored in db)
-* Backend action: forgot password (user clicks url, check username and corresonding extra token againist stored value in DB, update extra token in DB and generate a new JWT - JWT2 - and return it to user)
-* Backend action: forgot password (user sends new password using JWT 2, check JWT2 content againist value in DB)
+* Lock functions to be prepared
 * Frontend (not yet detailed)

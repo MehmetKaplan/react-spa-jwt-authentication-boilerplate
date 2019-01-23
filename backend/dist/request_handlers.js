@@ -201,7 +201,9 @@ var requestHandlers = function () {
 			var l_midname = p_req.body.midname;
 			var l_surname = p_req.body.surname;
 
-			if (_validations2.default.email(l_email) != "OK") {
+			var l_email_token = p_req.body.emailtoken;
+
+			if (_validations2.default.email(l_email, l_email_token) != "OK") {
 				(0, _lock_handler.incrementLockCount)();
 				return p_res.json(_config2.default.signalsFrontendBackend.signUpInvalidEmail);
 			};
@@ -258,13 +260,102 @@ var requestHandlers = function () {
 			var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.emailValidationTokenSet, l_params);
 			if (l_result != "OK") {
 				(0, _lock_handler.incrementLockCount)();
-				return p_res.json(_config2.default.signalsFrontendBackend.signUpGenericError);
+				return p_res.json(_config2.default.signalsFrontendBackend.eMailValidationGenericError);
 			};
 
 			var l_email_body = _config2.default.emailValidationEMail.replace("[TAG_CODE]", l_token.toString());
 			var l_mail_result = _mailer2.default.sendMail(_config2.default.emailValidationEMailFrom, l_email, _config2.default.emailValidationEMailSubject, "", l_email_body);
 
-			if (l_mail_result == "OK") return p_res.json(_config2.default.signalsFrontendBackend.emailValidationEMailSent);else return p_res.json(_config2.default.signalsFrontendBackend.signUpGenericError);
+			if (l_mail_result == "OK") return p_res.json(_config2.default.signalsFrontendBackend.emailValidationEMailSent);else return p_res.json(_config2.default.signalsFrontendBackend.eMailValidationGenericError);
+		}
+	}, {
+		key: 'updateEMail',
+		value: function updateEMail(p_req, p_res) {
+			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
+
+			var l_email = p_req.body.email.toLowerCase();
+			var l_email_token = p_req.body.emailtoken;
+
+			if (_validations2.default.email(l_email, l_email_token) != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.signUpInvalidEmail);
+			};
+
+			var l_params = [];
+			l_params << l_email;
+			_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateEMail, l_params);
+			if (l_result != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.signUpGenericError);
+			};
+			return p_res.json(_config2.default.signalsFrontendBackend.eMailUpdated);
+		}
+	}, {
+		key: 'updatePassword',
+		value: function updatePassword(p_req, p_res) {
+			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
+			var l_email = p_req.body.email.toLowerCase();
+			var l_password = p_req.body.password;
+			if (_validations2.default.password(l_password) != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.passwordStrengthTestFailed);
+			};
+			_bcrypt2.default.hash(l_password, _config2.default.bcryptSaltRounds, function (err, hash) {
+				// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
+				var l_params = [];
+				l_params << hash;
+				l_params << l_email;
+				var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updatePassword, l_params);
+				if (l_result == "OK") {
+					(0, _lock_handler.resetLockCount)();
+					return p_res.json(_config2.default.signalsFrontendBackend.updatePasswordSuccessful);
+				} else {
+					(0, _lock_handler.incrementLockCount)();
+					return p_res.json(_config2.default.signalsFrontendBackend.updatePasswordFailed);
+				}
+			});
+		}
+	}, {
+		key: 'updateData',
+		value: function updateData(p_req, p_res) {
+			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
+
+			var l_email = p_req.body.email.toLowerCase();
+			var l_gender = p_req.body.gender;
+			var l_birthday = p_req.body.birthday;
+			var l_phone = p_req.body.phone;
+			var l_name = p_req.body.name;
+			var l_midname = p_req.body.midname;
+			var l_surname = p_req.body.surname;
+
+			if (_validations2.default.gender(l_gender) != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.genderTValidationFailed);
+			};
+			if (_validations2.default.birthday(l_birthday) != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.birthdayValidationFailed);
+			};
+			if (_validations2.default.phone(l_phone) != "OK") {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.phoneValdiationFailed);
+			};
+			var l_params = [];
+			l_params << l_name;
+			l_params << l_midname;
+			l_params << l_surname;
+			l_params << l_gender;
+			l_params << l_birthday;
+			l_params << l_phone;
+			l_params << l_email;
+			var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateData, l_params);
+			if (l_result == "OK") {
+				(0, _lock_handler.resetLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.updateDataSuccessful);
+			} else {
+				(0, _lock_handler.incrementLockCount)();
+				return p_res.json(_config2.default.signalsFrontendBackend.updateDataFailed);
+			}
 		}
 	}, {
 		key: 'allOtherURLs',

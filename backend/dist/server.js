@@ -35,6 +35,9 @@ function main() {
 	app.post('/resetPwd', _request_handlers2.default.resetPwd);
 	app.post('/signUp', _request_handlers2.default.signUp);
 	app.post('/generateEmailOwnershipToken', _request_handlers2.default.generateEmailOwnershipToken);
+	app.post('/updateEMail', _request_handlers2.default.updateEMail);
+	app.post('/updatePassword', _request_handlers2.default.updatePassword);
+	app.post('/updateData', _request_handlers2.default.updateData);
 	app.all('*', function (req, res) {
 		return res.redirect("/");
 	});

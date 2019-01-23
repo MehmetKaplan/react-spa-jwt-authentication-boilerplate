@@ -12,5 +12,8 @@ exports.default = {
 	emailCount: "select count(*) emailcount from AuthUsersDB.users x where email = 'x' ",
 	emailValidationTokenClear: "delete from AuthUsersDB.email_validation where email = ? ",
 	emailValidationTokenSet: "insert into AuthUsersDB.email_validation(email, validation_token) values (?, ?) ",
-	emailValidationTokenRead: "select validation_token from AuthUsersDB.email_validation where email = ? "
+	emailValidationTokenRead: "select validation_token from AuthUsersDB.email_validation where email = ? ",
+	updateEMail: "update AuthUsersDB.users set email = ? where email = ? ",
+	updateData: "update AuthUsersDB.users set name = ?, midname = ?, surname = ?, gender_id = ?, birthday = ?, phone = ? where email = ? ",
+	updatePassword: "update AuthUsersDB.users set encrypted_password = ? where email = ? "
 };

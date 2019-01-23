@@ -39,7 +39,13 @@ export default  {
 		phoneValdiationFailed:     	{result: "NOK",   	message: 'Phone validation failed'},
 		signUpGenericError:       		{result: "NOK",		message: 'Signup failed'},
 		signUpSuccessful:       		{result: "OK", 		message: 'Signup successful'},
-		emailValidationEMailSent:		{result: "OK", 		message: 'Email confirmation code '},
+		emailValidationEMailSent:		{result: "OK", 		message: 'Email confirmation code sent'},
+		eMailUpdated:                	{result: "OK", 		message: 'Email updated '},
+		eMailValidationGenericError:	{result: "NOK",		message: 'EMail validation failed'},
+		updateDataSuccessful:        	{result: "OK", 		message: 'Data updated '},
+		updateDataFailed:           	{result: "NOK", 		message: 'Data could not be updated '},
+		updatePasswordSuccessful:    	{result: "OK", 		message: 'Password updated '},
+		updatePasswordFailed:       	{result: "NOK", 		message: 'Password could not be updated '},
 	},
 	passwordResetEMailSubject: "Password Reset Request",
 	passwordResetEMail: "\
@@ -54,9 +60,9 @@ export default  {
 	emailValidationEMailSubject: "Signup Email Confirmation Code",
 	emailValidationEMail: " \
 		<p>Hi there,</p> \
-		<p>Here is the code that you can use during your sign up request.</p> \
+		<p>Here is the code that you can use to verify your email.</p> \
 		<p><span style=\"background-color: #ffff00;\"><strong>[CODE]</strong></span></p> \
-		<p>If it is not who requested the sign up, it means someone else is trying to register with your email address. You can simply ignore this email.</p> \
+		<p>If it is not who requested the email validation, it means someone else is trying to use your email address. You can simply ignore this email.</p> \
 		<p>Best Regards,</p> \
 		<p>&nbsp;</p> \
 	",

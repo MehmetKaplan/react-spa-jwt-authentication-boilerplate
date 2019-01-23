@@ -21,6 +21,9 @@ function main () {
 	app.post('/resetPwd', requestHandlers.resetPwd);
 	app.post('/signUp', requestHandlers.signUp);
 	app.post('/generateEmailOwnershipToken', requestHandlers.generateEmailOwnershipToken);
+	app.post('/updateEMail', requestHandlers.updateEMail);
+	app.post('/updatePassword', requestHandlers.updatePassword);
+	app.post('/updateData', requestHandlers.updateData);
 	app.all('*', (req, res) => res.redirect("/"));
 	app.listen(port, () => console.log(`Server is listening on port: ${port}\nStart time: ${getUTCTimeAsString()}`));
 }
