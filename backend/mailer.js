@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 
 import {nvl} from './generic_library.js';
 
-export default class DatabaseAction {
+export default class Mailer {
 	constructor(){
 		this.transporter = nodemailer.createTransport(config.nodemailerTransporterParameters);
 	}

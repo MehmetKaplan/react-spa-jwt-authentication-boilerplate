@@ -31,10 +31,8 @@ function main() {
 	// Routes & Handlers
 	app.post('/checkJWT', _request_handlers2.default.checkJWT);
 	app.post('/login', _request_handlers2.default.login);
-	app.post('/generateResetURL', _request_handlers2.default.generateResetURL);
-	app.post('/confirmResetURL', _request_handlers2.default.confirmResetURL);
-	app.post('/actionResetURL', _request_handlers2.default.actionResetURL);
-	app.post('/actionResetURL', _request_handlers2.default.actionResetURL);
+	app.post('/generateResetPwdToken', _request_handlers2.default.generateResetPwdToken);
+	app.post('/resetPwd', _request_handlers2.default.resetPwd);
 	app.all('*', function (req, res) {
 		return res.redirect("/");
 	});

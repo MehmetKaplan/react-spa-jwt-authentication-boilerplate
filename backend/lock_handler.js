@@ -16,5 +16,3 @@ export function checkLock (){
 		return "OK"
 	}*/
 }
-
-

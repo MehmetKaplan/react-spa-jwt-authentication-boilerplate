@@ -20,14 +20,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var DatabaseAction = function () {
-	function DatabaseAction() {
-		_classCallCheck(this, DatabaseAction);
+var Mailer = function () {
+	function Mailer() {
+		_classCallCheck(this, Mailer);
 
 		this.transporter = _nodemailer2.default.createTransport(_config2.default.nodemailerTransporterParameters);
 	}
 
-	_createClass(DatabaseAction, [{
+	_createClass(Mailer, [{
 		key: 'sendMail',
 		value: function sendMail(p_from, p_to, p_subject, p_text, p_html) {
 			var l_params = {
@@ -55,7 +55,7 @@ var DatabaseAction = function () {
 		}
 	}]);
 
-	return DatabaseAction;
+	return Mailer;
 }();
 
-exports.default = DatabaseAction;
+exports.default = Mailer;

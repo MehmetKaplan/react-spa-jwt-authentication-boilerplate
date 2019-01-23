@@ -9,5 +9,8 @@ create table AuthUsersDB.users
 	surname varchar(100),
 	gender_id integer,
 	birthday date,
-	phone varchar(100)
+	phone varchar(100),
+	ResetPasswordSecondToken varchar(255),
+	ResetPasswordSecondTokenValidFrom varchar(255)
 );
+alter table AuthUsersDB.users add constraint idx_users_email unique key(email);

@@ -17,10 +17,8 @@ function main () {
 	// Routes & Handlers
 	app.post('/checkJWT', requestHandlers.checkJWT);
 	app.post('/login', requestHandlers.login);
-	app.post('/generateResetURL', requestHandlers.generateResetURL);
-	app.post('/confirmResetURL', requestHandlers.confirmResetURL);
-	app.post('/actionResetURL', requestHandlers.actionResetURL);
-	app.post('/actionResetURL', requestHandlers.actionResetURL);
+	app.post('/generateResetPwdToken', requestHandlers.generateResetPwdToken);
+	app.post('/resetPwd', requestHandlers.resetPwd);
 	app.all('*', (req, res) => res.redirect("/"));
 	app.listen(port, () => console.log(`Server is listening on port: ${port}\nStart time: ${getUTCTimeAsString()}`));
 }

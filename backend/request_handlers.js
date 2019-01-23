@@ -1,10 +1,12 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import date from './date-and-time';
 
 import config from './config';
 import sqls from './sqls.js';
 import {incrementLockCount, resetLockCount, checkLock} from './lock_handler.js';
 import databaseActionMySQL from './database_action_mysql.js';
+import mailer from './mailer.js';
 
 export default class requestHandlers {
 	constructor(){
@@ -31,7 +33,7 @@ export default class requestHandlers {
 				else {
 					//resetLockCount();
 					let l_response_json = config.signalsFrontendBackend.tokenValid;
-					l_response_json['user'] = decoded.user;
+					l_response_json['email'] = decoded.email;
 					return p_res.json(l_response_json);
 				};
 			});
@@ -42,10 +44,10 @@ export default class requestHandlers {
 		}
 	}
 	login(p_req, p_res){
-		let l_username = p_req.body.username;
+		let l_email = p_req.body.email;
 		let l_password = p_req.body.password;
 		let l_params = [];
-		l_params << l_username;
+		l_params << l_email;
 		let l_user_data = databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
 		let l_hashed_pwd_from_db = l_user_data ? nvl(l_user_data['encrypted_password'], "xx") : "xx";
 		//sqlt is incorporated in l_hashed_pwd_from_db so bcrypt does not need it again
@@ -54,11 +56,11 @@ export default class requestHandlers {
 				resetLockCount();
 				let l_retval_as_json = config.signalsFrontendBackend.authenticationSuccessful;
 				l_retval_as_json['JWT'] = jwt.sign(
-					{user: l_user_data['email']},
-					config.secret,
+					{email: l_user_data['email']},
+					config.jwtSecret,
 					{expiresIn: config.jwtExpire}
 				);
-				p_res.json(l_retval_as_json);
+				return p_res.json(l_retval_as_json);
 			}
 			else {
 				incrementLockCount();
@@ -66,13 +68,110 @@ export default class requestHandlers {
 			}
 		});
 	}
-	generateResetURL(p_req, p_res){
-
+	generateResetPwdToken(p_req, p_res){
+		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+		let l_email = p_req.body.email;
+		let l_params = [];
+		l_params << l_email;
+		let l_user_data = databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
+		if (l_user_data.length < 1) {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.pwdResetError);
+		};
+		let l_retval_as_json = config.signalsFrontendBackend.pwdResetTokenGenerated;
+		let l_second_token = Math.ceil(Math.random() * 1000000000).toString();
+		let l_now_str = date.format(new Date(), 'YYYYMMDDHHmmss');
+		let l_params2 = [];
+		l_params2 << l_second_token;
+		l_params2 << l_now_str;
+		l_params2 << l_email;
+		databaseActionMySQL.execute_updatedeleteinsert(sqls.updateResetPasswordSecondToken, l_params2);
+		l_retval_as_json['JWT'] = jwt.sign(
+			{
+				userEMail: l_user_data['email']
+			},
+			config.jwtSecret,
+			{expiresIn: config.jwtExpirePasswordReset}
+		);
+		let l_email_body = config.passwordResetEMail
+			.replace("[TAG_CODE]", l_second_token.toString())
+			.replace("[TAG_USER]", nvl(l_user_data[0]["name"], "") + " " + ((nvl(l_user_data[0]["midname"], "").length == 0) ? "" : l_user_data[0]["midname"] + " ") + nvl(l_user_data[0]["surname"], ""));
+		let l_mail_result = mailer.sendMail(
+			config.passwordResetEMailFrom, 
+			l_email,
+			config.passwordResetEMailSubject, 
+			"", 
+			l_email_body);
+		if (l_mail_result == "OK") return p_res.json(l_retval_as_json);
+		else return p_res.json(config.signalsFrontendBackend.pwdResetError);
 	}
-	confirmResetURL(p_req, p_res){
 
-	}
-	actionResetURL(p_req, p_res){
+	resetPwd(p_req, p_res){
+		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+		let l_token_from_header = p_req.headers['x-access-token'] || p_req.headers['authorization'];
+		// JWT expected either in Bearer or JWT header
+		if (l_token_from_header.startsWith('Bearer ')) {
+			l_token_from_header = l_token_from_header.slice(7, token.length);
+		}
+		else if (l_token_from_header.startsWith('JWT ')) {
+			l_token_from_header = l_token_from_header.slice(4, token.length);
+		}
+		else {
+			return p_res.json(config.signalsFrontendBackend.pwdResetError);
+		}
+
+		if (l_token_from_header) {
+			jwt.verify(l_token_from_header, config.jwtSecret, (err, decoded) => {
+				if (err) {
+					return p_res.json(config.signalsFrontendBackend.pwdResetError);
+				}
+				else {
+					let l_email = decoded.userEMail;
+					let l_saved_token_rows = databaseActionMySQL.execute_select(sqls.readResetPasswordSecondToken, l_params);
+					if (l_saved_token_rows.length < 1) {
+						return p_res.json(config.signalsFrontendBackend.pwdResetError);
+					};
+					let l_saved_token_from_user = p_req.body.email;
+					if (l_saved_token_rows[0]['ResetPasswordSecondToken'] != l_saved_token_from_user){
+						incrementLockCount();
+						return p_res.json(config.signalsFrontendBackend.pwdResetError);
+					};					
+					if (Number(l_saved_token_rows[0]['ResetPasswordSecondTokenValidFrom']) + config.passwordResetSecondTokenExpire > Number(date.format(new Date(), 'YYYYMMDDHHmmss'))){
+						incrementLockCount();
+						return p_res.json(config.signalsFrontendBackend.pwdResetTokenExpired);
+					};
+					// Now password can be updated
+					let l_plain_password = p_req.body.password;
+					bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+						// Store hash in your password DB.
+						let l_params = [];
+						l_params << l_email;
+						l_params << hash;
+						let l_update_result = databaseActionMySQL.execute_updatedeleteinsert(updateEncryptedPassword, l_params);
+						if (l_update_result == "OK") {
+							resetLockCount();
+							let l_retval_as_json = config.signalsFrontendBackend.pwdResetCompleted;
+							l_retval_as_json['JWT'] = jwt.sign(
+								{email: l_user_data['email']},
+								config.jwtSecret,
+								{expiresIn: config.jwtExpire}
+							);
+							return p_res.json(l_retval_as_json);
+						}
+						else {
+							incrementLockCount();
+							return p_res.json(config.signalsFrontendBackend.pwdResetError);
+						}
+					});
+				};
+			});
+			//Should be completed asyncronously within bcrypt
+		} 
+		else {
+			incrementLockCount();
+			return p_res.json(config.signalsFrontendBackend.tokenNotSupplied);
+		}
+
 
 	}
 
