@@ -15,5 +15,13 @@ exports.default = {
 	emailValidationTokenRead: "select validation_token from AuthUsersDB.email_validation where email = ? ",
 	updateEMail: "update AuthUsersDB.users set email = ? where email = ? ",
 	updateData: "update AuthUsersDB.users set name = ?, midname = ?, surname = ?, gender_id = ?, birthday = ?, phone = ? where email = ? ",
-	updatePassword: "update AuthUsersDB.users set encrypted_password = ? where email = ? "
+	updatePassword: "update AuthUsersDB.users set encrypted_password = ? where email = ? ",
+	lockIPInsert: "insert into AuthUsersDB.ip_based_lock_tracks (ip, count_unsuccessful_attempts, last_attempt) values (?, 1, now())",
+	lockIPUpdate: "update AuthUsersDB.ip_based_lock_tracks set count_unsuccessful_attempts = count_unsuccessful_attempts + 1 where ip = ? ",
+	lockIPSelect: "select ip, count_unsuccessful_attempts, date_format(last_attempt, '%Y%m%d%H%i%s') last_attempt from AuthUsersDB.ip_based_lock_tracks where ip = ? ",
+	lockIPReset: "update AuthUsersDB.ip_based_lock_tracks set count_unsuccessful_attempts = 0, last_attempt = null where ip = ?",
+	lockUserInsert: "insert into AuthUsersDB.user_based_lock_tracks (email, count_unsuccessful_attempts, last_attempt) values (?, 1, now())",
+	lockUserUpdate: "update AuthUsersDB.user_based_lock_tracks set count_unsuccessful_attempts = count_unsuccessful_attempts + 1 where email = ?",
+	lockUserSelect: "select email, count_unsuccessful_attempts, date_format(last_attempt, '%Y%m%d%H%i%s') last_attempt from AuthUsersDB.user_based_lock_tracks where email = ? ",
+	lockUserReset: "update AuthUsersDB.user_based_lock_tracks set count_unsuccessful_attempts = 0, last_attempt = null where email = ?"
 };

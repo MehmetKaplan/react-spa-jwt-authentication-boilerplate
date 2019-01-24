@@ -30,11 +30,11 @@ export default class requestHandlers {
 		if (l_token_from_header) {
 			jwt.verify(l_token_from_header, config.jwtSecret, (err, decoded) => {
 				if (err) {
-					incrementLockCount();
+					incrementLockCount(p_req.ip);
 					return p_res.json(config.signalsFrontendBackend.tokenNotValid);
 				}
 				else {
-					//resetLockCount();
+					//resetLockCount(p_req.ip);
 					let l_response_json = config.signalsFrontendBackend.tokenValid;
 					l_response_json['email'] = decoded.email;
 					return p_res.json(l_response_json);
@@ -42,7 +42,7 @@ export default class requestHandlers {
 			});
 		} 
 		else {
-			incrementLockCount();
+			incrementLockCount(p_req.ip);
 			return p_res.json(config.signalsFrontendBackend.tokenNotSupplied);
 		}
 	}
@@ -57,7 +57,7 @@ export default class requestHandlers {
 		//sqlt is incorporated in l_hashed_pwd_from_db so bcrypt does not need it again
 		bcrypt.compare(l_password, l_hashed_pwd_from_db, function(err, res) {
 			if (res) {
-				resetLockCount();
+				resetLockCount(p_req.ip, l_email);
 				let l_retval_as_json = config.signalsFrontendBackend.authenticationSuccessful;
 				l_retval_as_json['JWT'] = jwt.sign(
 					{email: l_user_data['email']},
@@ -67,7 +67,7 @@ export default class requestHandlers {
 				return p_res.json(l_retval_as_json);
 			}
 			else {
-				incrementLockCount();
+				incrementLockCount(p_req.ip, l_email);
 				return p_res.json(config.signalsFrontendBackend.wrongPassword);
 			}
 		});
@@ -80,7 +80,7 @@ export default class requestHandlers {
 		l_params << l_email;
 		let l_user_data = databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
 		if (l_user_data.length < 1) {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.pwdResetError);
 		};
 		let l_retval_as_json = config.signalsFrontendBackend.pwdResetTokenGenerated;
@@ -138,11 +138,11 @@ export default class requestHandlers {
 					};
 					let l_saved_token_from_user = p_req.body.email;
 					if (l_saved_token_rows[0]['ResetPasswordSecondToken'] != l_saved_token_from_user){
-						incrementLockCount();
+						incrementLockCount(p_req.ip, l_email);
 						return p_res.json(config.signalsFrontendBackend.pwdResetError);
 					};					
 					if (Number(l_saved_token_rows[0]['ResetPasswordSecondTokenValidFrom']) + config.passwordResetSecondTokenExpire > Number(date.format(new Date(), 'YYYYMMDDHHmmss'))){
-						incrementLockCount();
+						incrementLockCount(p_req.ip, l_email);
 						return p_res.json(config.signalsFrontendBackend.pwdResetTokenExpired);
 					};
 					// Now password can be updated
@@ -154,7 +154,7 @@ export default class requestHandlers {
 						l_params << hash;
 						let l_update_result = databaseActionMySQL.execute_updatedeleteinsert(updateEncryptedPassword, l_params);
 						if (l_update_result == "OK") {
-							resetLockCount();
+							resetLockCount(p_req.ip);
 							let l_retval_as_json = config.signalsFrontendBackend.pwdResetCompleted;
 							l_retval_as_json['JWT'] = jwt.sign(
 								{email: l_user_data['email']},
@@ -164,7 +164,7 @@ export default class requestHandlers {
 							return p_res.json(l_retval_as_json);
 						}
 						else {
-							incrementLockCount();
+							incrementLockCount(p_req.ip, l_email);
 							return p_res.json(config.signalsFrontendBackend.pwdResetError);
 						}
 					});
@@ -173,7 +173,7 @@ export default class requestHandlers {
 			//Should be completed asyncronously within bcrypt
 		} 
 		else {
-			incrementLockCount();
+			incrementLockCount(p_req.ip);
 			return p_res.json(config.signalsFrontendBackend.tokenNotSupplied);
 		}
 	}
@@ -195,23 +195,23 @@ export default class requestHandlers {
 		let l_email_token = p_req.body.emailtoken;
 
 		if (validations.email(l_email, l_email_token) != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
 		};
 		if (validations.password(l_password) != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.passwordStrengthTestFailed);
 		};
 		if (validations.gender(l_gender) != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.genderTValidationFailed);
 		};
 		if (validations.birthday(l_birthday) != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.birthdayValidationFailed);
 		};
 		if (validations.phone(l_phone) != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.phoneValdiationFailed);
 		};
 
@@ -229,7 +229,7 @@ export default class requestHandlers {
 			l_params << l_phone;
 			let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updateResetPasswordSecondToken, l_params);
 			if (l_result == "OK") {
-				resetLockCount();
+				resetLockCount(p_req.ip);
 				let l_retval_as_json = config.signalsFrontendBackend.signUpSuccessful;
 				l_retval_as_json['JWT'] = jwt.sign(
 					{email: l_email},
@@ -239,7 +239,7 @@ export default class requestHandlers {
 				return p_res.json(l_retval_as_json);
 			}
 			else {
-				incrementLockCount();
+				incrementLockCount(p_req.ip, l_email);
 				return p_res.json(config.signalsFrontendBackend.signUpGenericError);
 			}
 		});
@@ -247,7 +247,7 @@ export default class requestHandlers {
 
 	generateEmailOwnershipToken(p_req, p_res){
 		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
-		incrementLockCount();
+		incrementLockCount(p_req.ip);
 		let l_params = [];
 		l_params << l_email;
 		databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenClear, l_params);
@@ -255,7 +255,7 @@ export default class requestHandlers {
 		l_params << l_token;
 		let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenSet, l_params);
 		if (l_result != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.eMailValidationGenericError);
 		};
 	
@@ -279,7 +279,7 @@ export default class requestHandlers {
 		let l_email_token = p_req.body.emailtoken;
 
 		if (validations.email(l_email, l_email_token) != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
 		};	
 
@@ -287,7 +287,7 @@ export default class requestHandlers {
 		l_params << l_email;
 		databaseActionMySQL.execute_updatedeleteinsert(sqls.updateEMail, l_params);
 		if (l_result != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.signUpGenericError);
 		};
 		return p_res.json(config.signalsFrontendBackend.eMailUpdated);
@@ -298,7 +298,7 @@ export default class requestHandlers {
 		let l_email = p_req.body.email.toLowerCase();
 		let l_password = p_req.body.password;
 		if (validations.password(l_password) != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.passwordStrengthTestFailed);
 		};
 		bcrypt.hash(l_password, config.bcryptSaltRounds, function(err, hash) {
@@ -308,11 +308,11 @@ export default class requestHandlers {
 			l_params << l_email;
 			let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updatePassword, l_params);
 			if (l_result == "OK") {
-				resetLockCount();
+				resetLockCount(p_req.ip, l_email);
 				return p_res.json(config.signalsFrontendBackend.updatePasswordSuccessful);
 			}
 			else {
-				incrementLockCount();
+				incrementLockCount(p_req.ip, l_email);
 				return p_res.json(config.signalsFrontendBackend.updatePasswordFailed);
 			}
 		});
@@ -330,15 +330,15 @@ export default class requestHandlers {
 		let l_surname = p_req.body.surname;
 
 		if (validations.gender(l_gender) != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.genderTValidationFailed);
 		};
 		if (validations.birthday(l_birthday) != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.birthdayValidationFailed);
 		};
 		if (validations.phone(l_phone) != "OK") {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.phoneValdiationFailed);
 		};
 		let l_params = [];
@@ -351,11 +351,11 @@ export default class requestHandlers {
 		l_params << l_email;
 		let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updateData, l_params);
 		if (l_result == "OK") {
-			resetLockCount();
+			resetLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.updateDataSuccessful);
 		}
 		else {
-			incrementLockCount();
+			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.updateDataFailed);
 		}
 	}

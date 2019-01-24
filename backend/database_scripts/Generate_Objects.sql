@@ -20,3 +20,17 @@ create table AuthUsersDB.email_validation
 	email varchar(100) primary key,
 	validation_token varchar(255)	
 );
+
+create table AuthUsersDB.ip_based_lock_tracks
+(
+	ip varchar(30) primary key,
+	count_unsuccessful_attempts integer,
+	last_attempt datetime
+);
+
+create table AuthUsersDB.user_based_lock_tracks
+(
+	email varchar(30) primary key,
+	count_unsuccessful_attempts integer,
+	last_attempt datetime
+);

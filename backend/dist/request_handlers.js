@@ -65,17 +65,17 @@ var requestHandlers = function () {
 			if (l_token_from_header) {
 				_jsonwebtoken2.default.verify(l_token_from_header, _config2.default.jwtSecret, function (err, decoded) {
 					if (err) {
-						(0, _lock_handler.incrementLockCount)();
+						(0, _lock_handler.incrementLockCount)(p_req.ip);
 						return p_res.json(_config2.default.signalsFrontendBackend.tokenNotValid);
 					} else {
-						//resetLockCount();
+						//resetLockCount(p_req.ip);
 						var l_response_json = _config2.default.signalsFrontendBackend.tokenValid;
 						l_response_json['email'] = decoded.email;
 						return p_res.json(l_response_json);
 					};
 				});
 			} else {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip);
 				return p_res.json(_config2.default.signalsFrontendBackend.tokenNotSupplied);
 			}
 		}
@@ -91,12 +91,12 @@ var requestHandlers = function () {
 			//sqlt is incorporated in l_hashed_pwd_from_db so bcrypt does not need it again
 			_bcrypt2.default.compare(l_password, l_hashed_pwd_from_db, function (err, res) {
 				if (res) {
-					(0, _lock_handler.resetLockCount)();
+					(0, _lock_handler.resetLockCount)(p_req.ip, l_email);
 					var l_retval_as_json = _config2.default.signalsFrontendBackend.authenticationSuccessful;
 					l_retval_as_json['JWT'] = _jsonwebtoken2.default.sign({ email: l_user_data['email'] }, _config2.default.jwtSecret, { expiresIn: _config2.default.jwtExpire });
 					return p_res.json(l_retval_as_json);
 				} else {
-					(0, _lock_handler.incrementLockCount)();
+					(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 					return p_res.json(_config2.default.signalsFrontendBackend.wrongPassword);
 				}
 			});
@@ -110,7 +110,7 @@ var requestHandlers = function () {
 			l_params << l_email;
 			var l_user_data = _database_action_mysql2.default.execute_select(_sqls2.default.getAllAttributesOfAUser, l_params);
 			if (l_user_data.length < 1) {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.pwdResetError);
 			};
 			var l_retval_as_json = _config2.default.signalsFrontendBackend.pwdResetTokenGenerated;
@@ -154,11 +154,11 @@ var requestHandlers = function () {
 						};
 						var l_saved_token_from_user = p_req.body.email;
 						if (l_saved_token_rows[0]['ResetPasswordSecondToken'] != l_saved_token_from_user) {
-							(0, _lock_handler.incrementLockCount)();
+							(0, _lock_handler.incrementLockCount)(p_req.ip, _l_email);
 							return p_res.json(_config2.default.signalsFrontendBackend.pwdResetError);
 						};
 						if (Number(l_saved_token_rows[0]['ResetPasswordSecondTokenValidFrom']) + _config2.default.passwordResetSecondTokenExpire > Number(_dateAndTime2.default.format(new Date(), 'YYYYMMDDHHmmss'))) {
-							(0, _lock_handler.incrementLockCount)();
+							(0, _lock_handler.incrementLockCount)(p_req.ip, _l_email);
 							return p_res.json(_config2.default.signalsFrontendBackend.pwdResetTokenExpired);
 						};
 						// Now password can be updated
@@ -170,12 +170,12 @@ var requestHandlers = function () {
 							l_params << hash;
 							var l_update_result = _database_action_mysql2.default.execute_updatedeleteinsert(updateEncryptedPassword, l_params);
 							if (l_update_result == "OK") {
-								(0, _lock_handler.resetLockCount)();
+								(0, _lock_handler.resetLockCount)(p_req.ip);
 								var l_retval_as_json = _config2.default.signalsFrontendBackend.pwdResetCompleted;
 								l_retval_as_json['JWT'] = _jsonwebtoken2.default.sign({ email: l_user_data['email'] }, _config2.default.jwtSecret, { expiresIn: _config2.default.jwtExpire });
 								return p_res.json(l_retval_as_json);
 							} else {
-								(0, _lock_handler.incrementLockCount)();
+								(0, _lock_handler.incrementLockCount)(p_req.ip, _l_email);
 								return p_res.json(_config2.default.signalsFrontendBackend.pwdResetError);
 							}
 						});
@@ -183,7 +183,7 @@ var requestHandlers = function () {
 				});
 				//Should be completed asyncronously within bcrypt
 			} else {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip);
 				return p_res.json(_config2.default.signalsFrontendBackend.tokenNotSupplied);
 			}
 		}
@@ -204,23 +204,23 @@ var requestHandlers = function () {
 			var l_email_token = p_req.body.emailtoken;
 
 			if (_validations2.default.email(l_email, l_email_token) != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.signUpInvalidEmail);
 			};
 			if (_validations2.default.password(l_password) != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.passwordStrengthTestFailed);
 			};
 			if (_validations2.default.gender(l_gender) != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.genderTValidationFailed);
 			};
 			if (_validations2.default.birthday(l_birthday) != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.birthdayValidationFailed);
 			};
 			if (_validations2.default.phone(l_phone) != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.phoneValdiationFailed);
 			};
 
@@ -237,12 +237,12 @@ var requestHandlers = function () {
 				l_params << l_phone;
 				var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateResetPasswordSecondToken, l_params);
 				if (l_result == "OK") {
-					(0, _lock_handler.resetLockCount)();
+					(0, _lock_handler.resetLockCount)(p_req.ip);
 					var l_retval_as_json = _config2.default.signalsFrontendBackend.signUpSuccessful;
 					l_retval_as_json['JWT'] = _jsonwebtoken2.default.sign({ email: l_email }, _config2.default.jwtSecret, { expiresIn: _config2.default.jwtExpire });
 					return p_res.json(l_retval_as_json);
 				} else {
-					(0, _lock_handler.incrementLockCount)();
+					(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 					return p_res.json(_config2.default.signalsFrontendBackend.signUpGenericError);
 				}
 			});
@@ -251,7 +251,7 @@ var requestHandlers = function () {
 		key: 'generateEmailOwnershipToken',
 		value: function generateEmailOwnershipToken(p_req, p_res) {
 			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
-			(0, _lock_handler.incrementLockCount)();
+			(0, _lock_handler.incrementLockCount)(p_req.ip);
 			var l_params = [];
 			l_params << l_email;
 			_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.emailValidationTokenClear, l_params);
@@ -259,7 +259,7 @@ var requestHandlers = function () {
 			l_params << l_token;
 			var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.emailValidationTokenSet, l_params);
 			if (l_result != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.eMailValidationGenericError);
 			};
 
@@ -277,7 +277,7 @@ var requestHandlers = function () {
 			var l_email_token = p_req.body.emailtoken;
 
 			if (_validations2.default.email(l_email, l_email_token) != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.signUpInvalidEmail);
 			};
 
@@ -285,7 +285,7 @@ var requestHandlers = function () {
 			l_params << l_email;
 			_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateEMail, l_params);
 			if (l_result != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.signUpGenericError);
 			};
 			return p_res.json(_config2.default.signalsFrontendBackend.eMailUpdated);
@@ -297,7 +297,7 @@ var requestHandlers = function () {
 			var l_email = p_req.body.email.toLowerCase();
 			var l_password = p_req.body.password;
 			if (_validations2.default.password(l_password) != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.passwordStrengthTestFailed);
 			};
 			_bcrypt2.default.hash(l_password, _config2.default.bcryptSaltRounds, function (err, hash) {
@@ -307,10 +307,10 @@ var requestHandlers = function () {
 				l_params << l_email;
 				var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updatePassword, l_params);
 				if (l_result == "OK") {
-					(0, _lock_handler.resetLockCount)();
+					(0, _lock_handler.resetLockCount)(p_req.ip, l_email);
 					return p_res.json(_config2.default.signalsFrontendBackend.updatePasswordSuccessful);
 				} else {
-					(0, _lock_handler.incrementLockCount)();
+					(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 					return p_res.json(_config2.default.signalsFrontendBackend.updatePasswordFailed);
 				}
 			});
@@ -329,15 +329,15 @@ var requestHandlers = function () {
 			var l_surname = p_req.body.surname;
 
 			if (_validations2.default.gender(l_gender) != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.genderTValidationFailed);
 			};
 			if (_validations2.default.birthday(l_birthday) != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.birthdayValidationFailed);
 			};
 			if (_validations2.default.phone(l_phone) != "OK") {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.phoneValdiationFailed);
 			};
 			var l_params = [];
@@ -350,10 +350,10 @@ var requestHandlers = function () {
 			l_params << l_email;
 			var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateData, l_params);
 			if (l_result == "OK") {
-				(0, _lock_handler.resetLockCount)();
+				(0, _lock_handler.resetLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.updateDataSuccessful);
 			} else {
-				(0, _lock_handler.incrementLockCount)();
+				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.updateDataFailed);
 			}
 		}

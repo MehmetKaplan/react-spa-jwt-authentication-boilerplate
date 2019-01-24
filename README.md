@@ -92,4 +92,6 @@ mysql -u root -p < Generate_Objects.sql
 # TO BE CONTINUED
 
 * Lock functions to be prepared
+* Captcha
+* Sequence diagrams
 * Frontend (not yet detailed)

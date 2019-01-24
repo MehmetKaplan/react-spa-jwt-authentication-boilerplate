@@ -19,7 +19,8 @@ export default  {
 	defaultPort: 8000,
 	maxAllowedRetry: 10,
 	bcryptSaltRounds: 10,
-	lockedStateDurationMinutes: 10,
+	lockedStateDuration: 600, // seconds
+	lockUnsuccessfulAttemptCount: 10,
 	signalsFrontendBackend: {
 		tokenValid:               		{result: "OK",  		message: 'Token is valid'},
 		tokenNotValid:            		{result: "NOK",  		message: 'Token is not valid'},
