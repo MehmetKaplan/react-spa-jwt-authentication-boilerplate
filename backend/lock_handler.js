@@ -15,7 +15,7 @@ export function incrementLockCount(p_ip = '', p_user = ''){
 	if (nvl(p_user, "x") != "x") incrementLockCount_(p_user, sqls.lockUserSelect, sqls.lockUserUpdate, sqls.lockUserInsert);
 }
 
-export function resetLockCount (p_ip = '', p_user = ''){
+export function resetLockCount(p_ip = '', p_user = ''){
 	//clear lock-time in DB
 	let resetLockCount_ = (p_key, p_update_sql) => {
 		let l_params = [];
@@ -26,7 +26,7 @@ export function resetLockCount (p_ip = '', p_user = ''){
 	if (nvl(p_user, "x") != "x") resetLockCount_(p_user, sqls.lockUserReset);
 }
 
-export function checkLock (){
+export function checkLock(){
 	// if now > last_attempt + config.lockedStateDuration => reset lock, not locked
 	// if count_unsuccessful_attempts < config.lockUnsuccessfulAttemptCount => not locked
 	// else locked
@@ -54,4 +54,28 @@ export function checkLock (){
 	};
 
 	return l_locked ?  "LOCKED" : "NOT LOCKED";
+}
+
+export function checkIPBasedFrequentUserGeneration(p_ip){
+	let l_locked = false;
+	let l_params = [];
+	l_params << p_ip;
+	let l_prev_attempt_data = databaseActionMySQL.execute_select(sqls.checkIPBasedFrequentUserGeneration, l_params);
+	if (l_prev_attempt_data.length > 0) {
+		let l_now = Number(date.format(new Date(), 'YYYYMMDDHHmmss'));
+		let l_last_user_generated_time = Number(l_prev_attempt_data[0]['last_alast_user_generated_timettempt']);
+		if (l_now < l_last_user_generated_time + config.ipBasedNewUserSignupLockDuration) l_locked = true;
+	};
+	return l_locked ?  "LOCKED" : "NOT LOCKED";
+}
+
+export function modifyIPBasedUserGenerationTime(p_ip){
+	let l_params = [];
+	l_params << p_ip;
+	try {
+		databaseActionMySQL.execute_updatedeleteinsert(sqls.ipBasedNewUserSignupInsert, l_params);
+	 }
+	 catch(err) {
+		databaseActionMySQL.execute_updatedeleteinsert(sqls.ipBasedNewUserSignupUpdate, l_params);
+	 }
 }

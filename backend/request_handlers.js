@@ -178,10 +178,9 @@ export default class requestHandlers {
 		}
 	}
 
-	
-
 	signUp(p_req, p_res){
 		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+		if (checkIPBasedFrequentUserGeneration(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.ipBasedFrequentUserGeneration);
 
 		let l_email = p_req.body.email.toLowerCase();
 		let l_password = p_req.body.password;
@@ -230,6 +229,7 @@ export default class requestHandlers {
 			let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updateResetPasswordSecondToken, l_params);
 			if (l_result == "OK") {
 				resetLockCount(p_req.ip);
+				modifyIPBasedUserGenerationTime(p_req.ip);
 				let l_retval_as_json = config.signalsFrontendBackend.signUpSuccessful;
 				l_retval_as_json['JWT'] = jwt.sign(
 					{email: l_email},
@@ -365,4 +365,3 @@ export default class requestHandlers {
 	}
 
 }
-

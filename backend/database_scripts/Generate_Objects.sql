@@ -34,3 +34,9 @@ create table AuthUsersDB.user_based_lock_tracks
 	count_unsuccessful_attempts integer,
 	last_attempt datetime
 );
+
+create table AuthUsersDB.ip_based_user_generation
+(
+	ip varchar(30) primary key,
+	last_user_generated_time datetime
+);

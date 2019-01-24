@@ -9,7 +9,7 @@ export default  {
 	emailValidationTokenSet: "insert into AuthUsersDB.email_validation(email, validation_token) values (?, ?) ",
 	emailValidationTokenRead: "select validation_token from AuthUsersDB.email_validation where email = ? ",
 	updateEMail: "update AuthUsersDB.users set email = ? where email = ? ",
-	updateData: "update AuthUsersDB.users set name = ?, midname = ?, surname = ?, gender_id = ?, birthday = ?, phone = ? where email = ? ",
+	updateData: "update AuthUsersDB.users set name = ?, midname = ?, surname = ?, gender_id = ?, birthday = str_to_date(?, '%Y%m%d%H%i%s'), phone = ? where email = ? ",
 	updatePassword: "update AuthUsersDB.users set encrypted_password = ? where email = ? ",
 	lockIPInsert: "insert into AuthUsersDB.ip_based_lock_tracks (ip, count_unsuccessful_attempts, last_attempt) values (?, 1, now())",
 	lockIPUpdate: "update AuthUsersDB.ip_based_lock_tracks set count_unsuccessful_attempts = count_unsuccessful_attempts + 1 where ip = ? ",
@@ -19,6 +19,9 @@ export default  {
 	lockUserUpdate: "update AuthUsersDB.user_based_lock_tracks set count_unsuccessful_attempts = count_unsuccessful_attempts + 1 where email = ?",
 	lockUserSelect: "select email, count_unsuccessful_attempts, date_format(last_attempt, '%Y%m%d%H%i%s') last_attempt from AuthUsersDB.user_based_lock_tracks where email = ? ",
 	lockUserReset: "update AuthUsersDB.user_based_lock_tracks set count_unsuccessful_attempts = 0, last_attempt = null where email = ?",
+	ipBasedNewUserSignupInsert: "insert into AuthUsersDB.ip_based_user_generation (ip, last_user_generated_time) values ('a', now()) ",
+	ipBasedNewUserSignupUpdate: "update AuthUsersDB.ip_based_user_generation set last_user_generated_time = now() where ip = 'a' ",
+	ipBasedNewUserSignupSelect: "select date_format(last_user_generated_time, '%Y%m%d%H%i%s') from AuthUsersDB.ip_based_user_generation where ip = 'a' ",
 }
 
 

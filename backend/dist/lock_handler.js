@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.incrementLockCount = incrementLockCount;
 exports.resetLockCount = resetLockCount;
 exports.checkLock = checkLock;
+exports.checkIPBasedFrequentUserGeneration = checkIPBasedFrequentUserGeneration;
+exports.modifyIPBasedUserGenerationTime = modifyIPBasedUserGenerationTime;
 
 var _database_action_mysql = require('./database_action_mysql.js');
 
@@ -75,4 +77,27 @@ function checkLock() {
 	};
 
 	return l_locked ? "LOCKED" : "NOT LOCKED";
+}
+
+function checkIPBasedFrequentUserGeneration(p_ip) {
+	var l_locked = false;
+	var l_params = [];
+	l_params << p_ip;
+	var l_prev_attempt_data = _database_action_mysql2.default.execute_select(_sqls2.default.checkIPBasedFrequentUserGeneration, l_params);
+	if (l_prev_attempt_data.length > 0) {
+		var l_now = Number(date.format(new Date(), 'YYYYMMDDHHmmss'));
+		var l_last_user_generated_time = Number(l_prev_attempt_data[0]['last_alast_user_generated_timettempt']);
+		if (l_now < l_last_user_generated_time + config.ipBasedNewUserSignupLockDuration) l_locked = true;
+	};
+	return l_locked ? "LOCKED" : "NOT LOCKED";
+}
+
+function modifyIPBasedUserGenerationTime(p_ip) {
+	var l_params = [];
+	l_params << p_ip;
+	try {
+		_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.ipBasedNewUserSignupInsert, l_params);
+	} catch (err) {
+		_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.ipBasedNewUserSignupUpdate, l_params);
+	}
 }

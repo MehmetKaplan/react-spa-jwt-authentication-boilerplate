@@ -26,6 +26,7 @@ exports.default = {
 	bcryptSaltRounds: 10,
 	lockedStateDuration: 600, // seconds
 	lockUnsuccessfulAttemptCount: 10,
+	ipBasedNewUserSignupLockDuration: 600, //seconds
 	signalsFrontendBackend: {
 		tokenValid: { result: "OK", message: 'Token is valid' },
 		tokenNotValid: { result: "NOK", message: 'Token is not valid' },
@@ -51,7 +52,8 @@ exports.default = {
 		updateDataSuccessful: { result: "OK", message: 'Data updated ' },
 		updateDataFailed: { result: "NOK", message: 'Data could not be updated ' },
 		updatePasswordSuccessful: { result: "OK", message: 'Password updated ' },
-		updatePasswordFailed: { result: "NOK", message: 'Password could not be updated ' }
+		updatePasswordFailed: { result: "NOK", message: 'Password could not be updated ' },
+		ipBasedFrequentUserGeneration: { result: "NOK", message: 'Suspected automated user generation ' }
 	},
 	passwordResetEMailSubject: "Password Reset Request",
 	passwordResetEMail: "\

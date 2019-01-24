@@ -191,6 +191,7 @@ var requestHandlers = function () {
 		key: 'signUp',
 		value: function signUp(p_req, p_res) {
 			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
+			if (checkIPBasedFrequentUserGeneration(p_req.ip) == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.ipBasedFrequentUserGeneration);
 
 			var l_email = p_req.body.email.toLowerCase();
 			var l_password = p_req.body.password;
@@ -238,6 +239,7 @@ var requestHandlers = function () {
 				var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateResetPasswordSecondToken, l_params);
 				if (l_result == "OK") {
 					(0, _lock_handler.resetLockCount)(p_req.ip);
+					modifyIPBasedUserGenerationTime(p_req.ip);
 					var l_retval_as_json = _config2.default.signalsFrontendBackend.signUpSuccessful;
 					l_retval_as_json['JWT'] = _jsonwebtoken2.default.sign({ email: l_email }, _config2.default.jwtSecret, { expiresIn: _config2.default.jwtExpire });
 					return p_res.json(l_retval_as_json);
