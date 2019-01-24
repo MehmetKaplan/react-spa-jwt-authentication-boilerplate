@@ -43,4 +43,22 @@ export default class validations {
 		return "OK";
 	}
 	
+	checkJWT(p_req){
+		// JWT expected either in Bearer or JWT header
+		let l_retval = {};
+		let l_token_from_header = p_req.headers['x-access-token'] || p_req.headers['authorization'];
+		if (l_token_from_header.startsWith('Bearer ')) l_token_from_header = l_token_from_header.slice(7, token.length);
+		if (l_token_from_header.startsWith('JWT '))l_token_from_header = l_token_from_header.slice(4, token.length);
+		if (l_token_from_header) {
+			l_retval = await jwt.verify(l_token_from_header, config.jwtSecret, (err, decoded) => {
+				if (err) {
+					resolve({});
+				}
+				else {
+					resolve(decoded);
+				};
+			});
+		};
+		return l_retval;
+	}
 }

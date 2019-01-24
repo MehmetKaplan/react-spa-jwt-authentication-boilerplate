@@ -1,0 +1,360 @@
+<svg id="mermaid-1548364351602" width="100%" xmlns="http://www.w3.org/2000/svg" height="100%" style="max-width:850px;" viewBox="-50 -10 850 766"><style>
+
+
+#mermaid-1548364351602 .label {
+  font-family: 'trebuchet ms', verdana, arial;
+  color: #333; }
+
+#mermaid-1548364351602 .node rect,
+#mermaid-1548364351602 .node circle,
+#mermaid-1548364351602 .node ellipse,
+#mermaid-1548364351602 .node polygon {
+  fill: #ECECFF;
+  stroke: #9370DB;
+  stroke-width: 1px; }
+
+#mermaid-1548364351602 .node.clickable {
+  cursor: pointer; }
+
+#mermaid-1548364351602 .arrowheadPath {
+  fill: #333333; }
+
+#mermaid-1548364351602 .edgePath .path {
+  stroke: #333333;
+  stroke-width: 1.5px; }
+
+#mermaid-1548364351602 .edgeLabel {
+  background-color: #e8e8e8; }
+
+#mermaid-1548364351602 .cluster rect {
+  fill: #ffffde !important;
+  stroke: #aaaa33 !important;
+  stroke-width: 1px !important; }
+
+#mermaid-1548364351602 .cluster text {
+  fill: #333; }
+
+#mermaid-1548364351602 div.mermaidTooltip {
+  position: absolute;
+  text-align: center;
+  max-width: 200px;
+  padding: 2px;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-size: 12px;
+  background: #ffffde;
+  border: 1px solid #aaaa33;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 100; }
+
+#mermaid-1548364351602 .actor {
+  stroke: #CCCCFF;
+  fill: #ECECFF; }
+
+#mermaid-1548364351602 text.actor {
+  fill: black;
+  stroke: none; }
+
+#mermaid-1548364351602 .actor-line {
+  stroke: grey; }
+
+#mermaid-1548364351602 .messageLine0 {
+  stroke-width: 1.5;
+  stroke-dasharray: '2 2';
+  stroke: #333; }
+
+#mermaid-1548364351602 .messageLine1 {
+  stroke-width: 1.5;
+  stroke-dasharray: '2 2';
+  stroke: #333; }
+
+#mermaid-1548364351602 #arrowhead {
+  fill: #333; }
+
+#mermaid-1548364351602 #crosshead path {
+  fill: #333 !important;
+  stroke: #333 !important; }
+
+#mermaid-1548364351602 .messageText {
+  fill: #333;
+  stroke: none; }
+
+#mermaid-1548364351602 .labelBox {
+  stroke: #CCCCFF;
+  fill: #ECECFF; }
+
+#mermaid-1548364351602 .labelText {
+  fill: black;
+  stroke: none; }
+
+#mermaid-1548364351602 .loopText {
+  fill: black;
+  stroke: none; }
+
+#mermaid-1548364351602 .loopLine {
+  stroke-width: 2;
+  stroke-dasharray: '2 2';
+  stroke: #CCCCFF; }
+
+#mermaid-1548364351602 .note {
+  stroke: #aaaa33;
+  fill: #fff5ad; }
+
+#mermaid-1548364351602 .noteText {
+  fill: black;
+  stroke: none;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-size: 14px; }
+
+#mermaid-1548364351602 .activation0 {
+  fill: #f4f4f4;
+  stroke: #666; }
+
+#mermaid-1548364351602 .activation1 {
+  fill: #f4f4f4;
+  stroke: #666; }
+
+#mermaid-1548364351602 .activation2 {
+  fill: #f4f4f4;
+  stroke: #666; }
+
+
+#mermaid-1548364351602 .section {
+  stroke: none;
+  opacity: 0.2; }
+
+#mermaid-1548364351602 .section0 {
+  fill: rgba(102, 102, 255, 0.49); }
+
+#mermaid-1548364351602 .section2 {
+  fill: #fff400; }
+
+#mermaid-1548364351602 .section1,
+#mermaid-1548364351602 .section3 {
+  fill: white;
+  opacity: 0.2; }
+
+#mermaid-1548364351602 .sectionTitle0 {
+  fill: #333; }
+
+#mermaid-1548364351602 .sectionTitle1 {
+  fill: #333; }
+
+#mermaid-1548364351602 .sectionTitle2 {
+  fill: #333; }
+
+#mermaid-1548364351602 .sectionTitle3 {
+  fill: #333; }
+
+#mermaid-1548364351602 .sectionTitle {
+  text-anchor: start;
+  font-size: 11px;
+  text-height: 14px; }
+
+
+#mermaid-1548364351602 .grid .tick {
+  stroke: lightgrey;
+  opacity: 0.3;
+  shape-rendering: crispEdges; }
+
+#mermaid-1548364351602 .grid path {
+  stroke-width: 0; }
+
+
+#mermaid-1548364351602 .today {
+  fill: none;
+  stroke: red;
+  stroke-width: 2px; }
+
+
+
+#mermaid-1548364351602 .task {
+  stroke-width: 2; }
+
+#mermaid-1548364351602 .taskText {
+  text-anchor: middle;
+  font-size: 11px; }
+
+#mermaid-1548364351602 .taskTextOutsideRight {
+  fill: black;
+  text-anchor: start;
+  font-size: 11px; }
+
+#mermaid-1548364351602 .taskTextOutsideLeft {
+  fill: black;
+  text-anchor: end;
+  font-size: 11px; }
+
+
+#mermaid-1548364351602 .taskText0,
+#mermaid-1548364351602 .taskText1,
+#mermaid-1548364351602 .taskText2,
+#mermaid-1548364351602 .taskText3 {
+  fill: white; }
+
+#mermaid-1548364351602 .task0,
+#mermaid-1548364351602 .task1,
+#mermaid-1548364351602 .task2,
+#mermaid-1548364351602 .task3 {
+  fill: #8a90dd;
+  stroke: #534fbc; }
+
+#mermaid-1548364351602 .taskTextOutside0,
+#mermaid-1548364351602 .taskTextOutside2 {
+  fill: black; }
+
+#mermaid-1548364351602 .taskTextOutside1,
+#mermaid-1548364351602 .taskTextOutside3 {
+  fill: black; }
+
+
+#mermaid-1548364351602 .active0,
+#mermaid-1548364351602 .active1,
+#mermaid-1548364351602 .active2,
+#mermaid-1548364351602 .active3 {
+  fill: #bfc7ff;
+  stroke: #534fbc; }
+
+#mermaid-1548364351602 .activeText0,
+#mermaid-1548364351602 .activeText1,
+#mermaid-1548364351602 .activeText2,
+#mermaid-1548364351602 .activeText3 {
+  fill: black !important; }
+
+
+#mermaid-1548364351602 .done0,
+#mermaid-1548364351602 .done1,
+#mermaid-1548364351602 .done2,
+#mermaid-1548364351602 .done3 {
+  stroke: grey;
+  fill: lightgrey;
+  stroke-width: 2; }
+
+#mermaid-1548364351602 .doneText0,
+#mermaid-1548364351602 .doneText1,
+#mermaid-1548364351602 .doneText2,
+#mermaid-1548364351602 .doneText3 {
+  fill: black !important; }
+
+
+#mermaid-1548364351602 .crit0,
+#mermaid-1548364351602 .crit1,
+#mermaid-1548364351602 .crit2,
+#mermaid-1548364351602 .crit3 {
+  stroke: #ff8888;
+  fill: red;
+  stroke-width: 2; }
+
+#mermaid-1548364351602 .activeCrit0,
+#mermaid-1548364351602 .activeCrit1,
+#mermaid-1548364351602 .activeCrit2,
+#mermaid-1548364351602 .activeCrit3 {
+  stroke: #ff8888;
+  fill: #bfc7ff;
+  stroke-width: 2; }
+
+#mermaid-1548364351602 .doneCrit0,
+#mermaid-1548364351602 .doneCrit1,
+#mermaid-1548364351602 .doneCrit2,
+#mermaid-1548364351602 .doneCrit3 {
+  stroke: #ff8888;
+  fill: lightgrey;
+  stroke-width: 2;
+  cursor: pointer;
+  shape-rendering: crispEdges; }
+
+#mermaid-1548364351602 .doneCritText0,
+#mermaid-1548364351602 .doneCritText1,
+#mermaid-1548364351602 .doneCritText2,
+#mermaid-1548364351602 .doneCritText3 {
+  fill: black !important; }
+
+#mermaid-1548364351602 .activeCritText0,
+#mermaid-1548364351602 .activeCritText1,
+#mermaid-1548364351602 .activeCritText2,
+#mermaid-1548364351602 .activeCritText3 {
+  fill: black !important; }
+
+#mermaid-1548364351602 .titleText {
+  text-anchor: middle;
+  font-size: 18px;
+  fill: black; }
+
+#mermaid-1548364351602 g.classGroup text {
+  fill: #9370DB;
+  stroke: none;
+  font-family: 'trebuchet ms', verdana, arial;
+  font-size: 10px; }
+
+#mermaid-1548364351602 g.classGroup rect {
+  fill: #ECECFF;
+  stroke: #9370DB; }
+
+#mermaid-1548364351602 g.classGroup line {
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1548364351602 .classLabel .box {
+  stroke: none;
+  stroke-width: 0;
+  fill: #ECECFF;
+  opacity: 0.5; }
+
+#mermaid-1548364351602 .classLabel .label {
+  fill: #9370DB;
+  font-size: 10px; }
+
+#mermaid-1548364351602 .relation {
+  stroke: #9370DB;
+  stroke-width: 1;
+  fill: none; }
+
+#mermaid-1548364351602 #compositionStart {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1548364351602 #compositionEnd {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1548364351602 #aggregationStart {
+  fill: #ECECFF;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1548364351602 #aggregationEnd {
+  fill: #ECECFF;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1548364351602 #dependencyStart {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1548364351602 #dependencyEnd {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1548364351602 #extensionStart {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1548364351602 #extensionEnd {
+  fill: #9370DB;
+  stroke: #9370DB;
+  stroke-width: 1; }
+
+#mermaid-1548364351602 .commit-id,
+#mermaid-1548364351602 .commit-msg,
+#mermaid-1548364351602 .branch-label {
+  fill: lightgrey;
+  color: lightgrey; }
+</style><style>#mermaid-1548364351602 {
+    color: rgba(0, 0, 0, 0.65);
+    font: ;
+  }</style><g></g><g><line id="actor36" x1="75" y1="5" x2="75" y2="755" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="0" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="75" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="75" dy="0">User</tspan></text></g><g><line id="actor37" x1="275" y1="5" x2="275" y2="755" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="200" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="275" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="275" dy="0">Application(Web or Native)</tspan></text></g><g><line id="actor38" x1="475" y1="5" x2="475" y2="755" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="400" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="475" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="475" dy="0">Web Application Server</tspan></text></g><g><line id="actor39" x1="675" y1="5" x2="675" y2="755" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="600" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="675" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="675" dy="0">Database</tspan></text></g><defs><marker id="arrowhead" refX="5" refY="2" markerWidth="6" markerHeight="4" orient="auto"><path d="M 0,0 V 4 L6,2 Z"></path></marker></defs><defs><marker id="crosshead" markerWidth="15" markerHeight="8" orient="auto" refX="16" refY="4"><path fill="black" stroke="#000000" stroke-width="1px" d="M 9,2 V 6 L16,4 Z" style="stroke-dasharray: 0, 0;"></path><path fill="none" stroke="#000000" stroke-width="1px" d="M 0,1 L 6,7 M 6,1 L 0,7" style="stroke-dasharray: 0, 0;"></path></marker></defs><g><text x="175" y="93" class="messageText" style="text-anchor: middle;">Opens application</text><line x1="75" y1="100" x2="275" y2="100" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="375" y="128" class="messageText" style="text-anchor: middle;">Root page request</text><line x1="275" y1="135" x2="475" y2="135" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="375" y="163" class="messageText" style="text-anchor: middle;">React App is served</text><line x1="475" y1="170" x2="275" y2="170" class="messageLine1" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="275" y="198" class="messageText" style="text-anchor: middle;">Check existance of JWT</text><path d="M 275,205 C 335,195 335,235 275,225" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><text x="175" y="263" class="messageText" style="text-anchor: middle;">No JWT so show Login Page</text><line x1="275" y1="270" x2="75" y2="270" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="175" y="298" class="messageText" style="text-anchor: middle;">Provides username and password</text><line x1="75" y1="305" x2="275" y2="305" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="375" y="333" class="messageText" style="text-anchor: middle;">/login</text><line x1="275" y1="340" x2="475" y2="340" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="575" y="368" class="messageText" style="text-anchor: middle;">Get hashed password using email</text><line x1="475" y1="375" x2="675" y2="375" class="messageLine0" stroke-width="2" stroke="black" style="fill: none;"></line></g><g><text x="475" y="403" class="messageText" style="text-anchor: middle;">Bcrypt compare hashed password with saved hash</text><path d="M 475,410 C 535,400 535,440 475,430" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><text x="475" y="468" class="messageText" style="text-anchor: middle;">If comparison is successfull reset lock counters</text><path d="M 475,475 C 535,465 535,505 475,495" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><text x="475" y="533" class="messageText" style="text-anchor: middle;">Generate JWT using the email</text><path d="M 475,540 C 535,530 535,570 475,560" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><text x="375" y="598" class="messageText" style="text-anchor: middle;">JWT</text><line x1="475" y1="605" x2="275" y2="605" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="275" y="633" class="messageText" style="text-anchor: middle;">Save JWT</text><path d="M 275,640 C 335,630 335,670 275,660" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><rect x="0" y="690" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="75" y="722.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="75" dy="0">User</tspan></text></g><g><rect x="200" y="690" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="275" y="722.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="275" dy="0">Application(Web or Native)</tspan></text></g><g><rect x="400" y="690" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="475" y="722.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="475" dy="0">Web Application Server</tspan></text></g><g><rect x="600" y="690" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="675" y="722.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="675" dy="0">Database</tspan></text></g></svg>

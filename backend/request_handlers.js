@@ -48,7 +48,7 @@ export default class requestHandlers {
 	}
 
 	login(p_req, p_res){
-		let l_email = p_req.body.email;
+		let l_email = p_req.body.email.toLowerCase();;
 		let l_password = p_req.body.password;
 		let l_params = [];
 		l_params << l_email;
@@ -136,7 +136,7 @@ export default class requestHandlers {
 					if (l_saved_token_rows.length < 1) {
 						return p_res.json(config.signalsFrontendBackend.pwdResetError);
 					};
-					let l_saved_token_from_user = p_req.body.email;
+					let l_saved_token_from_user = p_req.body.saved_token;
 					if (l_saved_token_rows[0]['ResetPasswordSecondToken'] != l_saved_token_from_user){
 						incrementLockCount(p_req.ip, l_email);
 						return p_res.json(config.signalsFrontendBackend.pwdResetError);
@@ -145,8 +145,12 @@ export default class requestHandlers {
 						incrementLockCount(p_req.ip, l_email);
 						return p_res.json(config.signalsFrontendBackend.pwdResetTokenExpired);
 					};
-					// Now password can be updated
 					let l_plain_password = p_req.body.password;
+					if (validations.password(l_plain_password) != "OK") {
+						incrementLockCount(p_req.ip, l_email);
+						return p_res.json(config.signalsFrontendBackend.passwordStrengthTestFailed);
+					};
+					// Now password can be updated
 					bcrypt.hash(l_plain_password, config.bcryptSaltRounds, function(err, hash) {
 						// Store hash in your password DB.
 						let l_params = [];
@@ -277,30 +281,58 @@ export default class requestHandlers {
 
 		let l_email = p_req.body.email.toLowerCase();
 		let l_email_token = p_req.body.emailtoken;
-
 		if (validations.email(l_email, l_email_token) != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
 		};	
 
+		let l_oldemail = "";
+		let l_jwt_payload = validations.checkJWT(p_req);
+		if( nvl(l_jwt_payload["email"], "x") == "x" ) {
+			incrementLockCount(p_req.ip);
+			return p_res.json(config.signalsFrontendBackend.tokenNotValid);
+		}
+		else{
+			l_oldemail = l_jwt_payload["email"];
+		};
+
 		let l_params = [];
 		l_params << l_email;
+		l_params << l_oldemail;
 		databaseActionMySQL.execute_updatedeleteinsert(sqls.updateEMail, l_params);
 		if (l_result != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.signUpGenericError);
 		};
-		return p_res.json(config.signalsFrontendBackend.eMailUpdated);
+
+		let l_retval_as_json = config.signalsFrontendBackend.eMailUpdated;
+		l_retval_as_json['JWT'] = jwt.sign(
+			{email: l_email},
+			config.jwtSecret,
+			{expiresIn: config.jwtExpire}
+		);
+		return p_res.json(l_retval_as_json);
+
 	}
 
 	updatePassword(p_req, p_res){
 		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
-		let l_email = p_req.body.email.toLowerCase();
 		let l_password = p_req.body.password;
 		if (validations.password(l_password) != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.passwordStrengthTestFailed);
 		};
+
+		let l_email = "";
+		let l_jwt_payload = validations.checkJWT(p_req);
+		if( nvl(l_jwt_payload["email"], "x") == "x" ) {
+			incrementLockCount(p_req.ip);
+			return p_res.json(config.signalsFrontendBackend.tokenNotValid);
+		}
+		else{
+			l_email = l_jwt_payload["email"];
+		};
+
 		bcrypt.hash(l_password, config.bcryptSaltRounds, function(err, hash) {
 			// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
 			let l_params = [];
@@ -321,7 +353,6 @@ export default class requestHandlers {
 	updateData(p_req, p_res){
 		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 
-		let l_email = p_req.body.email.toLowerCase();
 		let l_gender = p_req.body.gender;
 		let l_birthday = p_req.body.birthday;
 		let l_phone = p_req.body.phone;
@@ -341,6 +372,17 @@ export default class requestHandlers {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.phoneValdiationFailed);
 		};
+
+		let l_email = "";
+		let l_jwt_payload = validations.checkJWT(p_req);
+		if( nvl(l_jwt_payload["email"], "x") == "x" ) {
+			incrementLockCount(p_req.ip);
+			return p_res.json(config.signalsFrontendBackend.tokenNotValid);
+		}
+		else{
+			l_email = l_jwt_payload["email"];
+		};
+
 		let l_params = [];
 		l_params << l_name;
 		l_params << l_midname;

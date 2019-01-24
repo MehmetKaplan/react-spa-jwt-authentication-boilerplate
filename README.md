@@ -18,50 +18,32 @@ Ideally, we suggest both the web apps and native apps to interact with the backe
 
 #### Sign Up
 
-![Sequence Diagram](./SignUp.svg)
+![Sign Up Sequence Diagram](./Sequence_Diagrams/SignUp.svg)
 
-```mermaid
-sequenceDiagram
-	Participant User's Email
-	Participant User
-	Participant Application(Web or Native)
-	Participant Request Handler
-	Participant Database
-	Participant Mailer
-	Participant Lock Handler
-	Participant Validations
-	User ->> Application(Web or Native): Opens application
-	Application(Web or Native) -->> Request Handler: Root page request
-	Request Handler  -->> Application(Web or Native): React App is served
-	Application(Web or Native) ->> Application(Web or Native): Check existance of JWT
-	Application(Web or Native) ->> User: No JWT so show Login Page
-	User ->> Application(Web or Native): Choose Sign Up Link
-	Application(Web or Native) ->> User: Show Email Validation Page
-	User ->> Application(Web or Native): Provide Email
-	Application(Web or Native) ->> User: Show Signup Data Collection Page
-	Application(Web or Native) ->> Request Handler: generateEmailOwnershipToken
-	Request Handler ->> Request Handler: Check lock control
-	Request Handler ->> Request Handler: Generate Email Ownership Token
-	Request Handler -->> User's Email: Send the Mail Ownership Token
-	User's Email ->> User: Copy the Mail Ownership Token
-	User ->> Application(Web or Native): Paste the Mail Ownership Token to Signup Data Collection Page
-	User ->> Application(Web or Native): Provide other data in the Signup Data Collection Page
-	Application(Web or Native) ->> Request Handler: POST to /signUp
-	Request Handler ->> Request Handler: Lock Control
-	Request Handler ->> Request Handler: Validate posted data
-	Request Handler ->> Request Handler: Encrypt password
-	Request Handler ->> Database: Save email, encrypted password and user data
-	Request Handler ->> Request Handler: Generate login JWT
-	Request Handler ->> Application(Web or Native): JWT
-	Application(Web or Native) ->> Application(Web or Native): Save JWT
-```
+#### New Logins
 
-#### New Login
+![New Login Sequence Diagram](./Sequence_Diagrams/NewLogin.svg)
+
 #### Remember Me Login
+
+![Remember Me Sequence Diagram](./Sequence_Diagrams/RememberMe.svg)
+
 #### Forgot Password
+
+![Forgot Password Sequence Diagram](./Sequence_Diagrams/ForgotPassword.svg)
+
 #### Change Password
+
+![Change Password Sequence Diagram](./Sequence_Diagrams/UpdatePassword.svg)
+
 #### Change Email
+
+![Update Email Sequence Diagram](./Sequence_Diagrams/UpdateEmail.svg)
+
 #### Update User Data
+
+![Update Data Sequence Diagram](./Sequence_Diagrams/UpdateData.svg)
+
 
 
 **Please be informed that this project is under development, not yet finalized and open to any contribution from opensource community.**
@@ -110,7 +92,7 @@ Following should apply for the whole structure:
 
 1. Set environment parameters for mail and relational database. If you choose to use MySQL and linux adding following lines to `~/.bashrc` file should be sufficient. (Please update username, password, etc correctly.)
 
-`
+```bash
 ############# react-spa-jwt-authentication-boilerplate #############
 # JWT Secret
 export JWT_SECRET="your-secret-do-not-forget-to-change"
@@ -123,33 +105,33 @@ export MYSQL_HOST="yourhost"  #Example "localhost"
 export MYSQL_USER="yourdbuser"  #Example "root"
 export MYSQL_PASSWORD="yourdbpassword"  #Example "tiger"
 ############# react-spa-jwt-authentication-boilerplate #############
-`
+```
 
 2. Download codes
 
-`
+```bash
 git clone https://github.com/MehmetKaplan/react-spa-jwt-authentication-boilerplate my-authentication-app
-`
+```
 
 3. Go to database script folder
 
-`
+```bash
 cd my-authentication-app/backend/database
-`
+```
 
 Skip below 2 steps, if you have another relational database system. But assure to generate a schema named AuthUsersDB and under that schema generate the objects stated in Generate_Objects.sql file.
 
 4. Generate the schema. (You'll need to provide root password).
 
-`
+```bash
 mysql -u root -p < Generate_Database.sql 
-`
+```
 
 5. Generate the objects. (You'll need to provide root password).
 
-`
+```bash
 mysql -u root -p < Generate_Objects.sql 
-`
+```
 
 
 

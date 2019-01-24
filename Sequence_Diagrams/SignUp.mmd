@@ -1,0 +1,28 @@
+sequenceDiagram
+	Participant User
+	Participant Application(Web or Native)
+	Participant Web Application Server
+	Participant Database
+	User ->> Application(Web or Native): Opens application
+	Application(Web or Native) -->> Web Application Server: Root page request
+	Web Application Server  -->> Application(Web or Native): React App is served
+	Application(Web or Native) ->> Application(Web or Native): Check existance of JWT
+	Application(Web or Native) ->> User: No JWT so show Login Page
+	User ->> Application(Web or Native): Choose Sign Up Link
+	Application(Web or Native) ->> User: Show Email Validation Page
+	User ->> Application(Web or Native): Provide Email
+	Application(Web or Native) ->> User: Show Signup Data Collection Page
+	Application(Web or Native) ->> Web Application Server: /generateEmailOwnershipToken
+	Web Application Server ->> Web Application Server: Check lock control
+	Web Application Server ->> Web Application Server: Generate Email Ownership Token
+	Web Application Server -->> User: Send the Mail Ownership Token
+	User ->> Application(Web or Native): Paste the Mail Ownership Token to Signup Data Collection Page
+	User ->> Application(Web or Native): Provide other data in the Signup Data Collection Page
+	Application(Web or Native) ->> Web Application Server: POST to /signUp
+	Web Application Server ->> Web Application Server: Lock Control
+	Web Application Server ->> Web Application Server: Validate posted data
+	Web Application Server ->> Web Application Server: Encrypt password
+	Web Application Server ->> Database: Save email, encrypted password and user data
+	Web Application Server ->> Web Application Server: Generate login JWT
+	Web Application Server ->> Application(Web or Native): JWT
+	Application(Web or Native) ->> Application(Web or Native): Save JWT

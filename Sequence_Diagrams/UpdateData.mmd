@@ -1,0 +1,14 @@
+sequenceDiagram
+	Participant User
+	Participant Application(Web or Native)
+	Participant Web Application Server
+	Participant Database
+	User -> Application(Web or Native): ...
+	Application(Web or Native) ->> User: Show Update Data Page
+	User ->> Application(Web or Native): Provide new data
+	Application(Web or Native) ->> Web Application Server: /updateData
+	Web Application Server ->> Web Application Server: Check lock control
+	Web Application Server ->> Web Application Server: Validate related data
+	Web Application Server ->> Web Application Server: Check JWT and extract email
+	Web Application Server ->> Database: Update posted data
+	Web Application Server ->> Application(Web or Native): Send result

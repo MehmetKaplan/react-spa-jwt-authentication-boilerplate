@@ -1,6 +1,7 @@
 import mysql from 'mysql';
 
 import config from './config.js';
+import { resolve } from 'dns';
 
 export default class databaseActionMySQL {
 	constructor(){
@@ -9,10 +10,10 @@ export default class databaseActionMySQL {
 
 	execute_select(p_sql, p_parameters_as_array = []){
 		this.connection.connect();
-		let l_retval_as_array_of_hashes = this.connection.query(p_sql, p_parameters_as_array, 
+		let l_retval_as_array_of_hashes = await this.connection.query(p_sql, p_parameters_as_array, 
 			(err, rows, fields) => {
 				if (l_err) throw l_err;
-				return l_rows;
+				resolve (l_rows);
 			}
 		);
 		this.connection.end();
@@ -21,8 +22,9 @@ export default class databaseActionMySQL {
 
 	execute_updatedeleteinsert(p_sql, p_parameters_as_array = []){
 		this.connection.connect();
-		let l_retval_as_array_of_hashes = this.connection.query(p_sql, (err, rows, fields) => {
+		let l_retval_as_array_of_hashes = await this.connection.query(p_sql, (err, rows, fields) => {
 			if (l_err) throw l_err;
+			resolve;
 		});
 		this.connection.end();
 		return "OK";

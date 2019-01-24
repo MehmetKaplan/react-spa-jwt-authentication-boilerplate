@@ -1,0 +1,21 @@
+sequenceDiagram
+	Participant User
+	Participant Application(Web or Native)
+	Participant Web Application Server
+	Participant Database
+	User -> Application(Web or Native): ...
+	Application(Web or Native) ->> User: Show Email Validation Page
+	User ->> Application(Web or Native): Provide Email
+	Application(Web or Native) ->> User: Show EMail Update Page
+	Application(Web or Native) ->> Web Application Server: /generateEmailOwnershipToken
+	Web Application Server ->> Web Application Server: Check lock control
+	Web Application Server ->> Web Application Server: Generate Email Ownership Token
+	Web Application Server -->> User: Send the Mail Ownership Token
+	User ->> Application(Web or Native): Paste the Mail Ownership Token to EMail Update Page
+	Application(Web or Native) ->> Web Application Server: /updateEMail
+	Web Application Server ->> Web Application Server: Check lock control
+	Web Application Server ->> Web Application Server: Check JWT and extract old email
+	Web Application Server ->> Web Application Server: Check Mail Ownership Token
+	Web Application Server ->> Database: Update email
+	Web Application Server ->> Application(Web or Native): Send new JWT
+	Application(Web or Native) ->> Application(Web or Native): Save new JWT

@@ -1,0 +1,16 @@
+sequenceDiagram
+	Participant User
+	Participant Application(Web or Native)
+	Participant Web Application Server
+	Participant Database
+	User ->> Application(Web or Native): Opens application
+	Application(Web or Native) -->> Web Application Server: Root page request
+	Web Application Server  -->> Application(Web or Native): React App is served
+	Application(Web or Native) ->> Application(Web or Native): Confirm existance of JWT
+	Application(Web or Native) ->> Web Application Server: /checkJWT
+	Web Application Server ->> Web Application Server: Check lock controls
+	Web Application Server ->> Web Application Server: Extract Authorization header
+	Web Application Server ->> Web Application Server: Verify JWT
+	Web Application Server ->> Web Application Server: If JWT is not valid increment lock counter
+	Web Application Server ->> Application(Web or Native): Respond JWT and result
+	Application(Web or Native) ->> Application(Web or Native): Decide next page according to JWT result
