@@ -18,6 +18,8 @@ Ideally, we suggest both the web apps and native apps to interact with the backe
 
 #### Sign Up
 
+![Sequence Diagram](./SignUp.svg)
+
 ```mermaid
 sequenceDiagram
 	Participant User's Email
@@ -34,7 +36,24 @@ sequenceDiagram
 	Application(Web or Native) ->> Application(Web or Native): Check existance of JWT
 	Application(Web or Native) ->> User: No JWT so show Login Page
 	User ->> Application(Web or Native): Choose Sign Up Link
-
+	Application(Web or Native) ->> User: Show Email Validation Page
+	User ->> Application(Web or Native): Provide Email
+	Application(Web or Native) ->> User: Show Signup Data Collection Page
+	Application(Web or Native) ->> Request Handler: generateEmailOwnershipToken
+	Request Handler ->> Request Handler: Check lock control
+	Request Handler ->> Request Handler: Generate Email Ownership Token
+	Request Handler -->> User's Email: Send the Mail Ownership Token
+	User's Email ->> User: Copy the Mail Ownership Token
+	User ->> Application(Web or Native): Paste the Mail Ownership Token to Signup Data Collection Page
+	User ->> Application(Web or Native): Provide other data in the Signup Data Collection Page
+	Application(Web or Native) ->> Request Handler: POST to /signUp
+	Request Handler ->> Request Handler: Lock Control
+	Request Handler ->> Request Handler: Validate posted data
+	Request Handler ->> Request Handler: Encrypt password
+	Request Handler ->> Database: Save email, encrypted password and user data
+	Request Handler ->> Request Handler: Generate login JWT
+	Request Handler ->> Application(Web or Native): JWT
+	Application(Web or Native) ->> Application(Web or Native): Save JWT
 ```
 
 #### New Login
