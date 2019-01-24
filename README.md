@@ -4,7 +4,46 @@ This project aims to give an opensource lean boilerplate for email based microse
 
 Ideally, we suggest both the web apps and native apps to interact with the backend through APIs after the login. (The project aims especially SPAs.)
 
-The SQL is first class here and it explicitly declares the model.
+### Roles
+
+* User
+* Browser or Native Application (their interaction with backend should be exactly the same)
+* Request Handler
+* Database
+* Mailer
+* Lock Handler
+* Validations
+
+### Scenarios
+
+#### Sign Up
+
+```mermaid
+sequenceDiagram
+	Participant User's Email
+	Participant User
+	Participant Application(Web or Native)
+	Participant Request Handler
+	Participant Database
+	Participant Mailer
+	Participant Lock Handler
+	Participant Validations
+	User ->> Application(Web or Native): Opens application
+	Application(Web or Native) -->> Request Handler: Root page request
+	Request Handler  -->> Application(Web or Native): React App is served
+	Application(Web or Native) ->> Application(Web or Native): Check existance of JWT
+	Application(Web or Native) ->> User: No JWT so show Login Page
+	User ->> Application(Web or Native): Choose Sign Up Link
+
+```
+
+#### New Login
+#### Remember Me Login
+#### Forgot Password
+#### Change Password
+#### Change Email
+#### Update User Data
+
 
 **Please be informed that this project is under development, not yet finalized and open to any contribution from opensource community.**
 
@@ -14,14 +53,20 @@ Following should apply for the whole structure:
 
 * Lean
 * Authentication is done with JWT - Jason Web Tokens
-* Stateless
+* Stateless, API driven
 * Microsevices
 * Scalable
 * Opensource
+* SQL's should define the "model" of MVC
+* Because of its microservices and API driven nature "view"s of MVC are delegeted to SPA or native applications (they also exist in frontend and frontend-native folders)
 * It must be easily cloned and when executed it should run (*) 
 
 (*) This project uses [MySQL](https://www.mysql.com/). Because of the [license model of MySQL] (https://www.mysql.com/about/legal/licensing/oem/), if you use this boilerplate, do not distribute MySQL binaries.
 
+## Prerequisites
+
+* Ubuntu is preferede
+* MySQL is chosen for user database
 
 ## Frontent
 
@@ -91,7 +136,5 @@ mysql -u root -p < Generate_Objects.sql
 
 # TO BE CONTINUED
 
-* Lock functions to be prepared
-* Captcha
 * Sequence diagrams
 * Frontend (not yet detailed)
