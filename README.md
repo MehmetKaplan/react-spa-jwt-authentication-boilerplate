@@ -18,31 +18,31 @@ Ideally, we suggest both the web apps and native apps to interact with the backe
 
 #### Sign Up
 
-![Sign Up Sequence Diagram](./Sequence_Diagrams/SignUp.svg)
+![Sign Up Sequence Diagram](./ChartsAndDiagrams/SignUp.svg)
 
 #### New Logins
 
-![New Login Sequence Diagram](./Sequence_Diagrams/NewLogin.svg)
+![New Login Sequence Diagram](./ChartsAndDiagrams/NewLogin.svg)
 
 #### Remember Me Login
 
-![Remember Me Sequence Diagram](./Sequence_Diagrams/RememberMe.svg)
+![Remember Me Sequence Diagram](./ChartsAndDiagrams/RememberMe.svg)
 
 #### Forgot Password
 
-![Forgot Password Sequence Diagram](./Sequence_Diagrams/ForgotPassword.svg)
+![Forgot Password Sequence Diagram](./ChartsAndDiagrams/ForgotPassword.svg)
 
 #### Change Password
 
-![Change Password Sequence Diagram](./Sequence_Diagrams/UpdatePassword.svg)
+![Change Password Sequence Diagram](./ChartsAndDiagrams/UpdatePassword.svg)
 
 #### Change Email
 
-![Update Email Sequence Diagram](./Sequence_Diagrams/UpdateEmail.svg)
+![Update Email Sequence Diagram](./ChartsAndDiagrams/UpdateEmail.svg)
 
 #### Update User Data
 
-![Update Data Sequence Diagram](./Sequence_Diagrams/UpdateData.svg)
+![Update Data Sequence Diagram](./ChartsAndDiagrams/UpdateData.svg)
 
 
 
