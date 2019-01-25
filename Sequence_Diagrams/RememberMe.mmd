@@ -3,9 +3,10 @@ sequenceDiagram
 	Participant Application(Web or Native)
 	Participant Web Application Server
 	Participant Database
-	User ->> Application(Web or Native): Opens application
-	Application(Web or Native) -->> Web Application Server: Root page request
-	Web Application Server  -->> Application(Web or Native): React App is served
+	Participant SPA Website or App Marketplaces
+	User --> SPA Website or App Marketplaces: Get the native or web app
+	SPA Website or App Marketplaces --> Application(Web or Native): App is placed
+	Application(Web or Native) --> Application(Web or Native): ...
 	Application(Web or Native) ->> Application(Web or Native): Confirm existance of JWT
 	Application(Web or Native) ->> Web Application Server: /checkJWT
 	Web Application Server ->> Web Application Server: Check lock controls

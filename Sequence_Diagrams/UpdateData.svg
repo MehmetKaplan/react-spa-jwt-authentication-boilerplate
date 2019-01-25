@@ -1,40 +1,40 @@
-<svg id="mermaid-1548364413749" width="100%" xmlns="http://www.w3.org/2000/svg" height="100%" style="max-width:850px;" viewBox="-50 -10 850 566"><style>
+<svg id="mermaid-1548410111626" width="100%" xmlns="http://www.w3.org/2000/svg" height="100%" style="max-width:1050px;" viewBox="-50 -10 1050 666"><style>
 
 
-#mermaid-1548364413749 .label {
+#mermaid-1548410111626 .label {
   font-family: 'trebuchet ms', verdana, arial;
   color: #333; }
 
-#mermaid-1548364413749 .node rect,
-#mermaid-1548364413749 .node circle,
-#mermaid-1548364413749 .node ellipse,
-#mermaid-1548364413749 .node polygon {
+#mermaid-1548410111626 .node rect,
+#mermaid-1548410111626 .node circle,
+#mermaid-1548410111626 .node ellipse,
+#mermaid-1548410111626 .node polygon {
   fill: #ECECFF;
   stroke: #9370DB;
   stroke-width: 1px; }
 
-#mermaid-1548364413749 .node.clickable {
+#mermaid-1548410111626 .node.clickable {
   cursor: pointer; }
 
-#mermaid-1548364413749 .arrowheadPath {
+#mermaid-1548410111626 .arrowheadPath {
   fill: #333333; }
 
-#mermaid-1548364413749 .edgePath .path {
+#mermaid-1548410111626 .edgePath .path {
   stroke: #333333;
   stroke-width: 1.5px; }
 
-#mermaid-1548364413749 .edgeLabel {
+#mermaid-1548410111626 .edgeLabel {
   background-color: #e8e8e8; }
 
-#mermaid-1548364413749 .cluster rect {
+#mermaid-1548410111626 .cluster rect {
   fill: #ffffde !important;
   stroke: #aaaa33 !important;
   stroke-width: 1px !important; }
 
-#mermaid-1548364413749 .cluster text {
+#mermaid-1548410111626 .cluster text {
   fill: #333; }
 
-#mermaid-1548364413749 div.mermaidTooltip {
+#mermaid-1548410111626 div.mermaidTooltip {
   position: absolute;
   text-align: center;
   max-width: 200px;
@@ -47,314 +47,314 @@
   pointer-events: none;
   z-index: 100; }
 
-#mermaid-1548364413749 .actor {
+#mermaid-1548410111626 .actor {
   stroke: #CCCCFF;
   fill: #ECECFF; }
 
-#mermaid-1548364413749 text.actor {
+#mermaid-1548410111626 text.actor {
   fill: black;
   stroke: none; }
 
-#mermaid-1548364413749 .actor-line {
+#mermaid-1548410111626 .actor-line {
   stroke: grey; }
 
-#mermaid-1548364413749 .messageLine0 {
+#mermaid-1548410111626 .messageLine0 {
   stroke-width: 1.5;
   stroke-dasharray: '2 2';
   stroke: #333; }
 
-#mermaid-1548364413749 .messageLine1 {
+#mermaid-1548410111626 .messageLine1 {
   stroke-width: 1.5;
   stroke-dasharray: '2 2';
   stroke: #333; }
 
-#mermaid-1548364413749 #arrowhead {
+#mermaid-1548410111626 #arrowhead {
   fill: #333; }
 
-#mermaid-1548364413749 #crosshead path {
+#mermaid-1548410111626 #crosshead path {
   fill: #333 !important;
   stroke: #333 !important; }
 
-#mermaid-1548364413749 .messageText {
+#mermaid-1548410111626 .messageText {
   fill: #333;
   stroke: none; }
 
-#mermaid-1548364413749 .labelBox {
+#mermaid-1548410111626 .labelBox {
   stroke: #CCCCFF;
   fill: #ECECFF; }
 
-#mermaid-1548364413749 .labelText {
+#mermaid-1548410111626 .labelText {
   fill: black;
   stroke: none; }
 
-#mermaid-1548364413749 .loopText {
+#mermaid-1548410111626 .loopText {
   fill: black;
   stroke: none; }
 
-#mermaid-1548364413749 .loopLine {
+#mermaid-1548410111626 .loopLine {
   stroke-width: 2;
   stroke-dasharray: '2 2';
   stroke: #CCCCFF; }
 
-#mermaid-1548364413749 .note {
+#mermaid-1548410111626 .note {
   stroke: #aaaa33;
   fill: #fff5ad; }
 
-#mermaid-1548364413749 .noteText {
+#mermaid-1548410111626 .noteText {
   fill: black;
   stroke: none;
   font-family: 'trebuchet ms', verdana, arial;
   font-size: 14px; }
 
-#mermaid-1548364413749 .activation0 {
+#mermaid-1548410111626 .activation0 {
   fill: #f4f4f4;
   stroke: #666; }
 
-#mermaid-1548364413749 .activation1 {
+#mermaid-1548410111626 .activation1 {
   fill: #f4f4f4;
   stroke: #666; }
 
-#mermaid-1548364413749 .activation2 {
+#mermaid-1548410111626 .activation2 {
   fill: #f4f4f4;
   stroke: #666; }
 
 
-#mermaid-1548364413749 .section {
+#mermaid-1548410111626 .section {
   stroke: none;
   opacity: 0.2; }
 
-#mermaid-1548364413749 .section0 {
+#mermaid-1548410111626 .section0 {
   fill: rgba(102, 102, 255, 0.49); }
 
-#mermaid-1548364413749 .section2 {
+#mermaid-1548410111626 .section2 {
   fill: #fff400; }
 
-#mermaid-1548364413749 .section1,
-#mermaid-1548364413749 .section3 {
+#mermaid-1548410111626 .section1,
+#mermaid-1548410111626 .section3 {
   fill: white;
   opacity: 0.2; }
 
-#mermaid-1548364413749 .sectionTitle0 {
+#mermaid-1548410111626 .sectionTitle0 {
   fill: #333; }
 
-#mermaid-1548364413749 .sectionTitle1 {
+#mermaid-1548410111626 .sectionTitle1 {
   fill: #333; }
 
-#mermaid-1548364413749 .sectionTitle2 {
+#mermaid-1548410111626 .sectionTitle2 {
   fill: #333; }
 
-#mermaid-1548364413749 .sectionTitle3 {
+#mermaid-1548410111626 .sectionTitle3 {
   fill: #333; }
 
-#mermaid-1548364413749 .sectionTitle {
+#mermaid-1548410111626 .sectionTitle {
   text-anchor: start;
   font-size: 11px;
   text-height: 14px; }
 
 
-#mermaid-1548364413749 .grid .tick {
+#mermaid-1548410111626 .grid .tick {
   stroke: lightgrey;
   opacity: 0.3;
   shape-rendering: crispEdges; }
 
-#mermaid-1548364413749 .grid path {
+#mermaid-1548410111626 .grid path {
   stroke-width: 0; }
 
 
-#mermaid-1548364413749 .today {
+#mermaid-1548410111626 .today {
   fill: none;
   stroke: red;
   stroke-width: 2px; }
 
 
 
-#mermaid-1548364413749 .task {
+#mermaid-1548410111626 .task {
   stroke-width: 2; }
 
-#mermaid-1548364413749 .taskText {
+#mermaid-1548410111626 .taskText {
   text-anchor: middle;
   font-size: 11px; }
 
-#mermaid-1548364413749 .taskTextOutsideRight {
+#mermaid-1548410111626 .taskTextOutsideRight {
   fill: black;
   text-anchor: start;
   font-size: 11px; }
 
-#mermaid-1548364413749 .taskTextOutsideLeft {
+#mermaid-1548410111626 .taskTextOutsideLeft {
   fill: black;
   text-anchor: end;
   font-size: 11px; }
 
 
-#mermaid-1548364413749 .taskText0,
-#mermaid-1548364413749 .taskText1,
-#mermaid-1548364413749 .taskText2,
-#mermaid-1548364413749 .taskText3 {
+#mermaid-1548410111626 .taskText0,
+#mermaid-1548410111626 .taskText1,
+#mermaid-1548410111626 .taskText2,
+#mermaid-1548410111626 .taskText3 {
   fill: white; }
 
-#mermaid-1548364413749 .task0,
-#mermaid-1548364413749 .task1,
-#mermaid-1548364413749 .task2,
-#mermaid-1548364413749 .task3 {
+#mermaid-1548410111626 .task0,
+#mermaid-1548410111626 .task1,
+#mermaid-1548410111626 .task2,
+#mermaid-1548410111626 .task3 {
   fill: #8a90dd;
   stroke: #534fbc; }
 
-#mermaid-1548364413749 .taskTextOutside0,
-#mermaid-1548364413749 .taskTextOutside2 {
+#mermaid-1548410111626 .taskTextOutside0,
+#mermaid-1548410111626 .taskTextOutside2 {
   fill: black; }
 
-#mermaid-1548364413749 .taskTextOutside1,
-#mermaid-1548364413749 .taskTextOutside3 {
+#mermaid-1548410111626 .taskTextOutside1,
+#mermaid-1548410111626 .taskTextOutside3 {
   fill: black; }
 
 
-#mermaid-1548364413749 .active0,
-#mermaid-1548364413749 .active1,
-#mermaid-1548364413749 .active2,
-#mermaid-1548364413749 .active3 {
+#mermaid-1548410111626 .active0,
+#mermaid-1548410111626 .active1,
+#mermaid-1548410111626 .active2,
+#mermaid-1548410111626 .active3 {
   fill: #bfc7ff;
   stroke: #534fbc; }
 
-#mermaid-1548364413749 .activeText0,
-#mermaid-1548364413749 .activeText1,
-#mermaid-1548364413749 .activeText2,
-#mermaid-1548364413749 .activeText3 {
+#mermaid-1548410111626 .activeText0,
+#mermaid-1548410111626 .activeText1,
+#mermaid-1548410111626 .activeText2,
+#mermaid-1548410111626 .activeText3 {
   fill: black !important; }
 
 
-#mermaid-1548364413749 .done0,
-#mermaid-1548364413749 .done1,
-#mermaid-1548364413749 .done2,
-#mermaid-1548364413749 .done3 {
+#mermaid-1548410111626 .done0,
+#mermaid-1548410111626 .done1,
+#mermaid-1548410111626 .done2,
+#mermaid-1548410111626 .done3 {
   stroke: grey;
   fill: lightgrey;
   stroke-width: 2; }
 
-#mermaid-1548364413749 .doneText0,
-#mermaid-1548364413749 .doneText1,
-#mermaid-1548364413749 .doneText2,
-#mermaid-1548364413749 .doneText3 {
+#mermaid-1548410111626 .doneText0,
+#mermaid-1548410111626 .doneText1,
+#mermaid-1548410111626 .doneText2,
+#mermaid-1548410111626 .doneText3 {
   fill: black !important; }
 
 
-#mermaid-1548364413749 .crit0,
-#mermaid-1548364413749 .crit1,
-#mermaid-1548364413749 .crit2,
-#mermaid-1548364413749 .crit3 {
+#mermaid-1548410111626 .crit0,
+#mermaid-1548410111626 .crit1,
+#mermaid-1548410111626 .crit2,
+#mermaid-1548410111626 .crit3 {
   stroke: #ff8888;
   fill: red;
   stroke-width: 2; }
 
-#mermaid-1548364413749 .activeCrit0,
-#mermaid-1548364413749 .activeCrit1,
-#mermaid-1548364413749 .activeCrit2,
-#mermaid-1548364413749 .activeCrit3 {
+#mermaid-1548410111626 .activeCrit0,
+#mermaid-1548410111626 .activeCrit1,
+#mermaid-1548410111626 .activeCrit2,
+#mermaid-1548410111626 .activeCrit3 {
   stroke: #ff8888;
   fill: #bfc7ff;
   stroke-width: 2; }
 
-#mermaid-1548364413749 .doneCrit0,
-#mermaid-1548364413749 .doneCrit1,
-#mermaid-1548364413749 .doneCrit2,
-#mermaid-1548364413749 .doneCrit3 {
+#mermaid-1548410111626 .doneCrit0,
+#mermaid-1548410111626 .doneCrit1,
+#mermaid-1548410111626 .doneCrit2,
+#mermaid-1548410111626 .doneCrit3 {
   stroke: #ff8888;
   fill: lightgrey;
   stroke-width: 2;
   cursor: pointer;
   shape-rendering: crispEdges; }
 
-#mermaid-1548364413749 .doneCritText0,
-#mermaid-1548364413749 .doneCritText1,
-#mermaid-1548364413749 .doneCritText2,
-#mermaid-1548364413749 .doneCritText3 {
+#mermaid-1548410111626 .doneCritText0,
+#mermaid-1548410111626 .doneCritText1,
+#mermaid-1548410111626 .doneCritText2,
+#mermaid-1548410111626 .doneCritText3 {
   fill: black !important; }
 
-#mermaid-1548364413749 .activeCritText0,
-#mermaid-1548364413749 .activeCritText1,
-#mermaid-1548364413749 .activeCritText2,
-#mermaid-1548364413749 .activeCritText3 {
+#mermaid-1548410111626 .activeCritText0,
+#mermaid-1548410111626 .activeCritText1,
+#mermaid-1548410111626 .activeCritText2,
+#mermaid-1548410111626 .activeCritText3 {
   fill: black !important; }
 
-#mermaid-1548364413749 .titleText {
+#mermaid-1548410111626 .titleText {
   text-anchor: middle;
   font-size: 18px;
   fill: black; }
 
-#mermaid-1548364413749 g.classGroup text {
+#mermaid-1548410111626 g.classGroup text {
   fill: #9370DB;
   stroke: none;
   font-family: 'trebuchet ms', verdana, arial;
   font-size: 10px; }
 
-#mermaid-1548364413749 g.classGroup rect {
+#mermaid-1548410111626 g.classGroup rect {
   fill: #ECECFF;
   stroke: #9370DB; }
 
-#mermaid-1548364413749 g.classGroup line {
+#mermaid-1548410111626 g.classGroup line {
   stroke: #9370DB;
   stroke-width: 1; }
 
-#mermaid-1548364413749 .classLabel .box {
+#mermaid-1548410111626 .classLabel .box {
   stroke: none;
   stroke-width: 0;
   fill: #ECECFF;
   opacity: 0.5; }
 
-#mermaid-1548364413749 .classLabel .label {
+#mermaid-1548410111626 .classLabel .label {
   fill: #9370DB;
   font-size: 10px; }
 
-#mermaid-1548364413749 .relation {
+#mermaid-1548410111626 .relation {
   stroke: #9370DB;
   stroke-width: 1;
   fill: none; }
 
-#mermaid-1548364413749 #compositionStart {
+#mermaid-1548410111626 #compositionStart {
   fill: #9370DB;
   stroke: #9370DB;
   stroke-width: 1; }
 
-#mermaid-1548364413749 #compositionEnd {
+#mermaid-1548410111626 #compositionEnd {
   fill: #9370DB;
   stroke: #9370DB;
   stroke-width: 1; }
 
-#mermaid-1548364413749 #aggregationStart {
+#mermaid-1548410111626 #aggregationStart {
   fill: #ECECFF;
   stroke: #9370DB;
   stroke-width: 1; }
 
-#mermaid-1548364413749 #aggregationEnd {
+#mermaid-1548410111626 #aggregationEnd {
   fill: #ECECFF;
   stroke: #9370DB;
   stroke-width: 1; }
 
-#mermaid-1548364413749 #dependencyStart {
+#mermaid-1548410111626 #dependencyStart {
   fill: #9370DB;
   stroke: #9370DB;
   stroke-width: 1; }
 
-#mermaid-1548364413749 #dependencyEnd {
+#mermaid-1548410111626 #dependencyEnd {
   fill: #9370DB;
   stroke: #9370DB;
   stroke-width: 1; }
 
-#mermaid-1548364413749 #extensionStart {
+#mermaid-1548410111626 #extensionStart {
   fill: #9370DB;
   stroke: #9370DB;
   stroke-width: 1; }
 
-#mermaid-1548364413749 #extensionEnd {
+#mermaid-1548410111626 #extensionEnd {
   fill: #9370DB;
   stroke: #9370DB;
   stroke-width: 1; }
 
-#mermaid-1548364413749 .commit-id,
-#mermaid-1548364413749 .commit-msg,
-#mermaid-1548364413749 .branch-label {
+#mermaid-1548410111626 .commit-id,
+#mermaid-1548410111626 .commit-msg,
+#mermaid-1548410111626 .branch-label {
   fill: lightgrey;
   color: lightgrey; }
-</style><style>#mermaid-1548364413749 {
+</style><style>#mermaid-1548410111626 {
     color: rgba(0, 0, 0, 0.65);
     font: ;
-  }</style><g></g><g><line id="actor48" x1="75" y1="5" x2="75" y2="555" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="0" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="75" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="75" dy="0">User</tspan></text></g><g><line id="actor49" x1="275" y1="5" x2="275" y2="555" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="200" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="275" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="275" dy="0">Application(Web or Native)</tspan></text></g><g><line id="actor50" x1="475" y1="5" x2="475" y2="555" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="400" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="475" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="475" dy="0">Web Application Server</tspan></text></g><g><line id="actor51" x1="675" y1="5" x2="675" y2="555" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="600" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="675" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="675" dy="0">Database</tspan></text></g><defs><marker id="arrowhead" refX="5" refY="2" markerWidth="6" markerHeight="4" orient="auto"><path d="M 0,0 V 4 L6,2 Z"></path></marker></defs><defs><marker id="crosshead" markerWidth="15" markerHeight="8" orient="auto" refX="16" refY="4"><path fill="black" stroke="#000000" stroke-width="1px" d="M 9,2 V 6 L16,4 Z" style="stroke-dasharray: 0, 0;"></path><path fill="none" stroke="#000000" stroke-width="1px" d="M 0,1 L 6,7 M 6,1 L 0,7" style="stroke-dasharray: 0, 0;"></path></marker></defs><g><text x="175" y="93" class="messageText" style="text-anchor: middle;">...</text><line x1="75" y1="100" x2="275" y2="100" class="messageLine0" stroke-width="2" stroke="black" style="fill: none;"></line></g><g><text x="175" y="128" class="messageText" style="text-anchor: middle;">Show Update Data Page</text><line x1="275" y1="135" x2="75" y2="135" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="175" y="163" class="messageText" style="text-anchor: middle;">Provide new data</text><line x1="75" y1="170" x2="275" y2="170" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="375" y="198" class="messageText" style="text-anchor: middle;">/updateData</text><line x1="275" y1="205" x2="475" y2="205" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="475" y="233" class="messageText" style="text-anchor: middle;">Check lock control</text><path d="M 475,240 C 535,230 535,270 475,260" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><text x="475" y="298" class="messageText" style="text-anchor: middle;">Validate related data</text><path d="M 475,305 C 535,295 535,335 475,325" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><text x="475" y="363" class="messageText" style="text-anchor: middle;">Check JWT and extract email</text><path d="M 475,370 C 535,360 535,400 475,390" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><text x="575" y="428" class="messageText" style="text-anchor: middle;">Update posted data</text><line x1="475" y1="435" x2="675" y2="435" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="375" y="463" class="messageText" style="text-anchor: middle;">Send result</text><line x1="475" y1="470" x2="275" y2="470" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><rect x="0" y="490" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="75" y="522.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="75" dy="0">User</tspan></text></g><g><rect x="200" y="490" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="275" y="522.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="275" dy="0">Application(Web or Native)</tspan></text></g><g><rect x="400" y="490" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="475" y="522.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="475" dy="0">Web Application Server</tspan></text></g><g><rect x="600" y="490" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="675" y="522.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="675" dy="0">Database</tspan></text></g></svg>
+  }</style><g></g><g><line id="actor29" x1="75" y1="5" x2="75" y2="655" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="0" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="75" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="75" dy="0">User</tspan></text></g><g><line id="actor30" x1="275" y1="5" x2="275" y2="655" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="200" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="275" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="275" dy="0">Application(Web or Native)</tspan></text></g><g><line id="actor31" x1="475" y1="5" x2="475" y2="655" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="400" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="475" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="475" dy="0">Web Application Server</tspan></text></g><g><line id="actor32" x1="675" y1="5" x2="675" y2="655" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="600" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="675" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="675" dy="0">Database</tspan></text></g><g><line id="actor33" x1="875" y1="5" x2="875" y2="655" class="actor-line" stroke-width="0.5px" stroke="#999"></line><rect x="800" y="0" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="875" y="32.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="875" dy="0">SPA Website or App Marketplaces</tspan></text></g><defs><marker id="arrowhead" refX="5" refY="2" markerWidth="6" markerHeight="4" orient="auto"><path d="M 0,0 V 4 L6,2 Z"></path></marker></defs><defs><marker id="crosshead" markerWidth="15" markerHeight="8" orient="auto" refX="16" refY="4"><path fill="black" stroke="#000000" stroke-width="1px" d="M 9,2 V 6 L16,4 Z" style="stroke-dasharray: 0, 0;"></path><path fill="none" stroke="#000000" stroke-width="1px" d="M 0,1 L 6,7 M 6,1 L 0,7" style="stroke-dasharray: 0, 0;"></path></marker></defs><g><text x="475" y="93" class="messageText" style="text-anchor: middle;">Get the native or web app</text><line x1="75" y1="100" x2="875" y2="100" class="messageLine1" stroke-width="2" stroke="black" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="575" y="128" class="messageText" style="text-anchor: middle;">App is placed</text><line x1="875" y1="135" x2="275" y2="135" class="messageLine1" stroke-width="2" stroke="black" style="stroke-dasharray: 3, 3; fill: none;"></line></g><g><text x="275" y="163" class="messageText" style="text-anchor: middle;">...</text><path d="M 275,170 C 335,160 335,200 275,190" class="messageLine1" stroke-width="2" stroke="black" style="stroke-dasharray: 3, 3; fill: none;"></path></g><g><text x="175" y="228" class="messageText" style="text-anchor: middle;">Show Update Data Page</text><line x1="275" y1="235" x2="75" y2="235" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="175" y="263" class="messageText" style="text-anchor: middle;">Provide new data</text><line x1="75" y1="270" x2="275" y2="270" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="375" y="298" class="messageText" style="text-anchor: middle;">/updateData</text><line x1="275" y1="305" x2="475" y2="305" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="475" y="333" class="messageText" style="text-anchor: middle;">Check lock control</text><path d="M 475,340 C 535,330 535,370 475,360" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><text x="475" y="398" class="messageText" style="text-anchor: middle;">Validate related data</text><path d="M 475,405 C 535,395 535,435 475,425" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><text x="475" y="463" class="messageText" style="text-anchor: middle;">Check JWT and extract email</text><path d="M 475,470 C 535,460 535,500 475,490" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></path></g><g><text x="575" y="528" class="messageText" style="text-anchor: middle;">Update posted data</text><line x1="475" y1="535" x2="675" y2="535" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><text x="375" y="563" class="messageText" style="text-anchor: middle;">Send result</text><line x1="475" y1="570" x2="275" y2="570" class="messageLine0" stroke-width="2" stroke="black" marker-end="url(#arrowhead)" style="fill: none;"></line></g><g><rect x="0" y="590" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="75" y="622.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="75" dy="0">User</tspan></text></g><g><rect x="200" y="590" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="275" y="622.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="275" dy="0">Application(Web or Native)</tspan></text></g><g><rect x="400" y="590" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="475" y="622.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="475" dy="0">Web Application Server</tspan></text></g><g><rect x="600" y="590" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="675" y="622.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="675" dy="0">Database</tspan></text></g><g><rect x="800" y="590" fill="#eaeaea" stroke="#666" width="150" height="65" rx="3" ry="3" class="actor"></rect><text x="875" y="622.5" dominant-baseline="central" alignment-baseline="central" class="actor" style="text-anchor: middle; font-size: 14px; font-family: Open-Sans, sans-serif;"><tspan x="875" dy="0">SPA Website or App Marketplaces</tspan></text></g></svg>
