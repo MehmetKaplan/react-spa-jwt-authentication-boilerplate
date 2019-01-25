@@ -66,7 +66,7 @@ Following should apply for the whole structure:
 
 ## Prerequisites
 
-* Ubuntu is preferede
+* Ubuntu is prefered
 * MySQL is chosen for user database
 
 ## Frontent
@@ -99,7 +99,7 @@ export JWT_SECRET="your-secret-do-not-forget-to-change"
 # Mail Transporter Parameters 
 export GENERIC_MAIL_SERVICE="yourmailtransporter" #Example: "gmail"
 export GENERIC_MAIL_USER="yourusername" #Example: "name.surname@gmail.com"
-export GENERIC_MAIL_PASSWORD="yourpassword #Example: "Password1:-)"
+export GENERIC_MAIL_PASSWORD="yourpassword" #Example: "Password1:-)"
 # MySQL Parameters 
 export MYSQL_HOST="yourhost"  #Example "localhost"
 export MYSQL_USER="yourdbuser"  #Example "root"
