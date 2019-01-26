@@ -1,5 +1,6 @@
 DownloadApp_or_OpenWebPage=>start: Open Downloaded Application Or Open Web Page
 ShowApp=>parallel: Application Loaded
+SaveJWT=>subroutine: Save JWTs
 RootPage=>operation: Load Initial Page
 Root_=>subroutine: Call /checkJWT
 RootRes=>condition: Is JWT Valid
@@ -16,7 +17,6 @@ SignUp2Page=>operation: Show Sign Up Related Input Page
 SignUp2IO=>inputoutput: Get From User Token (Which was sent to users email), Password, Name, Birthday, etc
 SignUp2_=>subroutine: Call /signUp
 SignUp2Res=>condition: Is Result OK
-SaveJWT=>subroutine: Save JWTs
 PasswordResetPage=>operation: Show Password Reset Page
 PasswordResetIO=>inputoutput: Get From User Email
 PasswordReset_=>subroutine: Call /generateResetPwdToken
@@ -45,50 +45,4 @@ DownloadApp_or_OpenWebPage->RootPage
 RootPage->Root_
 Root_->RootRes
 RootRes(yes, right)->ShowApp
-SaveJWT->ShowApp
 RootRes(no)->LoginPage
-LoginPage->LoginAlt
-LoginAlt(path1, right)->PasswordResetPage
-LoginAlt(path2, left)->SignUp1Page
-LoginAlt(path3, bottom)->LoginPage2
-LoginPage2->LoginIO
-LoginIO->Login_
-Login_->LoginRes
-LoginRes(yes, right)->ShowApp
-LoginRes(no)->LoginPage
-SignUp1Page->SignUp1IO
-SignUp1IO->SignUp1_
-SignUp1_->SignUp2Page
-SignUp2Page->SignUp2IO
-SignUp2IO->SignUp2_
-SignUp2_->SignUp2Res
-SignUp2Res(yes, right)->SaveJWT
-SignUp2Res(no)->LoginPage
-PasswordResetPage->PasswordResetIO
-PasswordResetIO->PasswordReset_
-PasswordReset_->PasswordReset2Page
-PasswordReset2Page->PasswordReset2IO
-PasswordReset2IO->PasswordReset2_
-PasswordReset2_->PasswordReset2Res
-PasswordReset2Res(yes, right)->ShowApp
-PasswordReset2Res(no)->LoginPage
-ShowApp(path1, right)->ResetMailPage
-ShowApp(path2, left)->ChangePasswordPage
-ShowApp(path3, bottom)->UpdateDataPage
-ResetMailPage->ResetMailIO
-ResetMailIO->ResetMail_
-ResetMail_->ResetMail2Page
-ResetMail2Page->ResetMail2IO
-ResetMail2IO->ResetMail2_
-ResetMail2_->ResetMail2Res
-ResetMail2Res(yes, right)->SaveJWT
-ResetMail2Res(no)->ShowApp
-ChangePasswordPage->ChangePasswordIO
-ChangePasswordIO->ChangePassword_
-ChangePassword_->ChangePasswordRes
-ChangePasswordRes->ShowApp
-UpdateDataPage->UpdateDataIO
-UpdateDataIO->UpdateData_
-UpdateData_->UpdateDataRes
-ResetMail2Res(yes, right)->ShowApp
-ResetMail2Res(no)->ShowApp

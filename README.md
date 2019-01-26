@@ -18,32 +18,52 @@ Ideally, we suggest both the web apps and native apps to interact with the backe
 
 #### Sign Up
 
+##### Frontend Experience
+![Sign Up Flowchart](./ChartsAndDiagrams/SignUp.png)
+##### Process
 ![Sign Up Sequence Diagram](./ChartsAndDiagrams/SignUp.svg)
 
 #### New Logins
 
+##### Frontend Experience
+![New Login Flowchart](./ChartsAndDiagrams/NewLogin.png)
+##### Process
 ![New Login Sequence Diagram](./ChartsAndDiagrams/NewLogin.svg)
 
 #### Remember Me Login
 
+##### Frontend Experience
+![Remember Me Flowchart](./ChartsAndDiagrams/RememberMe.png)
+##### Process
 ![Remember Me Sequence Diagram](./ChartsAndDiagrams/RememberMe.svg)
 
 #### Forgot Password
 
+##### Frontend Experience
+![Forgot Password Flowchart](./ChartsAndDiagrams/ForgotPassword.png)
+##### Process
 ![Forgot Password Sequence Diagram](./ChartsAndDiagrams/ForgotPassword.svg)
 
 #### Change Password
 
+##### Frontend Experience
+![Change Password Flowchart](./ChartsAndDiagrams/UpdatePassword.png)
+##### Process
 ![Change Password Sequence Diagram](./ChartsAndDiagrams/UpdatePassword.svg)
 
 #### Change Email
 
+##### Frontend Experience
+![Update Email Flowchart](./ChartsAndDiagrams/UpdateEmail.png)
+##### Process
 ![Update Email Sequence Diagram](./ChartsAndDiagrams/UpdateEmail.svg)
 
 #### Update User Data
 
+##### Frontend Experience
+![Update Data Flowchart](./ChartsAndDiagrams/UpdateData.png)
+##### Process
 ![Update Data Sequence Diagram](./ChartsAndDiagrams/UpdateData.svg)
-
 
 
 **Please be informed that this project is under development, not yet finalized and open to any contribution from opensource community.**
