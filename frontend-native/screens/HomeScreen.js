@@ -16,11 +16,13 @@ import { Container, Header, Left, Body, Right, Title, Subtitle } from 'native-ba
 
 import { connect } from 'react-redux';
 
+import {types} from '../redux-store.js';
+
 
 function mapDispatchToProps(dispatch) {
 	return({
-		makered: () => {dispatch({type: 'RED'})},
-		makeblue: () => {dispatch({type: 'BLUE'})},
+		makered: () => {dispatch({type: types.HOMESCREENRED})},
+		makeblue: () => {dispatch({type: types.HOMESCREENBLUE})},
 	})
 };
 

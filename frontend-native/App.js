@@ -7,48 +7,9 @@ import { Container, Header, Left, Body, Right, Title, Subtitle } from 'native-ba
 
 import { Provider } from 'react-redux';
 
-import { createStore } from 'redux';
+import {store} from './redux-store.js';
 
-// Define action types
-const types = {
-	LOGIN: 'LOGIN',
-	LOGOUT: 'LOGOUT',
-	HOMESCREENRED: 'RED',
-	HOMESCREENBLUE: 'BLUE',
-};
-
-// Define a reducer
-const reducer = (p_state, p_action) => {
-	let l_retval = Object.assign({}, p_state); // do not mutate p_state
-	switch (p_action.type) {
-		case types.LOGIN:
-			l_retval['isLogged'] = true;
-			break;
-		case types.LOGOUT:
-			l_retval['isLogged'] = false;
-			break;
-		case types.HOMESCREENRED:
-			l_retval['homeScreenColor'] = 'red';
-			break;
-		case types.HOMESCREENBLUE:
-			l_retval['homeScreenColor'] = 'blue';
-			break;
-		default:
-			// do nothing
-	}
-	return l_retval;
-};
-
-// Define the initial state of our store
-const initialState = { 
-	isLogged: false,
-	homeScreenColor: 'red',
-};
-
-// Create a store, passing our reducer function and our initial state
-const store = createStore(reducer, initialState);
-
-class App extends React.Component {
+export default class App extends React.Component {
 
 	constructor(props){
 		super(props);
@@ -137,6 +98,4 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 	},
 });
-
-export default (App);
 
