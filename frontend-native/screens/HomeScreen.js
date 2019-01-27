@@ -14,7 +14,23 @@ import { MonoText } from '../components/StyledText';
 
 import { Container, Header, Left, Body, Right, Title, Subtitle } from 'native-base';
 
-export default class HomeScreen extends React.Component {
+import { connect } from 'react-redux';
+
+
+function mapDispatchToProps(dispatch) {
+	return({
+		makered: () => {dispatch({type: 'RED'})},
+		makeblue: () => {dispatch({type: 'BLUE'})},
+	})
+};
+
+function mapStateToProps(state) {
+	return({
+		homeScreenColorFromUp: state.homeScreenColor
+	});
+};
+
+class HomeScreen extends React.Component {
 	static navigationOptions = {
 		header: null,
 	};
@@ -22,9 +38,15 @@ export default class HomeScreen extends React.Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			loggedIn: false,
 		};
 	};
+
+	componentDidMount(){
+		setInterval(() => {
+			if (this.props.homeScreenColorFromUp == 'red') this.props.makeblue();
+			else this.props.makered();
+		}, 1000);
+	}
 
 	async componentWillMount() {
 		await Expo.Font.loadAsync({
@@ -34,8 +56,12 @@ export default class HomeScreen extends React.Component {
 	}
 		
 	render() {
-		let l_loggedin_view = <View style={styles.container}>
-			<ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+		return <View style={styles.container}>
+			<ScrollView style={
+				this.props.homeScreenColorFromUp == 'red' 
+				? styles.containerRed
+				: styles.containerBlue
+			} contentContainerStyle={styles.contentContainer}>
 				<View style={styles.welcomeContainer}>
 					<Image
 						source={
@@ -55,13 +81,18 @@ export default class HomeScreen extends React.Component {
 					<View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
 						<MonoText style={styles.codeHighlightText}>
 							screens/HomeScreen.js
-							{this.state.loggedIn}
 						</MonoText>
 					</View>
 
 					<Text style={styles.getStartedText}>
 						Change this text and your app will automatically reload.
-			</Text>
+					</Text>
+
+					<Text style={styles.getColorText}>
+						Current homescreen color is {this.props.homeScreenColorFromUp}.
+					</Text>
+
+
 				</View>
 
 				<View style={styles.helpContainer}>
@@ -79,22 +110,6 @@ export default class HomeScreen extends React.Component {
 				</View>
 			</View>
 		</View>;
-
-		let l_not_loggedin_view = <View style={styles.container}>
-			<Container>
-				<Header>
-					<Left />
-					<Body>
-						<Title>NOT LOGGED IN</Title>
-						<Subtitle>yet...</Subtitle>
-					</Body>
-					<Right />
-				</Header>
-			</Container>
-		</View>;
-
-		let l_retval = this.state.loggedIn ? l_loggedin_view : l_not_loggedin_view;
-		return (l_retval);
 	}
 
 	_maybeRenderDevelopmentModeWarning() {
@@ -132,6 +147,14 @@ export default class HomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+	containerRed: {
+		flex: 1,
+		backgroundColor: '#f00',
+	},
+	containerBlue: {
+		flex: 1,
+		backgroundColor: '#00f',
+	},
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
@@ -219,3 +242,5 @@ const styles = StyleSheet.create({
 		color: '#2e78b7',
 	},
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
