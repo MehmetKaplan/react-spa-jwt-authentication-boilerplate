@@ -162,24 +162,35 @@ mysql -u root -p < Generate_Database.sql
 mysql -u root -p < Generate_Objects.sql 
 ```
 
-# To Use for Your Own Project
+# Guidelines To Use for Your Own Project
 
 After you cloned the whole structure with following principles you can use the entire repo as your base and build your own single page web and react native applications on top of it.
 
 
 ## Frontend
 
-.
+* ```frontend/common-logic``` keeps the shared logic with web application. It must be same as ```frontend-native/common-logic```. :-)
 
 ## Frontend Native
 
+* ```frontend-native/common-logic``` keeps the shared logic with web application. It must be same as ```frontend/common-logic```. :-)
+* Start with command ```yarn start``` which runs Expo application. Rest is same as you are working in an Expo application.
 * The layout of pages are components and you can find them under the ```frontend-native/components``` folder. Modifying them you can change the view of your project however you like.
 * The redux store is in the ```frontend-native/redux-store.js``` file. You can update this file and use it similarly in your project.
 * Under the ```frontend-native/redux-store.js``` file, there is an object named ```homeScreenComponents```. It helps you decide your navigation. Add here the name of your component with a keyname. And use same keyname to be called by a dispatcher where the new component is to be placed in the ```frontend-native/screens/HomeScreen.js```.
 
+
 ## Backend
 
-.
+* Start with command ```yarn start``` which runs Express application framework. Rest is same as you are working in an Express web application.
+* All behaviour configurations should be placed under ```backend/config.js``` file.
+* Database selects are in ```backend/sqls.js```
+* The email communication with users is governed by ```backend/mailer.js```.
+* The fraudelent requests are to be detected by ```backend/lock_handler.js```.
+* ```backend/database_action_mysql.js``` governs communication with MySQL database with 2 simple wrapper functions.
+* ```backend/generic_library.js``` keeps a few helper javascript function.
+* ```backend/server.js```, as a standard Express application, keeps track of routes, all of which are API requests, except the web application (the ```frontend``` application)
+* ```backend/validations.js``` is resposible of the request parameters' validations.
 
 # TO BE CONTINUED
 
