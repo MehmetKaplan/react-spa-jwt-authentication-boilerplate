@@ -17,8 +17,7 @@ export default class App extends React.Component {
 		super(props);
 		this.state = {
 			isLoadingComplete: false,
-			logStateOfApp: false,
-			s_i: -1,
+			logStateOfApp: true, // dictates if the user is logged in or not
 		};
 	};
 
@@ -31,17 +30,16 @@ export default class App extends React.Component {
 				this.setState({logStateOfApp: store.getState().isLogged});
 			}, 10000);
 		*/
-		var i = 0;
-		setInterval(() => {
-			//deleteme
-			this.setState({s_i: Object.keys(loginComponents)[i]});
-			console.log(i);
+		/*
+			var i = 0;
+			setInterval(() => {
 			i += 1; if (i > 4) i = 0;
 			store.dispatch({
-				type: types.LOGINNAV,
-				activeLoginComponent: Object.values(loginComponents)[i]
-			})
-		}, 1000);
+					type: types.LOGINNAV,
+					activeLoginComponent: Object.values(loginComponents)[i]
+				})
+			}, 1000);
+		*/
 	}
 
 
@@ -56,8 +54,6 @@ export default class App extends React.Component {
 			);
 		} else {
 			let l_login_page = <NotLoggedScreen />;
-			// deleteme
-			// l_login_page = <Title>{this.state.s_i}</Title>; 
 			let l_homescreen = <View style={styles.container}>
 				{Platform.OS === 'ios' && <StatusBar barStyle="default" />}
 				<AppNavigator />

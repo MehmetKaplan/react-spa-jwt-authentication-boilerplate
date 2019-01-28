@@ -162,7 +162,24 @@ mysql -u root -p < Generate_Database.sql
 mysql -u root -p < Generate_Objects.sql 
 ```
 
+# To Use for Your Own Project
 
+After you cloned the whole structure with following principles you can use the entire repo as your base and build your own single page web and react native applications on top of it.
+
+
+## Frontend
+
+.
+
+## Frontend Native
+
+* The layout of pages are components and you can find them under the ```frontend-native/components``` folder. Modifying them you can change the view of your project however you like.
+* The redux store is in the ```frontend-native/redux-store.js``` file. You can update this file and use it similarly in your project.
+* Under the ```frontend-native/redux-store.js``` file, there is an object named ```homeScreenComponents```. It helps you decide your navigation. Add here the name of your component with a keyname. And use same keyname to be called by a dispatcher where the new component is to be placed in the ```frontend-native/screens/HomeScreen.js```.
+
+## Backend
+
+.
 
 # TO BE CONTINUED
 
