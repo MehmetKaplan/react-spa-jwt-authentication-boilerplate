@@ -7,7 +7,9 @@ import { Container, Header, Left, Body, Right, Title, Subtitle } from 'native-ba
 
 import { Provider } from 'react-redux';
 
-import {store} from './redux-store.js';
+import {store, loginComponents, types} from './redux-store.js';
+
+import NotLoggedScreen from './screens/NotLoggedScreen.js';
 
 export default class App extends React.Component {
 
@@ -15,20 +17,33 @@ export default class App extends React.Component {
 		super(props);
 		this.state = {
 			isLoadingComplete: false,
-			logStateOfApp: true,
+			logStateOfApp: false,
+			s_i: -1,
 		};
 	};
 
 	componentDidMount(){
+		// redux root level data update test
 		/*
-			// redux root level data update test
 			setInterval(() => {
 				let l_type = store.getState().isLogged ? types.LOGOUT : types.LOGIN;
 				store.dispatch({type: l_type});
 				this.setState({logStateOfApp: store.getState().isLogged});
 			}, 10000);
 		*/
+		var i = 0;
+		setInterval(() => {
+			//deleteme
+			this.setState({s_i: Object.keys(loginComponents)[i]});
+			console.log(i);
+			i += 1; if (i > 4) i = 0;
+			store.dispatch({
+				type: types.LOGINNAV,
+				activeLoginComponent: Object.values(loginComponents)[i]
+			})
+		}, 1000);
 	}
+
 
 	render() {
 		if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
@@ -40,18 +55,9 @@ export default class App extends React.Component {
 				/>
 			);
 		} else {
-			let l_login_page = <View style={styles.container}>
-				<Container>
-					<Header>
-						<Left />
-						<Body>
-							<Title>App Log State</Title>
-							<Subtitle>{this.state.logStateOfApp.toString()}</Subtitle>
-						</Body>
-						<Right />
-					</Header>
-				</Container>
-			</View>;
+			let l_login_page = <NotLoggedScreen />;
+			// deleteme
+			// l_login_page = <Title>{this.state.s_i}</Title>; 
 			let l_homescreen = <View style={styles.container}>
 				{Platform.OS === 'ios' && <StatusBar barStyle="default" />}
 				<AppNavigator />

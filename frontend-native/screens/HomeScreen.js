@@ -16,13 +16,17 @@ import { Container, Header, Left, Body, Right, Title, Subtitle } from 'native-ba
 
 import { connect } from 'react-redux';
 
-import {types} from '../redux-store.js';
+import {types, loginComponents} from '../redux-store.js';
 
 
 function mapDispatchToProps(dispatch) {
 	return({
 		makered: () => {dispatch({type: types.HOMESCREENRED})},
 		makeblue: () => {dispatch({type: types.HOMESCREENBLUE})},
+		setAppState: (p_new_active_component) => {dispatch({
+			type: types.LOGINNAV,
+			activeLoginComponent: p_new_active_component
+		})},
 	})
 };
 
