@@ -27,8 +27,15 @@ function mapStateToProps(state) {
 class Settings extends React.Component {
 	render() {
 		return <Form>
-			<Button block info   onPress={() => this.props.setAppState(settingsScreenComponents.PWDCHANGE)}><Text> {config.uiTexts.Settings.updateData}  </Text></Button>
-			<Button block danger onPress={() => this.props.setAppState(settingsScreenComponents.UPDATEDATA)}><Text> {config.uiTexts.Settings.changePwd }  </Text></Button>
+			<Text></Text>
+			<Text></Text>
+			<Text></Text>
+			<Button block info   onPress={() => this.props.setAppState(settingsScreenComponents.UPDATEDATA)}><Text> {config.uiTexts.Settings.updateData}  </Text></Button>
+			<Text></Text>
+			<Text></Text>
+			<Button block danger onPress={() => this.props.setAppState(settingsScreenComponents.PWDCHANGE)}><Text> {config.uiTexts.Settings.changePwd }  </Text></Button>
+			<Text></Text>
+			<Text></Text>
 			<Button block danger onPress={() => this.props.setAppState(settingsScreenComponents.EMAILCHANGE1)}><Text> {config.uiTexts.Settings.changeEmail}  </Text></Button>
 		</Form>;
 	}

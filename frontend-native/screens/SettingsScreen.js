@@ -11,6 +11,7 @@ import ChangePassword from '../components/ChangePassword.js';
 import UpdateData from '../components/UpdateData.js';
 import ChangeEmailConfirm from '../components/ChangeEmailConfirm.js';
 import ChangeEmail from '../components/ChangeEmail.js';
+import config from '../config.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({
@@ -31,7 +32,7 @@ function mapStateToProps(state) {
 
 class SettingsScreen extends React.Component {
 	static navigationOptions = {
-		title: 'app.json',
+		title: config.uiTexts.SettingsScreen.title,
 	};
 
 	componentDidMount(){

@@ -25,18 +25,40 @@ function mapStateToProps(state) {
 };
 
 class ChangeEmail extends React.Component {
+
+	constructor() {
+		super();
+		this.componentMainFunction = this.componentMainFunction.bind(this);
+		this.state = {
+			newEMail_value: "",
+		};
+	}
+
+	componentMainFunction(){
+		// Place main purpose of component here
+
+		// use this.state.newEMail_value to send the confirmation code
+		this.props.setAppState(settingsScreenComponents.EMAILCHANGE2);
+	}
+
 	render() {
 		return <Form>
 			<Text></Text>
 			<Text></Text>
+			<Text></Text>
 			<Item floatingLabel>
-				<Label>{config.uiTexts.ChangeEmail.eMail}</Label>
-				<Input />
+				<Label>{config.uiTexts.ChangeEmail.newEMail}</Label>
+				<Input 
+					value={this.state.newEMail_value} 
+					onChangeText={(value) => {this.setState({newEMail_value: value})}}
+				/>
 			</Item>
 			<Text></Text>
-			<Button block danger><Text> {config.uiTexts.ChangeEmail.sendConfirmationCode}  </Text></Button>
 			<Text></Text>
-			<Button block dark onPress={() => this.props.setAppState(settingsScreenComponents.SETTINGS)}><Text>{config.uiTexts.Common.back}</Text></Button>
+			<Button block danger onPress={this.componentMainFunction}><Text> {config.uiTexts.ChangeEmail.sendConfirmationCode}  </Text></Button>
+			<Text></Text>
+			<Text></Text>
+			<Button block success onPress={() => this.props.setAppState(settingsScreenComponents.SETTINGS)}><Text>{config.uiTexts.Common.back}</Text></Button>
 		</Form>;
 	}
 }

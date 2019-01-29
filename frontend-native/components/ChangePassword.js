@@ -1,9 +1,11 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text  } from 'react-native';
 
 import { connect } from 'react-redux';
 
+import { Form, Item, Label, Input, Button, Text } from 'native-base';
+
 import {types, settingsScreenComponents} from '../redux-store.js';
+import config from '../config.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({
@@ -23,18 +25,45 @@ function mapStateToProps(state) {
 };
 
 class ChangePassword extends React.Component {
+
+	constructor() {
+		super();
+		this.componentMainFunction = this.componentMainFunction.bind(this);
+		this.state = {
+			newPassword_value: "",
+		};
+	}
+
+	componentMainFunction(){
+		// Place main purpose of component here
+
+		// use this.state.newPassword_value to send the confirmation code
+		alert(this.state.newPassword_value);
+		this.props.setAppState(settingsScreenComponents.SETTINGS);
+	}
+	
+
 	render() {
-		return <ScrollView style={styles.container}>
-			<Text style={styles.helpLinkText}>Change Password Component</Text>
-		</ScrollView>;
+		return <Form>
+			<Text></Text>
+			<Text></Text>
+			<Text></Text>
+			<Item floatingLabel>
+				<Label>{config.uiTexts.ChangePassword.newPassword}</Label>
+				<Input 
+					secureTextEntry={true}
+					value={this.state.newPassword_value}
+					onChangeText={(value) => {this.setState({newPassword_value: value})}}
+				/>
+			</Item>
+			<Text></Text>
+			<Text></Text>
+			<Button block danger onPress={this.componentMainFunction}><Text> {config.uiTexts.ChangePassword.changePassword}  </Text></Button>
+			<Text></Text>
+			<Text></Text>
+			<Button block success onPress={() => this.props.setAppState(settingsScreenComponents.SETTINGS)}><Text>{config.uiTexts.Common.back}</Text></Button>
+		</Form>;
 	}
 }
 
-const styles = StyleSheet.create({
-	container: {
-	  flex: 1,
-	  backgroundColor: '#fff',
-	},
- });
- 
- export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);
