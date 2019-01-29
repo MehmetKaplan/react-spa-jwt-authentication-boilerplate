@@ -1,9 +1,11 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text  } from 'react-native';
 
 import { connect } from 'react-redux';
 
+import { Form, Button, Text } from 'native-base';
+
 import {types, settingsScreenComponents} from '../redux-store.js';
+import config from '../config.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({
@@ -24,17 +26,14 @@ function mapStateToProps(state) {
 
 class Settings extends React.Component {
 	render() {
-		return <ScrollView style={styles.container}>
-			<Text style={styles.helpLinkText}>Settings Component</Text>
-		</ScrollView>;
+		return <Form>
+			<Button block info   onPress={() => this.props.setAppState(settingsScreenComponents.PWDCHANGE)}><Text> {config.uiTexts.Settings.updateData}  </Text></Button>
+			<Button block danger onPress={() => this.props.setAppState(settingsScreenComponents.UPDATEDATA)}><Text> {config.uiTexts.Settings.changePwd }  </Text></Button>
+			<Button block danger onPress={() => this.props.setAppState(settingsScreenComponents.EMAILCHANGE1)}><Text> {config.uiTexts.Settings.changeEmail}  </Text></Button>
+		</Form>;
 	}
 }
 
-const styles = StyleSheet.create({
-	container: {
-	  flex: 1,
-	  backgroundColor: '#fff',
-	},
- });
- 
- export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+
+

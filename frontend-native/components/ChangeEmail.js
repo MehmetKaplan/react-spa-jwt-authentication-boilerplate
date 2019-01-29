@@ -1,9 +1,11 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text  } from 'react-native';
 
 import { connect } from 'react-redux';
 
+import { Form, Item, Label, Input, Button, Text } from 'native-base';
+
 import {types, settingsScreenComponents} from '../redux-store.js';
+import config from '../config.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({
@@ -24,17 +26,19 @@ function mapStateToProps(state) {
 
 class ChangeEmail extends React.Component {
 	render() {
-		return <ScrollView style={styles.container}>
-			<Text style={styles.helpLinkText}>Change Email Component</Text>
-		</ScrollView>;
+		return <Form>
+			<Text></Text>
+			<Text></Text>
+			<Item floatingLabel>
+				<Label>{config.uiTexts.ChangeEmail.eMail}</Label>
+				<Input />
+			</Item>
+			<Text></Text>
+			<Button block danger><Text> {config.uiTexts.ChangeEmail.sendConfirmationCode}  </Text></Button>
+			<Text></Text>
+			<Button block dark onPress={() => this.props.setAppState(settingsScreenComponents.SETTINGS)}><Text>{config.uiTexts.Common.back}</Text></Button>
+		</Form>;
 	}
 }
 
-const styles = StyleSheet.create({
-	container: {
-	  flex: 1,
-	  backgroundColor: '#fff',
-	},
- });
- 
- export default connect(mapStateToProps, mapDispatchToProps)(ChangeEmail);
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeEmail);

@@ -36,11 +36,13 @@ class SettingsScreen extends React.Component {
 
 	componentDidMount(){
 		// redux root level data update test
-		var i = 0;
-		setInterval(() => {
-			i += 1; if (i > 4) i = 0;
-			this.props.setAppState(Object.values(settingsScreenComponents)[i]);
-		}, 1000);
+		/*
+			var i = 0;
+			setInterval(() => {
+				i += 1; if (i > 4) i = 0;
+				this.props.setAppState(Object.values(settingsScreenComponents)[i]);
+			}, 1000);
+		*/
 	}
 
 	render() {
@@ -55,14 +57,17 @@ class SettingsScreen extends React.Component {
 			case (settingsScreenComponents.UPDATEDATA):
 				l_active_component = <UpdateData />;
 				break;
-			case (settingsScreenComponents.EMAILCHANGE1):
+			case (settingsScreenComponents.EMAILCHANGE2):
 				l_active_component = <ChangeEmailConfirm />;
 				break;
-			case (settingsScreenComponents.EMAILCHANGE2):
+			case (settingsScreenComponents.EMAILCHANGE1):
 				l_active_component = <ChangeEmail />;
 				break;
+			case (settingsScreenComponents.EMAILCHANGE2):
+				l_active_component = <ChangeEmailConfirm />;
+				break;
 			default:
-			// do nothing
+				// do nothing
 		}
 		return <ScrollView style={styles.container}>{l_active_component}</ScrollView>;
 	}

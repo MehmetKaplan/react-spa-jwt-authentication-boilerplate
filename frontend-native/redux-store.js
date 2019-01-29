@@ -23,8 +23,8 @@ export const settingsScreenComponents = {
 	SETTINGS: 'Settings',
 	PWDCHANGE: 'ChangePassword',
 	UPDATEDATA: 'UpdateData',
-	EMAILCHANGE1: 'ChangeEmailConfirm',
-	EMAILCHANGE2: 'ChangeEmail',
+	EMAILCHANGE1: 'ChangeEmail',
+	EMAILCHANGE2: 'ChangeEmailConfirm',
 };
 
 export const homeScreenComponents = {

@@ -173,7 +173,9 @@ After you cloned the whole structure with following principles you can use the e
 
 ## Frontend Native
 
-* ```frontend-native/common-logic``` keeps the shared logic with web application. It must be same as ```frontend/common-logic```. :-)
+* ```frontend-native/common-logic``` keeps the shared logic with web application. It must be same as ```frontend/common-logic```. :-) 
+	* Components are not placed in any common area since components should deal only with presenting the data and it should be web / native specific.
+	* On the other hand logic of how the data is retrieved, manipulated and posted should be exactly the same for both web and native applications.
 * Start with command ```yarn start``` which runs Expo application. Rest is same as you are working in an Expo application.
 * The layout of pages are components and you can find them under the ```frontend-native/components``` folder. Modifying them you can change the view of your project however you like.
 * The redux store is in the ```frontend-native/redux-store.js``` file. You can update this file and use it similarly in your project.
@@ -183,6 +185,8 @@ After you cloned the whole structure with following principles you can use the e
 ## Backend
 
 * Start with command ```yarn start``` which runs Express application framework. Rest is same as you are working in an Express web application.
+	* Components are not placed in any common area since components should deal only with presenting the data and it should be web / native specific.
+	* On the other hand logic of how the data is retrieved, manipulated and posted should be exactly the same for both web and native applications.
 * All behaviour configurations should be placed under ```backend/config.js``` file.
 * Database selects are in ```backend/sqls.js```
 * The email communication with users is governed by ```backend/mailer.js```.
@@ -194,5 +198,5 @@ After you cloned the whole structure with following principles you can use the e
 
 # TO BE CONTINUED
 
-* Sequence diagrams
-* Frontend (not yet detailed)
+* Frontend Native (ongoing)
+* Frontend (not yet started)
