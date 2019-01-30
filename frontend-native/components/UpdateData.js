@@ -108,6 +108,7 @@ class UpdateData extends React.Component {
 				block
 				note
 				mode="dropdown"
+				placeholder={config.uiTexts.UpdateData.gender_id}
 				selectedValue={this.state.gender_id_value}
 				onValueChange={(value) => {this.setState({gender_id_value: value})}}
 			>

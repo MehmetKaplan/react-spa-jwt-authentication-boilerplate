@@ -17,7 +17,7 @@ export default class App extends React.Component {
 		super(props);
 		this.state = {
 			isLoadingComplete: false,
-			logStateOfApp: true, // dictates if the user is logged in or not
+			logStateOfApp: false, // dictates if the user is logged in or not
 		};
 	};
 
