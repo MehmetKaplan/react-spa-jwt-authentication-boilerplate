@@ -2,10 +2,11 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import { Form, Item, Label, Input, Button, Text, Picker } from 'native-base';
+import { Form, Item, Label, Input, Button, Text, Picker, DatePicker } from 'native-base';
 
 import {types, settingsScreenComponents} from '../redux-store.js';
 import config from '../config.js';
+import {date_to_str} from '../generic_library.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({
@@ -34,7 +35,7 @@ class UpdateData extends React.Component {
 			midname_value: "",
 			surname_value: "",
 			gender_id_value: "G3",
-			birthday_value: "20000101000000",
+			birthday_value: new Date(2000, 1, 1),
 			phone_value: "",
 		};
 	}
@@ -42,12 +43,12 @@ class UpdateData extends React.Component {
 	componentMainFunction(){
 		// Place main purpose of component here
 
-		alert(this.state.name_value);
-		alert(this.state.midname_value);
-		alert(this.state.surname_value);
-		alert(this.state.gender_id_value);
-		alert(this.state.birthday_value);
-		alert(this.state.phone_value);
+		alert("\nname_value: " + this.state.name_value
+			+ "\nmidname_value: " + this.state.midname_value
+			+ "\nsurname_value: " + this.state.surname_value
+			+ "\ngender_id_value: " + this.state.gender_id_value
+			+ "\nbirthday_value: " + date_to_str(this.state.birthday_value, "yyyyMMddhhmmss")
+			+ "\nphone_value: " + this.state.phone_value);
 		this.props.setAppState(settingsScreenComponents.SETTINGS);
 	}
 
@@ -108,13 +109,30 @@ class UpdateData extends React.Component {
 				note
 				mode="dropdown"
 				selectedValue={this.state.gender_id_value}
-				onValueChange={(value) => {this.setState.state({gender_id_value: value})}}
+				onValueChange={(value) => {this.setState({gender_id_value: value})}}
 			>
 				<Picker.Item label={config.uiTexts.UpdateData.genders.male  } value="G1" />
 				<Picker.Item label={config.uiTexts.UpdateData.genders.female} value="G2" />
 				<Picker.Item label={config.uiTexts.UpdateData.genders.other } value="G3" />
 			</Picker>
 
+			<Text></Text>
+			<Text></Text>
+			<DatePicker
+				defaultDate={new Date(2000, 1, 1)}
+				minimumDate={new Date(1950, 1, 1)}
+				maximumDate={new Date()}
+				locale={"en"}
+				timeZoneOffsetInMinutes={undefined}
+				modalTransparent={false}
+				animationType={"fade"}
+				androidMode={"default"}
+				placeHolderText={config.uiTexts.UpdateData.birthday }
+				textStyle={{ color: "green" }}
+				placeHolderTextStyle={{ color: "#d3d3d3" }}
+				onDateChange={(newDate) => this.setState({ birthday_value: newDate })}
+				disabled={false}
+			/>
 
 			<Text></Text>
 			<Text></Text>
@@ -127,5 +145,3 @@ class UpdateData extends React.Component {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UpdateData);
-
-

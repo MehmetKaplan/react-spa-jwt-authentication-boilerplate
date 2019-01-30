@@ -38,7 +38,11 @@ class ChangePassword extends React.Component {
 		// Place main purpose of component here
 
 		// use this.state.newPassword_value to send the confirmation code
-		alert(this.state.newPassword_value);
+		alert(
+			"\n this.state.oldPassword_value:" + this.state.oldPassword_value
+			+ "\n this.state.newPassword_value:" + this.state.newPassword_value
+			+ "\n this.state.newPassword2_value:" + this.state.newPassword2_value
+		 );
 		this.props.setAppState(settingsScreenComponents.SETTINGS);
 	}
 	
@@ -49,11 +53,31 @@ class ChangePassword extends React.Component {
 			<Text></Text>
 			<Text></Text>
 			<Item floatingLabel>
+				<Label>{config.uiTexts.ChangePassword.oldPassword}</Label>
+				<Input 
+					secureTextEntry={true}
+					value={this.state.oldPassword_value}
+					onChangeText={(value) => {this.setState({oldPassword_value: value})}}
+				/>
+			</Item>
+			<Text></Text>
+			<Text></Text>
+			<Item floatingLabel>
 				<Label>{config.uiTexts.ChangePassword.newPassword}</Label>
 				<Input 
 					secureTextEntry={true}
 					value={this.state.newPassword_value}
 					onChangeText={(value) => {this.setState({newPassword_value: value})}}
+				/>
+			</Item>
+			<Text></Text>
+			<Text></Text>
+			<Item floatingLabel>
+				<Label>{config.uiTexts.ChangePassword.newPassword2}</Label>
+				<Input 
+					secureTextEntry={true}
+					value={this.state.newPassword2_value}
+					onChangeText={(value) => {this.setState({newPassword2_value: value})}}
 				/>
 			</Item>
 			<Text></Text>

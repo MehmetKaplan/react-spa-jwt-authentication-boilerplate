@@ -10,6 +10,8 @@ export default  {
 		},
 		ChangePassword: {
 			newPassword: "New Password",
+			newPassword2: "Repeat New Password",
+			oldPassword: "Old Password",
 			changePassword: "Change Password",
 		},
 		ChangeEmailConfirm: {
