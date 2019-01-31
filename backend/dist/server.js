@@ -27,17 +27,19 @@ function main() {
 	app.use(_bodyParser2.default.urlencoded({
 		extended: true
 	}));
+
+	var rh = new _request_handlers2.default();
 	//app.use(bodyParser.json()); // Different routes require different bodyParsers
 	// Routes & Handlers
-	app.post('/checkJWT', _request_handlers2.default.checkJWT);
-	app.post('/login', _request_handlers2.default.login);
-	app.post('/generateResetPwdToken', _request_handlers2.default.generateResetPwdToken);
-	app.post('/resetPwd', _request_handlers2.default.resetPwd);
-	app.post('/signUp', _request_handlers2.default.signUp);
-	app.post('/generateEmailOwnershipToken', _request_handlers2.default.generateEmailOwnershipToken);
-	app.post('/updateEMail', _request_handlers2.default.updateEMail);
-	app.post('/updatePassword', _request_handlers2.default.updatePassword);
-	app.post('/updateData', _request_handlers2.default.updateData);
+	app.post('/checkJWT', rh.checkJWT);
+	app.post('/login', rh.login);
+	app.post('/generateResetPwdToken', rh.generateResetPwdToken);
+	app.post('/resetPwd', rh.resetPwd);
+	app.post('/signUp', rh.signUp);
+	app.post('/generateEmailOwnershipToken', rh.generateEmailOwnershipToken);
+	app.post('/updateEMail', rh.updateEMail);
+	app.post('/updatePassword', rh.updatePassword);
+	app.post('/updateData', rh.updateData);
 	app.all('*', function (req, res) {
 		return res.redirect("/");
 	});

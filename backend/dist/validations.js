@@ -64,6 +64,30 @@ var validations = function () {
 		value: function phone(p_phone) {
 			return "OK";
 		}
+	}, {
+		key: 'checkJWT_',
+		value: function checkJWT_(p_req) {
+			return new Promise(function (resolve) {
+				var l_token_from_header = p_req.headers['x-access-token'] || p_req.headers['authorization'];
+				if (l_token_from_header.startsWith('Bearer ')) l_token_from_header = l_token_from_header.slice(7, token.length);
+				if (l_token_from_header.startsWith('JWT ')) l_token_from_header = l_token_from_header.slice(4, token.length);
+				if (l_token_from_header) {
+					jwt.verify(l_token_from_header, _config2.default.jwtSecret, function (err, decoded) {
+						if (err) {
+							resolve({});
+						} else {
+							resolve(decoded);
+						};
+					});
+				};
+			});
+		}
+	}, {
+		key: 'checkJWT',
+		value: async function checkJWT(p_req) {
+			var l_retval = await checkJWT_(p_req);
+			return l_retval;
+		}
 	}]);
 
 	return validations;

@@ -32,7 +32,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return({
-		homeScreenColorFromUp: state.homeScreenColor
+		homeScreenColorFromUp: state.homeScreenColor,
+		hostMachine: state.hostMachine,
 	});
 };
 
@@ -52,6 +53,7 @@ class HomeScreen extends React.Component {
 			if (this.props.homeScreenColorFromUp == 'red') this.props.makeblue();
 			else this.props.makered();
 		}, 1000);
+		console.log(this.props.hostMachine);
 	}
 
 	async componentWillMount() {
@@ -95,6 +97,9 @@ class HomeScreen extends React.Component {
 					</Text>
 
 					<Text style={styles.getColorText}>
+						Identified host machine is {this.props.hostMachine}.
+					</Text>
+					<Text style={styles.getColorText}>
 						Current homescreen color is {this.props.homeScreenColorFromUp}.
 					</Text>
 
@@ -115,6 +120,7 @@ class HomeScreen extends React.Component {
 					<MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
 				</View>
 			</View>
+
 		</View>;
 	}
 

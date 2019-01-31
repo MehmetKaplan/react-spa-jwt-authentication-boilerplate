@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import date from './date-and-time';
+import date from 'date-and-time';
 
 import config from './config';
 import sqls from './sqls.js';

@@ -26,27 +26,50 @@ var databaseActionMySQL = function () {
 	}
 
 	_createClass(databaseActionMySQL, [{
+		key: 'execute_select_',
+		value: function execute_select_(p_sql) {
+			var _this = this;
+
+			var p_parameters_as_array = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+			return new Promise(function (resolve) {
+				_this.connection.query(p_sql, p_parameters_as_array, function (err, rows, fields) {
+					if (err) throw err;
+					resolve(rows);
+				});
+			});
+		}
+	}, {
 		key: 'execute_select',
-		value: function execute_select(p_sql) {
+		value: async function execute_select(p_sql) {
 			var p_parameters_as_array = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
 			this.connection.connect();
-			var l_retval_as_array_of_hashes = this.connection.query(p_sql, p_parameters_as_array, function (err, rows, fields) {
-				if (l_err) throw l_err;
-				return l_rows;
-			});
+			var l_retval_as_array_of_hashes = await execute_select_(p_sql, p_parameters_as_array);
 			this.connection.end();
 			return l_retval_as_array_of_hashes;
 		}
 	}, {
+		key: 'execute_updatedeleteinsert_',
+		value: function execute_updatedeleteinsert_(p_sql) {
+			var _this2 = this;
+
+			var p_parameters_as_array = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+			return new Promise(function (resolve) {
+				_this2.connection.query(p_sql, p_parameters_as_array, function (err, rows, fields) {
+					if (err) throw err;
+					resolve(rows);
+				});
+			});
+		}
+	}, {
 		key: 'execute_updatedeleteinsert',
-		value: function execute_updatedeleteinsert(p_sql) {
+		value: async function execute_updatedeleteinsert(p_sql) {
 			var p_parameters_as_array = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
 			this.connection.connect();
-			var l_retval_as_array_of_hashes = this.connection.query(p_sql, function (err, rows, fields) {
-				if (l_err) throw l_err;
-			});
+			var l_retval_as_array_of_hashes = await execute_select_(p_sql, p_parameters_as_array);
 			this.connection.end();
 			return "OK";
 		}

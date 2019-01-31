@@ -13,17 +13,19 @@ function main () {
 	app.use(bodyParser.urlencoded({
 		extended: true
 	}));
+
+	let rh = new requestHandlers();
 	//app.use(bodyParser.json()); // Different routes require different bodyParsers
 	// Routes & Handlers
-	app.post('/checkJWT', requestHandlers.checkJWT);
-	app.post('/login', requestHandlers.login);
-	app.post('/generateResetPwdToken', requestHandlers.generateResetPwdToken);
-	app.post('/resetPwd', requestHandlers.resetPwd);
-	app.post('/signUp', requestHandlers.signUp);
-	app.post('/generateEmailOwnershipToken', requestHandlers.generateEmailOwnershipToken);
-	app.post('/updateEMail', requestHandlers.updateEMail);
-	app.post('/updatePassword', requestHandlers.updatePassword);
-	app.post('/updateData', requestHandlers.updateData);
+	app.post('/checkJWT', rh.checkJWT);
+	app.post('/login', rh.login);
+	app.post('/generateResetPwdToken', rh.generateResetPwdToken);
+	app.post('/resetPwd', rh.resetPwd);
+	app.post('/signUp', rh.signUp);
+	app.post('/generateEmailOwnershipToken', rh.generateEmailOwnershipToken);
+	app.post('/updateEMail', rh.updateEMail);
+	app.post('/updatePassword', rh.updatePassword);
+	app.post('/updateData', rh.updateData);
 	app.all('*', (req, res) => res.redirect("/"));
 	app.listen(port, () => console.log(`Server is listening on port: ${port}\nStart time: ${getUTCTimeAsString()}`));
 }

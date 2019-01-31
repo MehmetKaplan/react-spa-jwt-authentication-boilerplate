@@ -14,7 +14,7 @@ var _bcrypt = require('bcrypt');
 
 var _bcrypt2 = _interopRequireDefault(_bcrypt);
 
-var _dateAndTime = require('./date-and-time');
+var _dateAndTime = require('date-and-time');
 
 var _dateAndTime2 = _interopRequireDefault(_dateAndTime);
 
@@ -82,7 +82,7 @@ var requestHandlers = function () {
 	}, {
 		key: 'login',
 		value: function login(p_req, p_res) {
-			var l_email = p_req.body.email;
+			var l_email = p_req.body.email.toLowerCase();;
 			var l_password = p_req.body.password;
 			var l_params = [];
 			l_params << l_email;
@@ -152,7 +152,7 @@ var requestHandlers = function () {
 						if (l_saved_token_rows.length < 1) {
 							return p_res.json(_config2.default.signalsFrontendBackend.pwdResetError);
 						};
-						var l_saved_token_from_user = p_req.body.email;
+						var l_saved_token_from_user = p_req.body.saved_token;
 						if (l_saved_token_rows[0]['ResetPasswordSecondToken'] != l_saved_token_from_user) {
 							(0, _lock_handler.incrementLockCount)(p_req.ip, _l_email);
 							return p_res.json(_config2.default.signalsFrontendBackend.pwdResetError);
@@ -161,8 +161,12 @@ var requestHandlers = function () {
 							(0, _lock_handler.incrementLockCount)(p_req.ip, _l_email);
 							return p_res.json(_config2.default.signalsFrontendBackend.pwdResetTokenExpired);
 						};
-						// Now password can be updated
 						var l_plain_password = p_req.body.password;
+						if (_validations2.default.password(l_plain_password) != "OK") {
+							(0, _lock_handler.incrementLockCount)(p_req.ip, _l_email);
+							return p_res.json(_config2.default.signalsFrontendBackend.passwordStrengthTestFailed);
+						};
+						// Now password can be updated
 						_bcrypt2.default.hash(l_plain_password, _config2.default.bcryptSaltRounds, function (err, hash) {
 							// Store hash in your password DB.
 							var l_params = [];
@@ -277,31 +281,52 @@ var requestHandlers = function () {
 
 			var l_email = p_req.body.email.toLowerCase();
 			var l_email_token = p_req.body.emailtoken;
-
 			if (_validations2.default.email(l_email, l_email_token) != "OK") {
 				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.signUpInvalidEmail);
 			};
 
+			var l_oldemail = "";
+			var l_jwt_payload = _validations2.default.checkJWT(p_req);
+			if (nvl(l_jwt_payload["email"], "x") == "x") {
+				(0, _lock_handler.incrementLockCount)(p_req.ip);
+				return p_res.json(_config2.default.signalsFrontendBackend.tokenNotValid);
+			} else {
+				l_oldemail = l_jwt_payload["email"];
+			};
+
 			var l_params = [];
 			l_params << l_email;
+			l_params << l_oldemail;
 			_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateEMail, l_params);
 			if (l_result != "OK") {
 				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.signUpGenericError);
 			};
-			return p_res.json(_config2.default.signalsFrontendBackend.eMailUpdated);
+
+			var l_retval_as_json = _config2.default.signalsFrontendBackend.eMailUpdated;
+			l_retval_as_json['JWT'] = _jsonwebtoken2.default.sign({ email: l_email }, _config2.default.jwtSecret, { expiresIn: _config2.default.jwtExpire });
+			return p_res.json(l_retval_as_json);
 		}
 	}, {
 		key: 'updatePassword',
 		value: function updatePassword(p_req, p_res) {
 			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
-			var l_email = p_req.body.email.toLowerCase();
 			var l_password = p_req.body.password;
 			if (_validations2.default.password(l_password) != "OK") {
 				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.passwordStrengthTestFailed);
 			};
+
+			var l_email = "";
+			var l_jwt_payload = _validations2.default.checkJWT(p_req);
+			if (nvl(l_jwt_payload["email"], "x") == "x") {
+				(0, _lock_handler.incrementLockCount)(p_req.ip);
+				return p_res.json(_config2.default.signalsFrontendBackend.tokenNotValid);
+			} else {
+				l_email = l_jwt_payload["email"];
+			};
+
 			_bcrypt2.default.hash(l_password, _config2.default.bcryptSaltRounds, function (err, hash) {
 				// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
 				var l_params = [];
@@ -322,7 +347,6 @@ var requestHandlers = function () {
 		value: function updateData(p_req, p_res) {
 			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
 
-			var l_email = p_req.body.email.toLowerCase();
 			var l_gender = p_req.body.gender;
 			var l_birthday = p_req.body.birthday;
 			var l_phone = p_req.body.phone;
@@ -342,6 +366,16 @@ var requestHandlers = function () {
 				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
 				return p_res.json(_config2.default.signalsFrontendBackend.phoneValdiationFailed);
 			};
+
+			var l_email = "";
+			var l_jwt_payload = _validations2.default.checkJWT(p_req);
+			if (nvl(l_jwt_payload["email"], "x") == "x") {
+				(0, _lock_handler.incrementLockCount)(p_req.ip);
+				return p_res.json(_config2.default.signalsFrontendBackend.tokenNotValid);
+			} else {
+				l_email = l_jwt_payload["email"];
+			};
+
 			var l_params = [];
 			l_params << l_name;
 			l_params << l_midname;
