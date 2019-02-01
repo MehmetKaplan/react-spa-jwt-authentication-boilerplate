@@ -1,4 +1,5 @@
 export default  {
+	mainServerBaseURL: "http" + "://" + "172.20.10.12" + ":" + "8000",
 	uiTexts: {
 		Common: {
 			back: "Back",

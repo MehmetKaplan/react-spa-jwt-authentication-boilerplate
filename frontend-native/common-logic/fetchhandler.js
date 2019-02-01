@@ -7,7 +7,7 @@ export function fetch_add_params (p_params_as_json){
 }
 
 
-export function fetch_data_generic(p_function_to_execute_with_result_json, p_uri, p_method, p_params_as_json, p_cross_or_same_origin, p_origin){
+export function fetch_data_v1(p_function_to_execute_with_result_json, p_uri, p_method, p_params_as_json, p_cross_or_same_origin, p_origin){
 	if (['GET', 'POST', 'PUT'].indexOf(p_method.toUpperCase()) < 0) {
 		throw "Unknown method: " + p_method + ". Allowed are GET, POST, PUT.";
 	};
@@ -52,6 +52,29 @@ export function fetch_data_generic(p_function_to_execute_with_result_json, p_uri
 				});
 }
 
+export function fetch_data_v2(
+		p_method, 
+		p_uri, 
+		p_extra_headers = {}, 
+		p_body = {},
+		p_fnc = ()=>{}
+	) {
+
+	let l_uri = p_uri;
+	let l_headers = Object.assign({
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+	}, p_extra_headers);
+	let l_init = {
+		method: p_method,
+		headers: l_headers,
+	}
+	if (p_method == "POST") l_init.body = JSON.stringify(p_body);
+	else l_uri += "?" + fetch_add_params(p_params_as_json);
+	fetch(l_uri, l_init)
+		.then((response) => response.json())
+		.then((responseJson) => p_fnc(responseJson));
+}
 
 //module.exports = fetch_data_generic;
 

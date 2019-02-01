@@ -24,23 +24,42 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function main() {
 	var app = (0, _express2.default)();
 	var port = process.env.PORT || _config2.default.defaultPort;
-	app.use(_bodyParser2.default.urlencoded({
-		extended: true
-	}));
+	//app.use(bodyParser.urlencoded({extended: true}));
+	app.use(_bodyParser2.default.json());
 
 	var rh = new _request_handlers2.default();
 	//app.use(bodyParser.json()); // Different routes require different bodyParsers
 	// Routes & Handlers
-	app.all('/test', rh.testConnection);
-	app.post('/checkJWT', rh.checkJWT);
-	app.post('/login', rh.login);
-	app.post('/generateResetPwdToken', rh.generateResetPwdToken);
-	app.post('/resetPwd', rh.resetPwd);
-	app.post('/signUp', rh.signUp);
-	app.post('/generateEmailOwnershipToken', rh.generateEmailOwnershipToken);
-	app.post('/updateEMail', rh.updateEMail);
-	app.post('/updatePassword', rh.updatePassword);
-	app.post('/updateData', rh.updateData);
+	app.all('/test', function (req, res) {
+		return rh.testConnection(req, res);
+	});
+	app.post('/checkJWT', function (req, res) {
+		return rh.checkJWT(req, res);
+	});
+	app.post('/login', function (req, res) {
+		return rh.login(req, res);
+	});
+	app.post('/generateResetPwdToken', function (req, res) {
+		return rh.generateResetPwdToken(req, res);
+	});
+	app.post('/resetPwd', function (req, res) {
+		return rh.resetPwd(req, res);
+	});
+	app.post('/signUp', function (req, res) {
+		return rh.signUp(req, res);
+	});
+	app.post('/generateEmailOwnershipToken', function (req, res) {
+		return rh.generateEmailOwnershipToken(req, res);
+	});
+	app.post('/updateEMail', function (req, res) {
+		return rh.updateEMail(req, res);
+	});
+	app.post('/updatePassword', function (req, res) {
+		return rh.updatePassword(req, res);
+	});
+	app.post('/updateData', function (req, res) {
+		return rh.updateData(req, res);
+	});
 	app.all('/', function (req, res) {
 		return res.redirect("/test");
 	});

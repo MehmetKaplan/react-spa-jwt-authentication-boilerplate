@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt, { compareSync } from 'bcrypt';
 import date from 'date-and-time';
 
 import config from './config';
@@ -20,6 +20,7 @@ export default class requestHandlers {
 	testConnection(p_req, p_res){
 		let l_retval = nvl(p_req.body, {});
 		l_retval['result'] = "OK";
+		l_retval['handler'] = "testConnection";
 		return p_res.json(l_retval);
 	}
 

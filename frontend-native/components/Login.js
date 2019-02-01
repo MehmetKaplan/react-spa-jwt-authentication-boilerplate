@@ -6,7 +6,7 @@ import { Form, Item, Label, Input, Button, Text } from 'native-base';
 
 import {types, loginComponents} from '../redux-store.js';
 import config from '../common-logic/config.js';
-import {fetch_add_params, fetch_data_generic} from '../common-logic/fetchhandler.js';
+import {fetch_data_v2} from '../common-logic/fetchhandler.js';
 
 
 function mapDispatchToProps(dispatch) {
@@ -39,12 +39,17 @@ class Login extends React.Component {
 		// Place main purpose of component here
 
 		// use this.state.newPassword_value to send the confirmation code
-		let l_params_as_json = {};
-		let l_uri = "http://172.20.10.12:8000";
-		let l_function_to_execute_with_result_json = function (p_call_result_as_json2) {
-			alert(JSON.stringify(p_call_result_as_json2));
-		}.bind(this);
-		fetch_data_generic(l_function_to_execute_with_result_json, l_uri, 'GET', l_params_as_json, 'CROSS', '');
+			let l_method = "POST";
+			let l_uri = config.mainServerBaseURL + "/login";
+			let l_extra_headers = {};
+			let l_body = {
+				email: this.state.email_value,
+				password: this.state.password_value,
+			};
+			let l_fnc =  ((p_resp) => {
+				alert(JSON.stringify(p_resp));
+			}).bind(this);
+		fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
 
 		//this.props.setAppState(loginComponents.LOGIN);
 	}

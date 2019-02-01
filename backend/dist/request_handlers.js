@@ -56,6 +56,7 @@ var requestHandlers = function () {
 		value: function testConnection(p_req, p_res) {
 			var l_retval = (0, _generic_library.nvl)(p_req.body, {});
 			l_retval['result'] = "OK";
+			l_retval['handler'] = "testConnection";
 			return p_res.json(l_retval);
 		}
 	}, {
