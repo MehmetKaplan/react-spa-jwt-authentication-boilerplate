@@ -11,7 +11,7 @@ import ChangePassword from '../components/ChangePassword.js';
 import UpdateData from '../components/UpdateData.js';
 import ChangeEmailConfirm from '../components/ChangeEmailConfirm.js';
 import ChangeEmail from '../components/ChangeEmail.js';
-import config from '../config.js';
+import config from '../common-logic/config.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({

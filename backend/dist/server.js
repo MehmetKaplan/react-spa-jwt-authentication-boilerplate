@@ -40,6 +40,10 @@ function main() {
 	app.post('/updateEMail', rh.updateEMail);
 	app.post('/updatePassword', rh.updatePassword);
 	app.post('/updateData', rh.updateData);
+	app.get('/', function (req, res) {
+		res.set('Content-Type', 'text/html');
+		res.send(new Buffer(req));
+	});
 	app.all('*', function (req, res) {
 		return res.redirect("/");
 	});

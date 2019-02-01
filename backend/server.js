@@ -26,6 +26,10 @@ function main () {
 	app.post('/updateEMail', rh.updateEMail);
 	app.post('/updatePassword', rh.updatePassword);
 	app.post('/updateData', rh.updateData);
+	app.get('/', (req, res) => {
+		res.set('Content-Type', 'text/html');
+		res.send(new Buffer(req));
+	});
 	app.all('*', (req, res) => res.redirect("/"));
 	app.listen(port, () => console.log(`Server is listening on port: ${port}\nStart time: ${getUTCTimeAsString()}`));
 }

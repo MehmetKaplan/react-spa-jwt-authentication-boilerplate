@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import { Form, Item, Label, Input, Button, Text, Picker, DatePicker } from 'native-base';
 
 import {types, settingsScreenComponents} from '../redux-store.js';
-import config from '../config.js';
-import {date_to_str} from '../generic_library.js';
+import config from '../common-logic/config.js';
+import {date_to_str} from '../common-logic/generic_library.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({

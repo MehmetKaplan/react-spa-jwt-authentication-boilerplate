@@ -73,7 +73,7 @@ export const initialState = {
 	activeLoginComponent: loginComponents.LOGIN,
 	activeSettingsScreenComponent: settingsScreenComponents.SETTINGS,
 	activeHomeScreenComponent: null,
-	isLogged: true,
+	isLogged: false,
 	homeScreenColor: 'red',
 	hostMachine: "default value that should have been changed",
 };

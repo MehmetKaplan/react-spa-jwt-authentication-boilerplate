@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { Form, Item, Label, Input, Button, Text } from 'native-base';
 
 import {types, loginComponents} from '../redux-store.js';
-import config from '../config.js';
+import config from '../common-logic/config.js';
+import {fetch_add_params, fetch_data_generic} from '../common-logic/fetchhandler.js';
+
 
 function mapDispatchToProps(dispatch) {
 	return({
@@ -40,9 +42,17 @@ class Login extends React.Component {
 		alert(
 			"\n this.state.email_value:" + this.state.email_value
 			+ "\n this.state.password_value:" + this.state.password_value
-		 );
-		this.props.setAppState(loginComponents.LOGIN);
+		);
+		let l_params_as_json = {};
+		let l_uri = "http://172.20.10.12:8000";
+		let l_function_to_execute_with_result_json = function (p_call_result_as_json2) {
+			alert(p_call_result_as_json2.toString());
+		}.bind(this);
+		fetch_data_generic(l_function_to_execute_with_result_json, l_uri, 'GET', l_params_as_json, 'CROSS', '');
+
+		//this.props.setAppState(loginComponents.LOGIN);
 	}
+
 
 	render() {
 		return <Form>
