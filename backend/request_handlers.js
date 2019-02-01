@@ -8,12 +8,19 @@ import {incrementLockCount, resetLockCount, checkLock} from './lock_handler.js';
 import databaseActionMySQL from './database_action_mysql.js';
 import mailer from './mailer.js';
 import validations from './validations.js';
+import {nvl} from './generic_library.js';
 
 
 export default class requestHandlers {
 
 	constructor(){
 
+	}
+
+	testConnection(p_req, p_res){
+		let l_retval = nvl(p_req.body, {});
+		l_retval['result'] = "OK";
+		return p_res.json(l_retval);
 	}
 
 	checkJWT(p_req, p_res){

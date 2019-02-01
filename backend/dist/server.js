@@ -31,6 +31,7 @@ function main() {
 	var rh = new _request_handlers2.default();
 	//app.use(bodyParser.json()); // Different routes require different bodyParsers
 	// Routes & Handlers
+	app.all('/test', rh.testConnection);
 	app.post('/checkJWT', rh.checkJWT);
 	app.post('/login', rh.login);
 	app.post('/generateResetPwdToken', rh.generateResetPwdToken);
@@ -40,9 +41,8 @@ function main() {
 	app.post('/updateEMail', rh.updateEMail);
 	app.post('/updatePassword', rh.updatePassword);
 	app.post('/updateData', rh.updateData);
-	app.get('/', function (req, res) {
-		res.set('Content-Type', 'text/html');
-		res.send(new Buffer(req));
+	app.all('/', function (req, res) {
+		return res.redirect("/test");
 	});
 	app.all('*', function (req, res) {
 		return res.redirect("/");

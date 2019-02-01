@@ -40,6 +40,8 @@ var _validations = require('./validations.js');
 
 var _validations2 = _interopRequireDefault(_validations);
 
+var _generic_library = require('./generic_library.js');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -50,6 +52,13 @@ var requestHandlers = function () {
 	}
 
 	_createClass(requestHandlers, [{
+		key: 'testConnection',
+		value: function testConnection(p_req, p_res) {
+			var l_retval = (0, _generic_library.nvl)(p_req.body, {});
+			l_retval['result'] = "OK";
+			return p_res.json(l_retval);
+		}
+	}, {
 		key: 'checkJWT',
 		value: function checkJWT(p_req, p_res) {
 			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
@@ -87,7 +96,7 @@ var requestHandlers = function () {
 			var l_params = [];
 			l_params << l_email;
 			var l_user_data = _database_action_mysql2.default.execute_select(_sqls2.default.getAllAttributesOfAUser, l_params);
-			var l_hashed_pwd_from_db = l_user_data ? nvl(l_user_data['encrypted_password'], "xx") : "xx";
+			var l_hashed_pwd_from_db = l_user_data ? (0, _generic_library.nvl)(l_user_data['encrypted_password'], "xx") : "xx";
 			//sqlt is incorporated in l_hashed_pwd_from_db so bcrypt does not need it again
 			_bcrypt2.default.compare(l_password, l_hashed_pwd_from_db, function (err, res) {
 				if (res) {
@@ -124,7 +133,7 @@ var requestHandlers = function () {
 			l_retval_as_json['JWT'] = _jsonwebtoken2.default.sign({
 				userEMail: l_user_data['email']
 			}, _config2.default.jwtSecret, { expiresIn: _config2.default.jwtExpirePasswordReset });
-			var l_email_body = _config2.default.passwordResetEMail.replace("[TAG_CODE]", l_second_token.toString()).replace("[TAG_USER]", nvl(l_user_data[0]["name"], "") + " " + (nvl(l_user_data[0]["midname"], "").length == 0 ? "" : l_user_data[0]["midname"] + " ") + nvl(l_user_data[0]["surname"], ""));
+			var l_email_body = _config2.default.passwordResetEMail.replace("[TAG_CODE]", l_second_token.toString()).replace("[TAG_USER]", (0, _generic_library.nvl)(l_user_data[0]["name"], "") + " " + ((0, _generic_library.nvl)(l_user_data[0]["midname"], "").length == 0 ? "" : l_user_data[0]["midname"] + " ") + (0, _generic_library.nvl)(l_user_data[0]["surname"], ""));
 			var l_mail_result = _mailer2.default.sendMail(_config2.default.passwordResetEMailFrom, l_email, _config2.default.passwordResetEMailSubject, "", l_email_body);
 			if (l_mail_result == "OK") return p_res.json(l_retval_as_json);else return p_res.json(_config2.default.signalsFrontendBackend.pwdResetError);
 		}
@@ -288,7 +297,7 @@ var requestHandlers = function () {
 
 			var l_oldemail = "";
 			var l_jwt_payload = _validations2.default.checkJWT(p_req);
-			if (nvl(l_jwt_payload["email"], "x") == "x") {
+			if ((0, _generic_library.nvl)(l_jwt_payload["email"], "x") == "x") {
 				(0, _lock_handler.incrementLockCount)(p_req.ip);
 				return p_res.json(_config2.default.signalsFrontendBackend.tokenNotValid);
 			} else {
@@ -320,7 +329,7 @@ var requestHandlers = function () {
 
 			var l_email = "";
 			var l_jwt_payload = _validations2.default.checkJWT(p_req);
-			if (nvl(l_jwt_payload["email"], "x") == "x") {
+			if ((0, _generic_library.nvl)(l_jwt_payload["email"], "x") == "x") {
 				(0, _lock_handler.incrementLockCount)(p_req.ip);
 				return p_res.json(_config2.default.signalsFrontendBackend.tokenNotValid);
 			} else {
@@ -369,7 +378,7 @@ var requestHandlers = function () {
 
 			var l_email = "";
 			var l_jwt_payload = _validations2.default.checkJWT(p_req);
-			if (nvl(l_jwt_payload["email"], "x") == "x") {
+			if ((0, _generic_library.nvl)(l_jwt_payload["email"], "x") == "x") {
 				(0, _lock_handler.incrementLockCount)(p_req.ip);
 				return p_res.json(_config2.default.signalsFrontendBackend.tokenNotValid);
 			} else {

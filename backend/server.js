@@ -17,6 +17,7 @@ function main () {
 	let rh = new requestHandlers();
 	//app.use(bodyParser.json()); // Different routes require different bodyParsers
 	// Routes & Handlers
+	app.all('/test', rh.testConnection);
 	app.post('/checkJWT', rh.checkJWT);
 	app.post('/login', rh.login);
 	app.post('/generateResetPwdToken', rh.generateResetPwdToken);
@@ -26,10 +27,7 @@ function main () {
 	app.post('/updateEMail', rh.updateEMail);
 	app.post('/updatePassword', rh.updatePassword);
 	app.post('/updateData', rh.updateData);
-	app.get('/', (req, res) => {
-		res.set('Content-Type', 'text/html');
-		res.send(new Buffer(req));
-	});
+	app.all('/', (req, res) => res.redirect("/test"));
 	app.all('*', (req, res) => res.redirect("/"));
 	app.listen(port, () => console.log(`Server is listening on port: ${port}\nStart time: ${getUTCTimeAsString()}`));
 }

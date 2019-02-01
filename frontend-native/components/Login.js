@@ -39,14 +39,10 @@ class Login extends React.Component {
 		// Place main purpose of component here
 
 		// use this.state.newPassword_value to send the confirmation code
-		alert(
-			"\n this.state.email_value:" + this.state.email_value
-			+ "\n this.state.password_value:" + this.state.password_value
-		);
 		let l_params_as_json = {};
 		let l_uri = "http://172.20.10.12:8000";
 		let l_function_to_execute_with_result_json = function (p_call_result_as_json2) {
-			alert(p_call_result_as_json2.toString());
+			alert(JSON.stringify(p_call_result_as_json2));
 		}.bind(this);
 		fetch_data_generic(l_function_to_execute_with_result_json, l_uri, 'GET', l_params_as_json, 'CROSS', '');
 
