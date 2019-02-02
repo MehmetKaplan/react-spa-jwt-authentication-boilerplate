@@ -95,7 +95,7 @@ var requestHandlers = function () {
 			var l_email = p_req.body.email.toLowerCase();;
 			var l_password = p_req.body.password;
 			var l_params = [];
-			l_params << l_email;
+			l_params.push(l_email);
 			var l_user_data = _database_action_mysql2.default.execute_select(_sqls2.default.getAllAttributesOfAUser, l_params);
 			var l_hashed_pwd_from_db = l_user_data ? (0, _generic_library.nvl)(l_user_data['encrypted_password'], "xx") : "xx";
 			//sqlt is incorporated in l_hashed_pwd_from_db so bcrypt does not need it again
@@ -117,7 +117,7 @@ var requestHandlers = function () {
 			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
 			var l_email = p_req.body.email;
 			var l_params = [];
-			l_params << l_email;
+			l_params.push(l_email);
 			var l_user_data = _database_action_mysql2.default.execute_select(_sqls2.default.getAllAttributesOfAUser, l_params);
 			if (l_user_data.length < 1) {
 				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
@@ -127,9 +127,9 @@ var requestHandlers = function () {
 			var l_second_token = Math.ceil(Math.random() * 1000000000).toString();
 			var l_now_str = _dateAndTime2.default.format(new Date(), 'YYYYMMDDHHmmss');
 			var l_params2 = [];
-			l_params2 << l_second_token;
-			l_params2 << l_now_str;
-			l_params2 << l_email;
+			l_params2.push(l_second_token);
+			l_params2.push(l_now_str);
+			l_params2.push(l_email);
 			_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateResetPasswordSecondToken, l_params2);
 			l_retval_as_json['JWT'] = _jsonwebtoken2.default.sign({
 				userEMail: l_user_data['email']
@@ -180,8 +180,8 @@ var requestHandlers = function () {
 						_bcrypt2.default.hash(l_plain_password, _config2.default.bcryptSaltRounds, function (err, hash) {
 							// Store hash in your password DB.
 							var l_params = [];
-							l_params << _l_email;
-							l_params << hash;
+							l_params.push(_l_email);
+							l_params.push(hash);
 							var l_update_result = _database_action_mysql2.default.execute_updatedeleteinsert(updateEncryptedPassword, l_params);
 							if (l_update_result == "OK") {
 								(0, _lock_handler.resetLockCount)(p_req.ip);
@@ -242,14 +242,14 @@ var requestHandlers = function () {
 			_bcrypt2.default.hash(l_password, _config2.default.bcryptSaltRounds, function (err, hash) {
 				// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
 				var l_params = [];
-				l_params << l_email;
-				l_params << hash;
-				l_params << l_name;
-				l_params << l_midname;
-				l_params << l_surname;
-				l_params << l_gender;
-				l_params << l_birthday;
-				l_params << l_phone;
+				l_params.push(l_email);
+				l_params.push(hash);
+				l_params.push(l_name);
+				l_params.push(l_midname);
+				l_params.push(l_surname);
+				l_params.push(l_gender);
+				l_params.push(l_birthday);
+				l_params.push(l_phone);
 				var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateResetPasswordSecondToken, l_params);
 				if (l_result == "OK") {
 					(0, _lock_handler.resetLockCount)(p_req.ip);
@@ -269,10 +269,10 @@ var requestHandlers = function () {
 			if ((0, _lock_handler.checkLock)() == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
 			(0, _lock_handler.incrementLockCount)(p_req.ip);
 			var l_params = [];
-			l_params << l_email;
+			l_params.push(l_email);
 			_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.emailValidationTokenClear, l_params);
 			var l_token = Math.ceil(Math.random() * 1000000000).toString();
-			l_params << l_token;
+			l_params.push(l_token);
 			var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.emailValidationTokenSet, l_params);
 			if (l_result != "OK") {
 				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
@@ -306,8 +306,8 @@ var requestHandlers = function () {
 			};
 
 			var l_params = [];
-			l_params << l_email;
-			l_params << l_oldemail;
+			l_params.push(l_email);
+			l_params.push(l_oldemail);
 			_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateEMail, l_params);
 			if (l_result != "OK") {
 				(0, _lock_handler.incrementLockCount)(p_req.ip, l_email);
@@ -340,8 +340,8 @@ var requestHandlers = function () {
 			_bcrypt2.default.hash(l_password, _config2.default.bcryptSaltRounds, function (err, hash) {
 				// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
 				var l_params = [];
-				l_params << hash;
-				l_params << l_email;
+				l_params.push(hash);
+				l_params.push(l_email);
 				var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updatePassword, l_params);
 				if (l_result == "OK") {
 					(0, _lock_handler.resetLockCount)(p_req.ip, l_email);
@@ -387,13 +387,13 @@ var requestHandlers = function () {
 			};
 
 			var l_params = [];
-			l_params << l_name;
-			l_params << l_midname;
-			l_params << l_surname;
-			l_params << l_gender;
-			l_params << l_birthday;
-			l_params << l_phone;
-			l_params << l_email;
+			l_params.push(l_name);
+			l_params.push(l_midname);
+			l_params.push(l_surname);
+			l_params.push(l_gender);
+			l_params.push(l_birthday);
+			l_params.push(l_phone);
+			l_params.push(l_email);
 			var l_result = _database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.updateData, l_params);
 			if (l_result == "OK") {
 				(0, _lock_handler.resetLockCount)(p_req.ip, l_email);

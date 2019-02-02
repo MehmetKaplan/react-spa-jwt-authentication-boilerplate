@@ -59,7 +59,7 @@ export default class requestHandlers {
 		let l_email = p_req.body.email.toLowerCase();;
 		let l_password = p_req.body.password;
 		let l_params = [];
-		l_params << l_email;
+		l_params.push(l_email);
 		let l_user_data = databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
 		let l_hashed_pwd_from_db = l_user_data ? nvl(l_user_data['encrypted_password'], "xx") : "xx";
 		//sqlt is incorporated in l_hashed_pwd_from_db so bcrypt does not need it again
@@ -85,7 +85,7 @@ export default class requestHandlers {
 		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		let l_email = p_req.body.email;
 		let l_params = [];
-		l_params << l_email;
+		l_params.push(l_email);
 		let l_user_data = databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
 		if (l_user_data.length < 1) {
 			incrementLockCount(p_req.ip, l_email);
@@ -95,9 +95,9 @@ export default class requestHandlers {
 		let l_second_token = Math.ceil(Math.random() * 1000000000).toString();
 		let l_now_str = date.format(new Date(), 'YYYYMMDDHHmmss');
 		let l_params2 = [];
-		l_params2 << l_second_token;
-		l_params2 << l_now_str;
-		l_params2 << l_email;
+		l_params2.push(l_second_token);
+		l_params2.push(l_now_str);
+		l_params2.push(l_email);
 		databaseActionMySQL.execute_updatedeleteinsert(sqls.updateResetPasswordSecondToken, l_params2);
 		l_retval_as_json['JWT'] = jwt.sign(
 			{
@@ -162,8 +162,8 @@ export default class requestHandlers {
 					bcrypt.hash(l_plain_password, config.bcryptSaltRounds, function(err, hash) {
 						// Store hash in your password DB.
 						let l_params = [];
-						l_params << l_email;
-						l_params << hash;
+						l_params.push(l_email);
+						l_params.push(hash);
 						let l_update_result = databaseActionMySQL.execute_updatedeleteinsert(updateEncryptedPassword, l_params);
 						if (l_update_result == "OK") {
 							resetLockCount(p_req.ip);
@@ -230,14 +230,14 @@ export default class requestHandlers {
 		bcrypt.hash(l_password, config.bcryptSaltRounds, function(err, hash) {
 			// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
 			let l_params = [];
-			l_params << l_email;
-			l_params << hash;
-			l_params << l_name;
-			l_params << l_midname;
-			l_params << l_surname;
-			l_params << l_gender;
-			l_params << l_birthday;
-			l_params << l_phone;
+			l_params.push(l_email);
+			l_params.push(hash);
+			l_params.push(l_name);
+			l_params.push(l_midname);
+			l_params.push(l_surname);
+			l_params.push(l_gender);
+			l_params.push(l_birthday);
+			l_params.push(l_phone);
 			let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updateResetPasswordSecondToken, l_params);
 			if (l_result == "OK") {
 				resetLockCount(p_req.ip);
@@ -261,10 +261,10 @@ export default class requestHandlers {
 		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		incrementLockCount(p_req.ip);
 		let l_params = [];
-		l_params << l_email;
+		l_params.push(l_email);
 		databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenClear, l_params);
 		let l_token = Math.ceil(Math.random() * 1000000000).toString();
-		l_params << l_token;
+		l_params.push(l_token);
 		let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenSet, l_params);
 		if (l_result != "OK") {
 			incrementLockCount(p_req.ip, l_email);
@@ -305,8 +305,8 @@ export default class requestHandlers {
 		};
 
 		let l_params = [];
-		l_params << l_email;
-		l_params << l_oldemail;
+		l_params.push(l_email);
+		l_params.push(l_oldemail);
 		databaseActionMySQL.execute_updatedeleteinsert(sqls.updateEMail, l_params);
 		if (l_result != "OK") {
 			incrementLockCount(p_req.ip, l_email);
@@ -344,8 +344,8 @@ export default class requestHandlers {
 		bcrypt.hash(l_password, config.bcryptSaltRounds, function(err, hash) {
 			// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
 			let l_params = [];
-			l_params << hash;
-			l_params << l_email;
+			l_params.push(hash);
+			l_params.push(l_email);
 			let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updatePassword, l_params);
 			if (l_result == "OK") {
 				resetLockCount(p_req.ip, l_email);
@@ -392,13 +392,13 @@ export default class requestHandlers {
 		};
 
 		let l_params = [];
-		l_params << l_name;
-		l_params << l_midname;
-		l_params << l_surname;
-		l_params << l_gender;
-		l_params << l_birthday;
-		l_params << l_phone;
-		l_params << l_email;
+		l_params.push(l_name);
+		l_params.push(l_midname);
+		l_params.push(l_surname);
+		l_params.push(l_gender);
+		l_params.push(l_birthday);
+		l_params.push(l_phone);
+		l_params.push(l_email);
 		let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updateData, l_params);
 		if (l_result == "OK") {
 			resetLockCount(p_req.ip, l_email);

@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log,./yarn.lock,.npmrc,./database_scripts --copy-files --presets=es2015",
-	 "start": "npm run build && node dist/server.js",
-	 "start-dev": "npx nodemon --ext js --ignore ./dist --exec yarn start"
+	 "start-prod": "npm run build && node dist/server.js",
+	 "start": "npx nodemon --ext js --ignore ./dist --exec yarn start-prod"
   },
   "keywords": [
     "JWT",

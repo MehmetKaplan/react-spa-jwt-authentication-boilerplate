@@ -25,11 +25,19 @@ function incrementLockCount() {
 	var p_ip = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	var p_user = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
+
 	// increment lock count
 	var incrementLockCount_ = function incrementLockCount_(p_key, p_select_sql, p_update_sql, p_insert_sql) {
 		var l_params = [];
-		l_params << p_key;
+		l_params.push(p_key);
+		//deleteme
+		console.log("The ip info: [" + p_ip + "]");
+		console.log("The user info: [" + p_user + "]");
+		console.log("Current execution for: [" + p_key + "]");
+		console.log("Current select: [" + p_select_sql + "]");
+		console.log("Current params: " + JSON.stringify(l_params));
 		var l_prev_attempt_data = _database_action_mysql2.default.execute_select(p_select_sql, l_params);
+		console.log("Select result: " + JSON.stringify(l_prev_attempt_data));
 		if (l_prev_attempt_data.length > 0) return _database_action_mysql2.default.execute_updatedeleteinsert(p_update_sql, l_params);else return _database_action_mysql2.default.execute_updatedeleteinsert(p_insert_sql, l_params);
 	};
 	if ((0, _generic_library.nvl)(p_ip, "x") != "x") incrementLockCount_(p_ip, _sqls2.default.lockIPSelect, _sqls2.default.lockIPUpdate, _sqls2.default.lockIPInsert);
@@ -43,7 +51,7 @@ function resetLockCount() {
 	//clear lock-time in DB
 	var resetLockCount_ = function resetLockCount_(p_key, p_update_sql) {
 		var l_params = [];
-		l_params << p_key;
+		l_params.push(p_key);
 		_database_action_mysql2.default.execute_updatedeleteinsert(p_update_sql, l_params);
 	};
 	if ((0, _generic_library.nvl)(p_ip, "x") != "x") resetLockCount_(p_ip, _sqls2.default.lockIPReset);
@@ -57,7 +65,7 @@ function checkLock() {
 	var l_locked = false;
 	var checkLock_ = function checkLock_(p_key, p_select_sql) {
 		var l_params = [];
-		l_params << p_key;
+		l_params.push(p_key);
 		var l_prev_attempt_data = _database_action_mysql2.default.execute_select(p_select_sql, l_params);
 		if (l_prev_attempt_data.length > 0) {
 			var l_now = Number(date.format(new Date(), 'YYYYMMDDHHmmss'));
@@ -82,7 +90,7 @@ function checkLock() {
 function checkIPBasedFrequentUserGeneration(p_ip) {
 	var l_locked = false;
 	var l_params = [];
-	l_params << p_ip;
+	l_params.push(p_ip);
 	var l_prev_attempt_data = _database_action_mysql2.default.execute_select(_sqls2.default.checkIPBasedFrequentUserGeneration, l_params);
 	if (l_prev_attempt_data.length > 0) {
 		var l_now = Number(date.format(new Date(), 'YYYYMMDDHHmmss'));
@@ -94,7 +102,7 @@ function checkIPBasedFrequentUserGeneration(p_ip) {
 
 function modifyIPBasedUserGenerationTime(p_ip) {
 	var l_params = [];
-	l_params << p_ip;
+	l_params.push(p_ip);
 	try {
 		_database_action_mysql2.default.execute_updatedeleteinsert(_sqls2.default.ipBasedNewUserSignupInsert, l_params);
 	} catch (err) {
