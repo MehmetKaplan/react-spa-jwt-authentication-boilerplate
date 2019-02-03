@@ -21,13 +21,13 @@ var _sqls2 = _interopRequireDefault(_sqls);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function incrementLockCount() {
+async function incrementLockCount() {
 	var p_ip = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	var p_user = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
 
 	// increment lock count
-	var incrementLockCount_ = function incrementLockCount_(p_key, p_select_sql, p_update_sql, p_insert_sql) {
+	var incrementLockCount_ = async function incrementLockCount_(p_key, p_select_sql, p_update_sql, p_insert_sql) {
 		var l_params = [];
 		l_params.push(p_key);
 		//deleteme
@@ -36,7 +36,8 @@ function incrementLockCount() {
 		console.log("Current execution for: [" + p_key + "]");
 		console.log("Current select: [" + p_select_sql + "]");
 		console.log("Current params: " + JSON.stringify(l_params));
-		var l_prev_attempt_data = _database_action_mysql2.default.execute_select(p_select_sql, l_params);
+		var l_prev_attempt_data = void 0;
+		l_prev_attempt_data = await _database_action_mysql2.default.execute_select(p_select_sql, l_params);
 		console.log("Select result: " + JSON.stringify(l_prev_attempt_data));
 		if (l_prev_attempt_data.length > 0) return _database_action_mysql2.default.execute_updatedeleteinsert(p_update_sql, l_params);else return _database_action_mysql2.default.execute_updatedeleteinsert(p_insert_sql, l_params);
 	};

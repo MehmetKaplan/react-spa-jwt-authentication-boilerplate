@@ -2,10 +2,10 @@ import databaseActionMySQL from './database_action_mysql.js';
 import {nvl} from './generic_library.js';
 import sqls from './sqls.js';
 
-export function incrementLockCount(p_ip = '', p_user = ''){
+export async function incrementLockCount(p_ip = '', p_user = ''){
 
 	// increment lock count
-	let incrementLockCount_ = (p_key, p_select_sql, p_update_sql, p_insert_sql) => {
+	let incrementLockCount_ = async (p_key, p_select_sql, p_update_sql, p_insert_sql) => {
 		let l_params = [];
 		l_params.push(p_key);
 //deleteme
@@ -14,7 +14,8 @@ console.log("The user info: [" + p_user + "]");
 console.log("Current execution for: [" + p_key + "]");
 console.log("Current select: [" + p_select_sql + "]");
 console.log("Current params: " + JSON.stringify(l_params));
-		let l_prev_attempt_data = databaseActionMySQL.execute_select(p_select_sql, l_params);
+		let l_prev_attempt_data;
+		l_prev_attempt_data = await databaseActionMySQL.execute_select(p_select_sql, l_params);
 console.log("Select result: " + JSON.stringify(l_prev_attempt_data));
 		if (l_prev_attempt_data.length > 0) return databaseActionMySQL.execute_updatedeleteinsert(p_update_sql, l_params);
 		else return databaseActionMySQL.execute_updatedeleteinsert(p_insert_sql, l_params);
