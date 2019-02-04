@@ -50,7 +50,6 @@ class SignUpEmailConfirmation extends React.Component {
 			<Item floatingLabel>
 				<Label>{config.uiTexts.SignUpEmailConfirmation.email}</Label>
 				<Input
-					secureTextEntry={true}
 					value={this.state.email_value}
 					onChangeText={(value) => { this.setState({ email_value: value }) }}
 				/>
