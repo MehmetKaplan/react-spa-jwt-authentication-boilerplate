@@ -24,7 +24,7 @@ exports.default = {
 	lockUserUpdate: "update AuthUsersDB.user_based_lock_tracks set count_unsuccessful_attempts = count_unsuccessful_attempts + 1 where email = ?",
 	lockUserSelect: "select email, count_unsuccessful_attempts, date_format(last_attempt, '%Y%m%d%H%i%s') last_attempt from AuthUsersDB.user_based_lock_tracks where email = ? ",
 	lockUserReset: "update AuthUsersDB.user_based_lock_tracks set count_unsuccessful_attempts = 0, last_attempt = null where email = ?",
-	ipBasedNewUserSignupInsert: "insert into AuthUsersDB.ip_based_user_generation (ip, last_user_generated_time) values ('a', now()) ",
-	ipBasedNewUserSignupUpdate: "update AuthUsersDB.ip_based_user_generation set last_user_generated_time = now() where ip = 'a' ",
-	ipBasedNewUserSignupSelect: "select date_format(last_user_generated_time, '%Y%m%d%H%i%s') from AuthUsersDB.ip_based_user_generation where ip = 'a' "
+	ipBasedNewUserSignupInsert: "insert into AuthUsersDB.ip_based_user_generation (ip, last_user_generated_time) values (?, now()) ",
+	ipBasedNewUserSignupUpdate: "update AuthUsersDB.ip_based_user_generation set last_user_generated_time = now() where ip = ? ",
+	ipBasedNewUserSignupSelect: "select date_format(last_user_generated_time, '%Y%m%d%H%i%s') from AuthUsersDB.ip_based_user_generation where ip = ? "
 };

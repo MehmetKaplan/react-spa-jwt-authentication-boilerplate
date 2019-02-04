@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 
 import {nvl} from './generic_library.js';
 
-export default class Mailer {
+class Mailer_ {
 	constructor(){
 		this.transporter = nodemailer.createTransport(config.nodemailerTransporterParameters);
 	}
@@ -24,14 +24,18 @@ export default class Mailer {
 		else {
 			delete l_params['text'];
 		}
-
-		this.transporter.sendMail(l_params, (error, info) => {
-			if (error) {
-				console.log(error);
-				return "NOK";
-			} else {
-				return "OK";
-			}
+		return new Promise((res) => {
+			this.transporter.sendMail(l_params, (error, info) => {
+				if (error) {
+					console.log(error);
+					res("NOK");
+				} else {
+					res("OK");
+				}
+			});
 		});
 	}
 }
+const Mailer = new Mailer_();
+
+export default Mailer;

@@ -19,9 +19,9 @@ export default  {
 	defaultPort: 8000,
 	maxAllowedRetry: 10,
 	bcryptSaltRounds: 10,
-	lockedStateDuration: 600, // seconds
+	lockedStateDuration: 600000, // miliseconds
 	lockUnsuccessfulAttemptCount: 10,
-	ipBasedNewUserSignupLockDuration: 600, //seconds
+	ipBasedNewUserSignupLockDuration: 600000, //miliseconds
 	signalsFrontendBackend: {
 		tokenValid:               			{result: "OK",  		message: 'Token is valid'},
 		tokenNotValid:            			{result: "NOK",  		message: 'Token is not valid'},
@@ -56,7 +56,7 @@ export default  {
 		<p>We just recently received a password reset request.</p>\
 		<p>If you are not the one who made the request please ignore this email.</p>\
 		<p>In order to reset your password, use below code:</p>\
-		<p><span style=\"background-color: #ffff00;\"><strong>[TAG_CODE]</strong></span></p>\
+		<p><span style=\"background-color: #ffff00; color: #ff0000;\"><strong>[TAG_CODE]</strong></span></p>\
 		<p>Best Regards,</p>\
 		<p>&nbsp;</p>",
 	passwordResetEMailFrom: "Password Reset <please_do_not_reply@pleasedonotreply.co>",
@@ -64,7 +64,7 @@ export default  {
 	emailValidationEMail: " \
 		<p>Hi there,</p> \
 		<p>Here is the code that you can use to verify your email.</p> \
-		<p><span style=\"background-color: #ffff00;\"><strong>[CODE]</strong></span></p> \
+		<p><span style=\"background-color: #ffff00; color: #ff0000;\"><strong>[TAG_CODE]</strong></span></p> \
 		<p>If it is not who requested the email validation, it means someone else is trying to use your email address. You can simply ignore this email.</p> \
 		<p>Best Regards,</p> \
 		<p>&nbsp;</p> \

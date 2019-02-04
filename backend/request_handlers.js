@@ -4,7 +4,7 @@ import date from 'date-and-time';
 
 import config from './config';
 import sqls from './sqls.js';
-import {incrementLockCount, resetLockCount, checkLock} from './lock_handler.js';
+import {incrementLockCount, resetLockCount, checkLock, checkIPBasedFrequentUserGeneration, modifyIPBasedUserGenerationTime} from './lock_handler.js';
 import databaseActionMySQL from './database_action_mysql.js';
 import mailer from './mailer.js';
 import validations from './validations.js';
@@ -25,7 +25,7 @@ export default class requestHandlers {
 	}
 
 	checkJWT(p_req, p_res){
-		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+		if (checkLock(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		let l_token_from_header = p_req.headers['x-access-token'] || p_req.headers['authorization'];
 		// JWT expected either in Bearer or JWT header
 		if (l_token_from_header.startsWith('Bearer ')) {
@@ -55,12 +55,12 @@ export default class requestHandlers {
 		}
 	}
 
-	login(p_req, p_res){
+	async login(p_req, p_res){
 		let l_email = p_req.body.email.toLowerCase();;
 		let l_password = p_req.body.password;
 		let l_params = [];
 		l_params.push(l_email);
-		let l_user_data = databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
+		let l_user_data = await databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
 		let l_hashed_pwd_from_db = l_user_data ? nvl(l_user_data['encrypted_password'], "xx") : "xx";
 		//sqlt is incorporated in l_hashed_pwd_from_db so bcrypt does not need it again
 		bcrypt.compare(l_password, l_hashed_pwd_from_db, function(err, res) {
@@ -81,12 +81,12 @@ export default class requestHandlers {
 		});
 	}
 
-	generateResetPwdToken(p_req, p_res){
-		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+	async generateResetPwdToken(p_req, p_res){
+		if (checkLock(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		let l_email = p_req.body.email;
 		let l_params = [];
 		l_params.push(l_email);
-		let l_user_data = databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
+		let l_user_data = await databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
 		if (l_user_data.length < 1) {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.pwdResetError);
@@ -98,7 +98,7 @@ export default class requestHandlers {
 		l_params2.push(l_second_token);
 		l_params2.push(l_now_str);
 		l_params2.push(l_email);
-		databaseActionMySQL.execute_updatedeleteinsert(sqls.updateResetPasswordSecondToken, l_params2);
+		await databaseActionMySQL.execute_updatedeleteinsert(sqls.updateResetPasswordSecondToken, l_params2);
 		l_retval_as_json['JWT'] = jwt.sign(
 			{
 				userEMail: l_user_data['email']
@@ -109,7 +109,7 @@ export default class requestHandlers {
 		let l_email_body = config.passwordResetEMail
 			.replace("[TAG_CODE]", l_second_token.toString())
 			.replace("[TAG_USER]", nvl(l_user_data[0]["name"], "") + " " + ((nvl(l_user_data[0]["midname"], "").length == 0) ? "" : l_user_data[0]["midname"] + " ") + nvl(l_user_data[0]["surname"], ""));
-		let l_mail_result = mailer.sendMail(
+		let l_mail_result = await mailer.sendMail(
 			config.passwordResetEMailFrom, 
 			l_email,
 			config.passwordResetEMailSubject, 
@@ -119,8 +119,8 @@ export default class requestHandlers {
 		else return p_res.json(config.signalsFrontendBackend.pwdResetError);
 	}
 
-	resetPwd(p_req, p_res){
-		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+	async resetPwd(p_req, p_res){
+		if (checkLock(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		let l_token_from_header = p_req.headers['x-access-token'] || p_req.headers['authorization'];
 		// JWT expected either in Bearer or JWT header
 		if (l_token_from_header.startsWith('Bearer ')) {
@@ -134,13 +134,13 @@ export default class requestHandlers {
 		}
 
 		if (l_token_from_header) {
-			jwt.verify(l_token_from_header, config.jwtSecret, (err, decoded) => {
+			jwt.verify(l_token_from_header, config.jwtSecret, async (err, decoded) => {
 				if (err) {
 					return p_res.json(config.signalsFrontendBackend.pwdResetError);
 				}
 				else {
 					let l_email = decoded.userEMail;
-					let l_saved_token_rows = databaseActionMySQL.execute_select(sqls.readResetPasswordSecondToken, l_params);
+					let l_saved_token_rows = await databaseActionMySQL.execute_select(sqls.readResetPasswordSecondToken, l_params);
 					if (l_saved_token_rows.length < 1) {
 						return p_res.json(config.signalsFrontendBackend.pwdResetError);
 					};
@@ -159,12 +159,12 @@ export default class requestHandlers {
 						return p_res.json(config.signalsFrontendBackend.passwordStrengthTestFailed);
 					};
 					// Now password can be updated
-					bcrypt.hash(l_plain_password, config.bcryptSaltRounds, function(err, hash) {
+					bcrypt.hash(l_plain_password, config.bcryptSaltRounds, async function(err, hash) {
 						// Store hash in your password DB.
 						let l_params = [];
 						l_params.push(l_email);
 						l_params.push(hash);
-						let l_update_result = databaseActionMySQL.execute_updatedeleteinsert(updateEncryptedPassword, l_params);
+						let l_update_result = await databaseActionMySQL.execute_updatedeleteinsert(updateEncryptedPassword, l_params);
 						if (l_update_result == "OK") {
 							resetLockCount(p_req.ip);
 							let l_retval_as_json = config.signalsFrontendBackend.pwdResetCompleted;
@@ -190,44 +190,54 @@ export default class requestHandlers {
 		}
 	}
 
-	signUp(p_req, p_res){
-		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+	async signUp(p_req, p_res){
+		let l_email = p_req.body.email.toLowerCase();
+		if (checkLock(p_req.ip, l_email) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		if (checkIPBasedFrequentUserGeneration(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.ipBasedFrequentUserGeneration);
 
-		let l_email = p_req.body.email.toLowerCase();
 		let l_password = p_req.body.password;
-		let l_gender = p_req.body.gender;
+		let l_password2 = p_req.body.password2;
+		let l_gender = p_req.body.gender_id;
 		let l_birthday = p_req.body.birthday;
 		let l_phone = p_req.body.phone;
 		let l_name = p_req.body.name;
 		let l_midname = p_req.body.midname;
 		let l_surname = p_req.body.surname;
 
-		let l_email_token = p_req.body.emailtoken;
+		let l_email_token = p_req.body.confirmationCode;
 
-		if (validations.email(l_email, l_email_token) != "OK") {
+		if ((await validations.email(l_email, l_email_token)) != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
 		};
-		if (validations.password(l_password) != "OK") {
+//deleteme
+console.log("********************************************* 1");
+
+		if ((await validations.password(l_password, l_password2)) != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.passwordStrengthTestFailed);
 		};
-		if (validations.gender(l_gender) != "OK") {
+//deleteme
+console.log("********************************************* 2");
+
+		if ((await validations.gender(l_gender) )!= "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.genderTValidationFailed);
 		};
-		if (validations.birthday(l_birthday) != "OK") {
+
+		if ((await validations.birthday(l_birthday)) != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.birthdayValidationFailed);
 		};
-		if (validations.phone(l_phone) != "OK") {
+
+		if ((await validations.phone(l_phone)) != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.phoneValdiationFailed);
 		};
 
-
-		bcrypt.hash(l_password, config.bcryptSaltRounds, function(err, hash) {
+//deleteme
+console.log("********************************************* 6");
+		bcrypt.hash(l_password, config.bcryptSaltRounds, async function(err, hash) {
 			// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
 			let l_params = [];
 			l_params.push(l_email);
@@ -238,9 +248,18 @@ export default class requestHandlers {
 			l_params.push(l_gender);
 			l_params.push(l_birthday);
 			l_params.push(l_phone);
-			let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updateResetPasswordSecondToken, l_params);
+//deleteme
+console.log("********************************************* 2");
+			let l_result = await databaseActionMySQL.execute_updatedeleteinsert(sqls.signUp, l_params);
+	//deleteme
+console.log("********************************************* 3");
+		
 			if (l_result == "OK") {
+//deleteme
+console.log("********************************************* 4");
 				resetLockCount(p_req.ip);
+//deleteme
+console.log("********************************************* 5");
 				modifyIPBasedUserGenerationTime(p_req.ip);
 				let l_retval_as_json = config.signalsFrontendBackend.signUpSuccessful;
 				l_retval_as_json['JWT'] = jwt.sign(
@@ -251,29 +270,32 @@ export default class requestHandlers {
 				return p_res.json(l_retval_as_json);
 			}
 			else {
+//deleteme
+console.log("********************************************* 6");
 				incrementLockCount(p_req.ip, l_email);
 				return p_res.json(config.signalsFrontendBackend.signUpGenericError);
 			}
 		});
 	}
 
-	generateEmailOwnershipToken(p_req, p_res){
-		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+	async generateEmailOwnershipToken(p_req, p_res){
+		let l_email = p_req.body.email.toLowerCase();
+		if (checkLock(p_req.ip, l_email) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		incrementLockCount(p_req.ip);
 		let l_params = [];
 		l_params.push(l_email);
-		databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenClear, l_params);
+		await databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenClear, l_params);
 		let l_token = Math.ceil(Math.random() * 1000000000).toString();
 		l_params.push(l_token);
-		let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenSet, l_params);
+		let l_result = await databaseActionMySQL.execute_updatedeleteinsert(sqls.emailValidationTokenSet, l_params);
 		if (l_result != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.eMailValidationGenericError);
 		};
 	
-		let l_email_body = config.emailValidationEMail
+		let l_email_body = await config.emailValidationEMail
 			.replace("[TAG_CODE]", l_token.toString());
-		let l_mail_result = mailer.sendMail(
+		let l_mail_result = await mailer.sendMail(
 			config.emailValidationEMailFrom, 
 			l_email,
 			config.emailValidationEMailSubject,
@@ -284,16 +306,20 @@ export default class requestHandlers {
 		else return p_res.json(config.signalsFrontendBackend.eMailValidationGenericError);
 	}
 
-	updateEMail(p_req, p_res){
-		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
-
+	async updateEMail(p_req, p_res){
 		let l_email = p_req.body.email.toLowerCase();
+		if (checkLock(p_req.ip, l_email) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+
 		let l_email_token = p_req.body.emailtoken;
 		if (validations.email(l_email, l_email_token) != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
 		};	
-
+		if (validations.emailexistence(l_email, l_email_token) != "OK") {
+			incrementLockCount(p_req.ip, l_email);
+			return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
+		};	
+		
 		let l_oldemail = "";
 		let l_jwt_payload = validations.checkJWT(p_req);
 		if( nvl(l_jwt_payload["email"], "x") == "x" ) {
@@ -307,7 +333,7 @@ export default class requestHandlers {
 		let l_params = [];
 		l_params.push(l_email);
 		l_params.push(l_oldemail);
-		databaseActionMySQL.execute_updatedeleteinsert(sqls.updateEMail, l_params);
+		await databaseActionMySQL.execute_updatedeleteinsert(sqls.updateEMail, l_params);
 		if (l_result != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.signUpGenericError);
@@ -323,9 +349,10 @@ export default class requestHandlers {
 
 	}
 
-	updatePassword(p_req, p_res){
-		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+	async updatePassword(p_req, p_res){
+		if (checkLock(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		let l_password = p_req.body.password;
+		let l_oldpassword = p_req.body.oldPassword;
 		if (validations.password(l_password) != "OK") {
 			incrementLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.passwordStrengthTestFailed);
@@ -341,12 +368,22 @@ export default class requestHandlers {
 			l_email = l_jwt_payload["email"];
 		};
 
-		bcrypt.hash(l_password, config.bcryptSaltRounds, function(err, hash) {
+		// Compare old password
+		let l_params = [];
+		l_params.push(l_email);
+		let l_user_data = await databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
+		let l_hashed_pwd_from_db = l_user_data ? nvl(l_user_data['encrypted_password'], "xx") : "xx";
+		if (!(bcrypt.compareSync(l_oldpassword, l_hashed_pwd_from_db))){
+			incrementLockCount(p_req.ip, l_email);
+			return p_res.json(config.signalsFrontendBackend.wrongPassword);
+		};
+
+		bcrypt.hash(l_password, config.bcryptSaltRounds, async function(err, hash) {
 			// email, encrypted_password, name, midname, surname, gender_id, birthday, phone
 			let l_params = [];
 			l_params.push(hash);
 			l_params.push(l_email);
-			let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updatePassword, l_params);
+			let l_result = await databaseActionMySQL.execute_updatedeleteinsert(sqls.updatePassword, l_params);
 			if (l_result == "OK") {
 				resetLockCount(p_req.ip, l_email);
 				return p_res.json(config.signalsFrontendBackend.updatePasswordSuccessful);
@@ -358,8 +395,8 @@ export default class requestHandlers {
 		});
 	}
 
-	updateData(p_req, p_res){
-		if (checkLock() == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+	async updateData(p_req, p_res){
+		if (checkLock(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 
 		let l_gender = p_req.body.gender;
 		let l_birthday = p_req.body.birthday;
@@ -369,15 +406,15 @@ export default class requestHandlers {
 		let l_surname = p_req.body.surname;
 
 		if (validations.gender(l_gender) != "OK") {
-			incrementLockCount(p_req.ip, l_email);
+			incrementLockCount(p_req.ip);
 			return p_res.json(config.signalsFrontendBackend.genderTValidationFailed);
 		};
 		if (validations.birthday(l_birthday) != "OK") {
-			incrementLockCount(p_req.ip, l_email);
+			incrementLockCount(p_req.ip);
 			return p_res.json(config.signalsFrontendBackend.birthdayValidationFailed);
 		};
 		if (validations.phone(l_phone) != "OK") {
-			incrementLockCount(p_req.ip, l_email);
+			incrementLockCount(p_req.ip);
 			return p_res.json(config.signalsFrontendBackend.phoneValdiationFailed);
 		};
 
@@ -399,7 +436,7 @@ export default class requestHandlers {
 		l_params.push(l_birthday);
 		l_params.push(l_phone);
 		l_params.push(l_email);
-		let l_result = databaseActionMySQL.execute_updatedeleteinsert(sqls.updateData, l_params);
+		let l_result = await databaseActionMySQL.execute_updatedeleteinsert(sqls.updateData, l_params);
 		if (l_result == "OK") {
 			resetLockCount(p_req.ip, l_email);
 			return p_res.json(config.signalsFrontendBackend.updateDataSuccessful);

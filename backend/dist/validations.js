@@ -14,44 +14,56 @@ var _database_action_mysql = require('./database_action_mysql.js');
 
 var _database_action_mysql2 = _interopRequireDefault(_database_action_mysql);
 
+var _sqls = require('./sqls.js');
+
+var _sqls2 = _interopRequireDefault(_sqls);
+
+var _generic_library = require('./generic_library.js');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var validations = function () {
-	function validations() {
-		_classCallCheck(this, validations);
+var validations_ = function () {
+	function validations_() {
+		_classCallCheck(this, validations_);
 	}
 
-	_createClass(validations, [{
+	_createClass(validations_, [{
 		key: 'email',
-		value: function email(p_email, p_email_token) {
+		value: async function email(p_email, p_email_token) {
 			var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			if (!regex.test(p_email)) return "NOK";
 			var l_params = [];
-			l_params << p_email;
-			var l_emailcount_rows = _database_action_mysql2.default.execute_select(sqls.emailCount, l_params);
-			if (l_emailcount_rows[0]['emailcount'] != 0) return "NOK";
-			var l_params2 = [];
-			l_params2 << p_email;
-			var l_token_rows = _database_action_mysql2.default.execute_select(sqls.emailValidationTokenRead, l_params2);
+			l_params.push(p_email);
+			var l_token_rows = await _database_action_mysql2.default.execute_select(_sqls2.default.emailValidationTokenRead, l_params);
 			if (l_token_rows.length != 1) return "NOK";
 			if (p_email_token != l_token_rows[0]['validation_token']) return "NOK";
 			return "OK";
 		}
 	}, {
+		key: 'emailexistence',
+		value: async function emailexistence(p_email, p_email_token) {
+			var l_params = [];
+			l_params.push(p_email);
+			var l_emailcount_rows = await _database_action_mysql2.default.execute_select(_sqls2.default.emailCount, l_params);
+			if (l_emailcount_rows[0]['emailcount'] != 0) return "NOK";
+			return "OK";
+		}
+	}, {
 		key: 'password',
-		value: function password(p_password) {
+		value: function password(p_password, p_password2) {
 			var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
 			var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
 			var regex = _config2.default.passwordStrengthStrong ? strongRegex : mediumRegex;
 			if (!regex.test(p_password)) return "NOK";
+			if ((0, _generic_library.nvl)(p_password, "x") != (0, _generic_library.nvl)(p_password2, "y")) return "NOK";
 			return "OK";
 		}
 	}, {
 		key: 'gender',
 		value: function gender(p_gender) {
-			if (![0, 1, 2].includes(p_gender)) return "NOK";
+			if (!["1", "2", "3"].includes(p_gender)) return "NOK";
 			return "OK";
 		}
 	}, {
@@ -90,7 +102,8 @@ var validations = function () {
 		}
 	}]);
 
-	return validations;
+	return validations_;
 }();
 
+var validations = new validations_();
 exports.default = validations;

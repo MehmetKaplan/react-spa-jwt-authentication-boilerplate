@@ -20,16 +20,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Mailer = function () {
-	function Mailer() {
-		_classCallCheck(this, Mailer);
+var Mailer_ = function () {
+	function Mailer_() {
+		_classCallCheck(this, Mailer_);
 
 		this.transporter = _nodemailer2.default.createTransport(_config2.default.nodemailerTransporterParameters);
 	}
 
-	_createClass(Mailer, [{
+	_createClass(Mailer_, [{
 		key: 'sendMail',
 		value: function sendMail(p_from, p_to, p_subject, p_text, p_html) {
+			var _this = this;
+
 			var l_params = {
 				from: p_from,
 				to: p_to,
@@ -43,19 +45,22 @@ var Mailer = function () {
 			} else {
 				delete l_params['text'];
 			}
-
-			this.transporter.sendMail(l_params, function (error, info) {
-				if (error) {
-					console.log(error);
-					return "NOK";
-				} else {
-					return "OK";
-				}
+			return new Promise(function (res) {
+				_this.transporter.sendMail(l_params, function (error, info) {
+					if (error) {
+						console.log(error);
+						res("NOK");
+					} else {
+						res("OK");
+					}
+				});
 			});
 		}
 	}]);
 
-	return Mailer;
+	return Mailer_;
 }();
+
+var Mailer = new Mailer_();
 
 exports.default = Mailer;

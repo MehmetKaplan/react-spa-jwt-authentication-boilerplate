@@ -30,51 +30,49 @@ var databaseActionMySQL_ = function () {
 
 			var l_db_conn = _mysql2.default.createConnection(_config2.default.databaseParameters);
 			l_db_conn.connect();
-
 			return new Promise(function (res) {
 				l_db_conn.query(p_sql, p_parameters_as_array, function (err, rows, fields) {
 					l_db_conn.end();
 					if (err) {
 						//deleteme
-						console.log("DB error for following sql and parameters: ");
-						console.log("sql: " + p_sql);
-						console.log("parameters: " + JSON.stringify(p_parameters_as_array));
-						console.log("err: " + JSON.stringify(err));
+						console.log("Unsuccessfull:");
+						console.log(p_sql);
+						console.log(JSON.stringify(p_parameters_as_array));
 						throw err;
 					};
+					//deleteme
+					console.log("Successfull:");
+					console.log(p_sql);
+					console.log(JSON.stringify(p_parameters_as_array));
 					res(rows);
 				});
 			});
 		}
 	}, {
-		key: 'execute_updatedeleteinsert_',
-		value: function execute_updatedeleteinsert_(p_db_conn, p_sql) {
-			var p_parameters_as_array = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-
-			return new Promise(function (resolve) {
-				p_db_conn.query(p_sql, p_parameters_as_array, function (err, rows, fields) {
-					if (err) {
-						//deleteme
-						console.log("DB error for following sql and parameters: ");
-						console.log("sql: " + p_sql);
-						console.log("parameters: " + JSON.stringify(p_parameters_as_array));
-						console.log("err: " + JSON.stringify(err));
-						throw err;
-					};
-					resolve(rows);
-				});
-			});
-		}
-	}, {
 		key: 'execute_updatedeleteinsert',
-		value: async function execute_updatedeleteinsert(p_sql) {
+		value: function execute_updatedeleteinsert(p_sql) {
 			var p_parameters_as_array = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
 			var l_db_conn = _mysql2.default.createConnection(_config2.default.databaseParameters);
 			l_db_conn.connect();
-			var l_retval_as_array_of_hashes = await this.execute_updatedeleteinsert_(l_db_conn, p_sql, p_parameters_as_array);
-			l_db_conn.end();
-			return "OK";
+			return new Promise(function (res) {
+				l_db_conn.query(p_sql, p_parameters_as_array, function (err, rows, fields) {
+					l_db_conn.end();
+					if (err) {
+						//deleteme
+						console.log("Unsuccessfull:");
+						console.log(p_sql);
+						console.log(JSON.stringify(p_parameters_as_array));
+
+						throw err;
+					};
+					//deleteme
+					console.log("Successfull:");
+					console.log(p_sql);
+					console.log(JSON.stringify(p_parameters_as_array));
+					res("OK");
+				});
+			});
 		}
 	}]);
 
@@ -83,7 +81,6 @@ var databaseActionMySQL_ = function () {
 
 ;
 
-//All to use the single instance of this library - singleton pattern
 var databaseActionMySQL = new databaseActionMySQL_();
 
 exports.default = databaseActionMySQL;

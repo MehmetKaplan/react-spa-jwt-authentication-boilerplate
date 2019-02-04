@@ -34,7 +34,7 @@ class UpdateData extends React.Component {
 			name_value: "",
 			midname_value: "",
 			surname_value: "",
-			gender_id_value: "G3",
+			gender_id_value: "",
 			birthday_value: new Date(2000, 1, 1),
 			phone_value: "",
 		};
@@ -112,9 +112,9 @@ class UpdateData extends React.Component {
 				selectedValue={this.state.gender_id_value}
 				onValueChange={(value) => {this.setState({gender_id_value: value})}}
 			>
-				<Picker.Item label={config.uiTexts.UpdateData.genders.male  } value="G1" />
-				<Picker.Item label={config.uiTexts.UpdateData.genders.female} value="G2" />
-				<Picker.Item label={config.uiTexts.UpdateData.genders.other } value="G3" />
+				<Picker.Item label={config.uiTexts.UpdateData.genders.male  } value="1" />
+				<Picker.Item label={config.uiTexts.UpdateData.genders.female} value="2" />
+				<Picker.Item label={config.uiTexts.UpdateData.genders.other } value="3" />
 			</Picker>
 
 			<Text></Text>

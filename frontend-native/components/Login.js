@@ -39,16 +39,16 @@ class Login extends React.Component {
 		// Place main purpose of component here
 
 		// use this.state.newPassword_value to send the confirmation code
-			let l_method = "POST";
-			let l_uri = config.mainServerBaseURL + "/login";
-			let l_extra_headers = {};
-			let l_body = {
-				email: this.state.email_value,
-				password: this.state.password_value,
-			};
-			let l_fnc =  ((p_resp) => {
-				alert(JSON.stringify(p_resp));
-			}).bind(this);
+		let l_method = "POST";
+		let l_uri = config.mainServerBaseURL + "/login";
+		let l_extra_headers = {};
+		let l_body = {
+			email: this.state.email_value,
+			password: this.state.password_value,
+		};
+		let l_fnc =  ((p_resp) => {
+			alert(JSON.stringify(p_resp));
+		}).bind(this);
 		fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
 
 		//this.props.setAppState(loginComponents.LOGIN);

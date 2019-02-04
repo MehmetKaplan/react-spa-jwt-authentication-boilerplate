@@ -6,6 +6,8 @@ import { Form, Item, Label, Input, Button, Text, Picker, DatePicker } from 'nati
 
 import {types, loginComponents} from '../redux-store.js';
 import config from '../common-logic/config.js';
+import {fetch_data_v2} from '../common-logic/fetchhandler.js';
+import {nvl, date_to_str} from '../common-logic/generic_library.js';
 
 function mapDispatchToProps(dispatch) {
 	return({
@@ -19,6 +21,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
 	return({
 		activeLoginComponent: state.activeLoginComponent,
+		signUpEmail: state.signUpEmail,
 	});
 };
 
@@ -34,7 +37,7 @@ class SignUpRelatedInputs extends React.Component {
 			name_value: "",
 			midname_value: "",
 			surname_value: "",
-			gender_id_value: "G3",
+			gender_id_value: "",
 			birthday_value: new Date(2000, 1, 1),
 			phone_value: "",
 			genders_value: "3",
@@ -45,18 +48,26 @@ class SignUpRelatedInputs extends React.Component {
 		// Place main purpose of component here
 
 		// use this.state.newPassword_value to send the confirmation code
-		alert(
-			  "\n this.state.confirmationCode_value:" + this.state.confirmationCode_value
-			+ "\n this.state.password_value:" + this.state.password_value
-			+ "\n this.state.password2_value:" + this.state.password2_value
-			+ "\n this.state.name_value:" + this.state.name_value
-			+ "\n this.state.midname_value:" + this.state.midname_value
-			+ "\n this.state.surname_value:" + this.state.surname_value
-			+ "\n this.state.gender_id_value:" + this.state.gender_id_value
-			+ "\n this.state.birthday_value:" + this.state.birthday_value
-			+ "\n this.state.phone_value:" + this.state.phone_value
-		 );
-		this.props.setAppState(loginComponents.SIGNUP2);
+		 let l_method = "POST";
+		 let l_uri = config.mainServerBaseURL + "/signUp";
+		 let l_extra_headers = {};
+		 let l_body = {
+			 email: this.props.signUpEmail,
+			 confirmationCode: this.state.confirmationCode_value,
+			 password: this.state.password_value,
+			 password2: this.state.password2_value,
+			 name: this.state.name_value,
+			 midname: this.state.midname_value,
+			 surname: this.state.surname_value,
+			 gender_id: nvl(this.state.gender_id_value, "G3"),
+			 birthday: date_to_str(this.state.birthday_value, "yyyyMMddhhmmss"),
+			 phone: this.state.phone_value,
+		 };
+		 let l_fnc =  ((p_resp) => {
+			 alert(JSON.stringify(p_resp));
+		 }).bind(this);
+		fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
+ 		this.props.setAppState(loginComponents.SIGNUP2);
 	}
 
 	render() {
@@ -141,9 +152,9 @@ class SignUpRelatedInputs extends React.Component {
 				selectedValue={this.state.gender_id_value}
 				onValueChange={(value) => {this.setState({gender_id_value: value})}}
 			>
-				<Picker.Item label={config.uiTexts.SignUpRelatedInputs.genders.male} value="G1" />
-				<Picker.Item label={config.uiTexts.SignUpRelatedInputs.genders.female} value="G2" />
-				<Picker.Item label={config.uiTexts.SignUpRelatedInputs.genders.other } value="G3" />
+				<Picker.Item label={config.uiTexts.SignUpRelatedInputs.genders.male} value="1" />
+				<Picker.Item label={config.uiTexts.SignUpRelatedInputs.genders.female} value="2" />
+				<Picker.Item label={config.uiTexts.SignUpRelatedInputs.genders.other } value="3" />
 			</Picker>
 
 			<Text></Text>
@@ -153,14 +164,14 @@ class SignUpRelatedInputs extends React.Component {
 				minimumDate={new Date(1950, 1, 1)}
 				maximumDate={new Date()}
 				locale={"en"}
-				timeZoneOffsetInMinutes={undefined}
+				timeZoneOffsetInMinutes={-1 * (new Date()).getTimezoneOffset()}
 				modalTransparent={false}
 				animationType={"fade"}
 				androidMode={"default"}
 				placeHolderText={config.uiTexts.SignUpRelatedInputs.birthday }
 				textStyle={{ color: "green" }}
 				placeHolderTextStyle={{ color: "#d3d3d3" }}
-				onDateChange={(newDate) => this.setState({ birthday_value: newDate })}
+				onDateChange={(newDate) => {this.setState({ birthday_value: newDate });}}
 				disabled={false}
 			/>
 
