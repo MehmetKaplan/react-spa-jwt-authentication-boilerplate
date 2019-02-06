@@ -40,7 +40,7 @@ export async function checkLock(p_ip, p_user = ""){
 		let l_prev_attempt_data = await databaseActionMySQL.execute_select(p_select_sql, l_params);
 		if (l_prev_attempt_data.length > 0) {
 			let l_now = getUTCTimeAsString();
-			let l_last_attempt = Number(l_prev_attempt_data[0]['last_attempt']);
+			let l_last_attempt = Number(l_prev_attempt_data[0]['last_attempt'] + "000");
 			if (l_now > l_last_attempt + config.lockedStateDuration) return "RESET";
 			let l_count_unsuccessful_attempts = Number(l_prev_attempt_data[0]['count_unsuccessful_attempts']);
 			if (l_count_unsuccessful_attempts > config.lockUnsuccessfulAttemptCount) l_locked = true;

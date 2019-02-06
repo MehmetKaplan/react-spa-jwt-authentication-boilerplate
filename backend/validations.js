@@ -10,9 +10,13 @@ class validations_ {
 
 	}
 
-	async email(p_email, p_email_token){
+	async email(p_email){
 		const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 		if (!(regex.test(p_email))) return "NOK";
+		return "OK";
+	}
+
+	async emailtoken(p_email, p_email_token){
 		let l_params = [];
 		l_params.push(p_email);
 		let l_token_rows = await databaseActionMySQL.execute_select(sqls.emailValidationTokenRead, l_params);
@@ -21,14 +25,21 @@ class validations_ {
 		return "OK";
 	}
 
-	async emailexistence(p_email, p_email_token){
+	async emailExistence(p_email){
 		let l_params = [];
 		l_params.push(p_email);
 		let l_emailcount_rows = await databaseActionMySQL.execute_select(sqls.emailCount, l_params);
-		if (l_emailcount_rows[0]['emailcount'] != 0) return "NOK";
+		if (Number(l_emailcount_rows[0]['emailcount']) == 0) return "NOK";
 		return "OK";
 	}
 
+	async emailNotExistence(p_email){
+		let l_params = [];
+		l_params.push(p_email);
+		let l_emailcount_rows = await databaseActionMySQL.execute_select(sqls.emailCount, l_params);
+		if (Number(l_emailcount_rows[0]['emailcount'] != 0)) return "NOK";
+		return "OK";
+	}
 
 	password(p_password, p_password2){
 		let strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");

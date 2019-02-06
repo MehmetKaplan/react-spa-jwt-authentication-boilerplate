@@ -48,11 +48,17 @@ class SignUpEmailConfirmation extends React.Component {
 			email: this.state.email_value,
 		};
 		let l_fnc =  ((p_resp) => {
-			alert(JSON.stringify(p_resp));
+			if (p_resp.result == "OK")
+			{
+				alert(JSON.stringify(p_resp));
+				this.props.setSignUpEmail(this.state.email_value);
+				this.props.setAppState(loginComponents.SIGNUP2);
+			}
+			else {
+				alert(p_resp.message);
+			}
 		}).bind(this);
 		fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
-		this.props.setSignUpEmail(this.state.email_value);
-		this.props.setAppState(loginComponents.SIGNUP2);
 	}
 
 	render() {

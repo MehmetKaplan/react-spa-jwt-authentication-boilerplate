@@ -64,10 +64,9 @@ class SignUpRelatedInputs extends React.Component {
 			 phone: this.state.phone_value,
 		 };
 		 let l_fnc =  ((p_resp) => {
-			 alert(JSON.stringify(p_resp));
+			 alert(p_resp.message);
 		 }).bind(this);
 		fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
- 		this.props.setAppState(loginComponents.SIGNUP2);
 	}
 
 	render() {

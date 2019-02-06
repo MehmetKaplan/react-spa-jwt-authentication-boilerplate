@@ -31,9 +31,14 @@ var validations_ = function () {
 
 	_createClass(validations_, [{
 		key: 'email',
-		value: async function email(p_email, p_email_token) {
+		value: async function email(p_email) {
 			var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			if (!regex.test(p_email)) return "NOK";
+			return "OK";
+		}
+	}, {
+		key: 'emailtoken',
+		value: async function emailtoken(p_email, p_email_token) {
 			var l_params = [];
 			l_params.push(p_email);
 			var l_token_rows = await _database_action_mysql2.default.execute_select(_sqls2.default.emailValidationTokenRead, l_params);
@@ -42,12 +47,21 @@ var validations_ = function () {
 			return "OK";
 		}
 	}, {
-		key: 'emailexistence',
-		value: async function emailexistence(p_email, p_email_token) {
+		key: 'emailExistence',
+		value: async function emailExistence(p_email) {
 			var l_params = [];
 			l_params.push(p_email);
 			var l_emailcount_rows = await _database_action_mysql2.default.execute_select(_sqls2.default.emailCount, l_params);
-			if (l_emailcount_rows[0]['emailcount'] != 0) return "NOK";
+			if (Number(l_emailcount_rows[0]['emailcount']) == 0) return "NOK";
+			return "OK";
+		}
+	}, {
+		key: 'emailNotExistence',
+		value: async function emailNotExistence(p_email) {
+			var l_params = [];
+			l_params.push(p_email);
+			var l_emailcount_rows = await _database_action_mysql2.default.execute_select(_sqls2.default.emailCount, l_params);
+			if (Number(l_emailcount_rows[0]['emailcount'] != 0)) return "NOK";
 			return "OK";
 		}
 	}, {

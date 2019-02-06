@@ -18,14 +18,14 @@ class databaseActionMySQL_ {
 							if (err){
 //deleteme
 console.log("Unsuccessfull:");
-console.log(p_sql);
-console.log(JSON.stringify(p_parameters_as_array));
+console.log("\t\t" + p_sql);
+console.log("\t\t" + JSON.stringify(p_parameters_as_array));
 								throw err
 							};
 //deleteme
 console.log("Successfull:");
-console.log(p_sql);
-console.log(JSON.stringify(p_parameters_as_array));
+console.log("\t\t" + p_sql);
+console.log("\t\t" + JSON.stringify(p_parameters_as_array));
 							res(rows);
 						}
 					);
@@ -43,15 +43,15 @@ console.log(JSON.stringify(p_parameters_as_array));
 							if (err){
 //deleteme
 console.log("Unsuccessfull:");
-console.log(p_sql);
-console.log(JSON.stringify(p_parameters_as_array));
+console.log("\t\t" + p_sql);
+console.log("\t\t" + JSON.stringify(p_parameters_as_array));
 
 								throw err
 							};
 //deleteme
 console.log("Successfull:");
-console.log(p_sql);
-console.log(JSON.stringify(p_parameters_as_array));
+console.log("\t\t" + p_sql);
+console.log("\t\t" + JSON.stringify(p_parameters_as_array));
 							res("OK");
 						}
 					);

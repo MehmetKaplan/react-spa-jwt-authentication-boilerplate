@@ -3,7 +3,7 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
-    "start": "expo start",
+    "start": "export BACKEND_IP=`/media/sf_SharedFolder/print_ip.sh` && export BACKEND_PORT=8000 && expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",

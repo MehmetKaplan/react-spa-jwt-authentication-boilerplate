@@ -69,7 +69,7 @@ async function checkLock(p_ip) {
 		var l_prev_attempt_data = await _database_action_mysql2.default.execute_select(p_select_sql, l_params);
 		if (l_prev_attempt_data.length > 0) {
 			var l_now = (0, _generic_library.getUTCTimeAsString)();
-			var l_last_attempt = Number(l_prev_attempt_data[0]['last_attempt']);
+			var l_last_attempt = Number(l_prev_attempt_data[0]['last_attempt'] + "000");
 			if (l_now > l_last_attempt + _config2.default.lockedStateDuration) return "RESET";
 			var l_count_unsuccessful_attempts = Number(l_prev_attempt_data[0]['count_unsuccessful_attempts']);
 			if (l_count_unsuccessful_attempts > _config2.default.lockUnsuccessfulAttemptCount) l_locked = true;

@@ -35,6 +35,9 @@ class Login extends React.Component {
 		};
 	}
 
+	componentDidMount(){
+	}
+
 	componentMainFunction(){
 		// Place main purpose of component here
 
