@@ -1,4 +1,5 @@
 import React from 'react';
+import {AsyncStorage} from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -15,6 +16,9 @@ function mapDispatchToProps(dispatch) {
 			type: types.LOGINNAV,
 			activeLoginComponent: p_new_active_component
 		})},
+		setLoginState: (l_logIn) => {
+			let l_type = l_logIn ?  types.LOGIN : types.LOGOUT;
+			dispatch({type: l_type})},
 	})
 };
 
@@ -50,11 +54,15 @@ class Login extends React.Component {
 			password: this.state.password_value,
 		};
 		let l_fnc =  ((p_resp) => {
-			alert(JSON.stringify(p_resp));
+			if (p_resp.result == "OK"){
+				AsyncStorage.setItem(config.JWTKey, p_resp.JWT)
+					.then(() => {
+						this.props.setLoginState(true);
+					});
+			}
+			else alert(JSON.stringify(p_resp));
 		}).bind(this);
 		fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
-
-		//this.props.setAppState(loginComponents.LOGIN);
 	}
 
 

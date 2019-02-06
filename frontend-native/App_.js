@@ -18,7 +18,7 @@ import {nvl} from './common-logic/generic_library.js';
 
 function mapDispatchToProps(dispatch) {
 	return({
-		setAppState: (l_logIn) => {
+		setLoginState: (l_logIn) => {
 			let l_type = l_logIn ?  types.LOGIN : types.LOGOUT;
 			dispatch({type: l_type})},
 		setDevUrl: () => {
@@ -63,10 +63,10 @@ class App_ extends React.Component {
 			let l_fnc =  ((p_resp) => {
 				this.setState({JWTState: "checked"});
 				if (p_resp.result == "OK"){
-					this.props.setAppState(true);
+					this.props.setLoginState(true);
 				}
 				else {
-					this.props.setAppState(false);
+					this.props.setLoginState(false);
 					alert(p_resp.message);
 				}
 			}).bind(this);

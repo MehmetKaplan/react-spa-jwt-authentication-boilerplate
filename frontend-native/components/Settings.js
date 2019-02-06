@@ -37,6 +37,15 @@ class Settings extends React.Component {
 			<Text></Text>
 			<Text></Text>
 			<Button block danger onPress={() => this.props.setAppState(settingsScreenComponents.EMAILCHANGE1)}><Text> {config.uiTexts.Settings.changeEmail}  </Text></Button>
+			<Text></Text>
+			<Text></Text>
+			<Text></Text>
+			<Text></Text>
+			<Text></Text>
+			<Text></Text>
+			<Text></Text>
+			<Text></Text>
+			<Button block danger onPress={() => this.props.setAppState(settingsScreenComponents.LOGOUT)}><Text> {config.uiTexts.Settings.logout}  </Text></Button>
 		</Form>;
 	}
 }

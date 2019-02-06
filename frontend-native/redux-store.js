@@ -28,6 +28,7 @@ export const settingsScreenComponents = {
 	UPDATEDATA: 'UpdateData',
 	EMAILCHANGE1: 'ChangeEmail',
 	EMAILCHANGE2: 'ChangeEmailConfirm',
+	LOGOUT: 'Logout',
 };
 
 export const homeScreenComponents = {

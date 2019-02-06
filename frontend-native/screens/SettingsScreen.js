@@ -11,6 +11,7 @@ import ChangePassword from '../components/ChangePassword.js';
 import UpdateData from '../components/UpdateData.js';
 import ChangeEmailConfirm from '../components/ChangeEmailConfirm.js';
 import ChangeEmail from '../components/ChangeEmail.js';
+import Logout from '../components/Logout.js';
 import config from '../common-logic/config.js';
 
 function mapDispatchToProps(dispatch) {
@@ -66,6 +67,9 @@ class SettingsScreen extends React.Component {
 				break;
 			case (settingsScreenComponents.EMAILCHANGE2):
 				l_active_component = <ChangeEmailConfirm />;
+				break;
+			case (settingsScreenComponents.LOGOUT):
+				l_active_component = <Logout />;
 				break;
 			default:
 				// do nothing

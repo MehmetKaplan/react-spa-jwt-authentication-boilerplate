@@ -62,7 +62,9 @@ export default class requestHandlers {
 		let l_params = [];
 		l_params.push(l_email);
 		let l_user_data = await databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
-		let l_hashed_pwd_from_db = l_user_data ? nvl(l_user_data[0]['encrypted_password'], "xx") : "xx";
+		let l_hashed_pwd_from_db
+		if (l_user_data.length > 0) l_hashed_pwd_from_db = nvl(l_user_data[0]['encrypted_password'], "xx");
+		else l_hashed_pwd_from_db = "xx";
 		//sqlt is incorporated in l_hashed_pwd_from_db so bcrypt does not need it again
 		bcrypt.compare(l_password, l_hashed_pwd_from_db, function(err, res) {
 			if (res) {

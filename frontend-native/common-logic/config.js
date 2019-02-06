@@ -5,6 +5,8 @@ export default  {
 		Common: {
 			back: "Back",
 			submit: "Submit",
+			yes: "Yes",
+			no: "No",
 		},
 		ChangeEmail: {
 			newEMail: "New EMail",
@@ -37,6 +39,7 @@ export default  {
 			updateData: "Update your data",
 			changePwd: "Change Password",
 			changeEmail: "Change EMail",
+			logout: "Logout",
 		},
 		SettingsScreen: {
 			title: "Settings",
@@ -47,6 +50,9 @@ export default  {
 			login: "Login",
 			forgotPassword: "Forgot Password",
 			signUp: "Sign Up",
+		},
+		Logout: {
+			logout: "Are you sure to log out?",
 		},
 		PasswordResetEMail: {
 			sendConfirmation: "Send Confirmation",

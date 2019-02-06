@@ -98,7 +98,8 @@ var requestHandlers = function () {
 			var l_params = [];
 			l_params.push(l_email);
 			var l_user_data = await _database_action_mysql2.default.execute_select(_sqls2.default.getAllAttributesOfAUser, l_params);
-			var l_hashed_pwd_from_db = l_user_data ? (0, _generic_library.nvl)(l_user_data[0]['encrypted_password'], "xx") : "xx";
+			var l_hashed_pwd_from_db = void 0;
+			if (l_user_data.length > 0) l_hashed_pwd_from_db = (0, _generic_library.nvl)(l_user_data[0]['encrypted_password'], "xx");else l_hashed_pwd_from_db = "xx";
 			//sqlt is incorporated in l_hashed_pwd_from_db so bcrypt does not need it again
 			_bcrypt2.default.compare(l_password, l_hashed_pwd_from_db, function (err, res) {
 				if (res) {
