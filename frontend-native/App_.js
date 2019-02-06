@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
 import { AppLoading, Asset, Font, Icon, Constants } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 
@@ -9,6 +9,12 @@ import { types} from './redux-store.js';
 
 import NotLoggedScreen from './screens/NotLoggedScreen.js';
 
+import config from './common-logic/config.js';
+
+import {fetch_data_v2} from './common-logic/fetchhandler.js';
+
+import CheckLogin from './screens/CheckLoginScreen.js';
+import {nvl} from './common-logic/generic_library.js';
 
 function mapDispatchToProps(dispatch) {
 	return({
@@ -40,33 +46,43 @@ class App_ extends React.Component {
 		super(props);
 		this.state = {
 			isLoadingComplete: false,
+			JWTState: "checking",
 		};
 	};
 
 	componentDidMount(){
-		// redux root level data update test
-		/*
-			setInterval(() => {
-				let l_type = store.getState().isLogged ? types.LOGOUT : types.LOGIN;
-				store.dispatch({type: l_type});
-				this.setState({logStateOfApp: store.getState().isLogged});
-			}, 10000);
-		*/
-		/*
-			var i = 0;
-			setInterval(() => {
-			i += 1; if (i > 4) i = 0;
-			store.dispatch({
-					type: types.LOGINNAV,
-					activeLoginComponent: Object.values(loginComponents)[i]
-				})
-			}, 1000);
-		*/
+		this.setState({JWTState: "checking"});
+		f_process_JWT = (p_JWT) => {
+			let l_method = "POST";
+			let l_uri = config.mainServerBaseURL + "/checkJWT";
+			let l_extra_headers = {
+				'Authorization': 'Bearer ' + nvl(p_JWT, "xx"),
+			};
+			let l_body = {
+			};
+			let l_fnc =  ((p_resp) => {
+				this.setState({JWTState: "checked"});
+				if (p_resp.result == "OK"){
+					this.props.setAppState(true);
+				}
+				else {
+					this.props.setAppState(false);
+					alert(p_resp.message);
+				}
+			}).bind(this);
+			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
+		}
+		AsyncStorage.getItem(config.JWTKey)
+			.then((l_JWT) => f_process_JWT(l_JWT));
 		this.props.setDevUrl();
 	}
 
 
 	render() {
+		if (this.state.JWTState == "ckecking"){
+			return <CheckLoginScreen />
+		};
+
 		if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
 			return (
 				<AppLoading
