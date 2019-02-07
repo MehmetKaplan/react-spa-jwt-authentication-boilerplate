@@ -270,6 +270,46 @@ export default class requestHandlers {
 		else return p_res.json(config.signalsFrontendBackend.eMailValidationGenericError);
 	}
 
+	async getUserData(p_req, p_res){
+		if (checkLock(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+		await incrementLockCount(p_req.ip);
+		let l_token_from_header = p_req.headers['x-access-token'] || p_req.headers['authorization'];
+		// JWT expected either in Bearer or JWT header
+		if (l_token_from_header.startsWith('Bearer ')) {
+			l_token_from_header = l_token_from_header.slice(7, l_token_from_header.length);
+		}
+		if (l_token_from_header.startsWith('JWT ')) {
+			l_token_from_header = l_token_from_header.slice(4, l_token_from_header.length);
+		}
+
+		if (l_token_from_header) {
+			jwt.verify(l_token_from_header, config.jwtSecret, async (err, decoded) => {
+				if (err) {
+					return p_res.json(config.signalsFrontendBackend.tokenNotValid);
+				}
+				else {
+					let l_params = [];
+					l_params.push(decoded.email);
+					let l_user_data = await databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
+					resetLockCount(p_req.ip);
+					let l_response_json = Object.assign ({
+						name:  l_user_data[0].name,
+						midname:  l_user_data[0].midname,
+						surname:  l_user_data[0].surname,
+						gender_id:  l_user_data[0].gender_id,
+						birthday: l_user_data[0].formattedbirthday,
+						phone:  l_user_data[0].phone,	
+					}, config.signalsFrontendBackend.tokenValid);
+					return p_res.json(l_response_json);
+				};
+			});
+		} 
+		else {
+			return p_res.json(config.signalsFrontendBackend.tokenNotSupplied);
+		}
+
+	}
+
 	async updateEMail(p_req, p_res){
 		let l_email = p_req.body.email.toLowerCase();
 		if (checkLock(p_req.ip, l_email) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
@@ -354,7 +394,7 @@ export default class requestHandlers {
 		if (validations.phone(l_phone) != "OK") return p_res.json(config.signalsFrontendBackend.phoneValdiationFailed);
 
 		let l_email = "";
-		let l_jwt_payload = validations.checkJWT(p_req);
+		let l_jwt_payload = await validations.checkJWT(p_req);
 		if( nvl(l_jwt_payload["email"], "x") == "x" ) return p_res.json(config.signalsFrontendBackend.tokenNotValid);
 		else l_email = l_jwt_payload["email"];
 

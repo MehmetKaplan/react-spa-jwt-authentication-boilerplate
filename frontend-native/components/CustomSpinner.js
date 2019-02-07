@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, Container, Header, Content, Spinner } from 'native-base';
+import { Text, Container, Content, Spinner } from 'native-base';
 
-export default class CheckLoginScreen extends React.Component {
+export default class CustomSpinner extends React.Component {
 
 	constructor() {
 		super();

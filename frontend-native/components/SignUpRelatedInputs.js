@@ -59,7 +59,7 @@ class SignUpRelatedInputs extends React.Component {
 			 name: this.state.name_value,
 			 midname: this.state.midname_value,
 			 surname: this.state.surname_value,
-			 gender_id: nvl(this.state.gender_id_value, "G3"),
+			 gender_id: nvl(this.state.gender_id_value, "3"),
 			 birthday: date_to_str(this.state.birthday_value, "yyyyMMddhhmmss"),
 			 phone: this.state.phone_value,
 		 };

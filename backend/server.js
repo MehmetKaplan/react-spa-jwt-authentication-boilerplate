@@ -26,6 +26,7 @@ function main () {
 	app.post('/updateEMail', (req, res) => rh.updateEMail(req, res));
 	app.post('/updatePassword', (req, res) => rh.updatePassword(req, res));
 	app.post('/updateData', (req, res) => rh.updateData(req, res));
+	app.post('/getUserData', (req, res) => rh.getUserData(req, res));
 	app.all('/', (req, res) => res.redirect("/test"));
 	app.all('*', (req, res) => res.redirect("/"));
 	app.listen(port, () => console.log(`Server is listening on port: ${port}\nStart time: ${getUTCTimeAsString()}`));

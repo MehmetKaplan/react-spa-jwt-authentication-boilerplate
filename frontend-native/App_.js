@@ -13,7 +13,7 @@ import config from './common-logic/config.js';
 
 import {fetch_data_v2} from './common-logic/fetchhandler.js';
 
-import CheckLogin from './screens/CheckLoginScreen.js';
+import CustomSpinner from './components/CustomSpinner.js';
 import {nvl} from './common-logic/generic_library.js';
 
 function mapDispatchToProps(dispatch) {
@@ -79,9 +79,7 @@ class App_ extends React.Component {
 
 
 	render() {
-		if (this.state.JWTState == "ckecking"){
-			return <CheckLoginScreen />
-		};
+		if (this.state.JWTState == "ckecking")return <CustomSpinner />;
 
 		if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
 			return (

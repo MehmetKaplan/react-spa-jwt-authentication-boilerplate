@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 exports.default = {
-	getAllAttributesOfAUser: "select * from AuthUsersDB.users where email = ? ",
+	getAllAttributesOfAUser: "select a.*, date_format(a.birthday, '%Y%m%d%H%i%s') formattedbirthday from AuthUsersDB.users a where email = ?",
 	updateResetPasswordSecondToken: "update AuthUsersDB.users set ResetPasswordSecondToken = ?, ResetPasswordSecondTokenValidFrom = ? where email = ? ",
 	readResetPasswordSecondToken: "select ResetPasswordSecondToken, ResetPasswordSecondTokenValidFrom from AuthUsersDB.users where email = ? ",
 	updateEncryptedPassword: "update AuthUsersDB.users set encrypted_password = ? where email = ? ",

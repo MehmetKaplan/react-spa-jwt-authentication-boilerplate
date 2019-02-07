@@ -271,6 +271,44 @@ var requestHandlers = function () {
 			if (l_mail_result == "OK") return p_res.json(_config2.default.signalsFrontendBackend.emailValidationEMailSent);else return p_res.json(_config2.default.signalsFrontendBackend.eMailValidationGenericError);
 		}
 	}, {
+		key: 'getUserData',
+		value: async function getUserData(p_req, p_res) {
+			if ((0, _lock_handler.checkLock)(p_req.ip) == "LOCKED") return p_res.json(_config2.default.signalsFrontendBackend.locked);
+			await (0, _lock_handler.incrementLockCount)(p_req.ip);
+			var l_token_from_header = p_req.headers['x-access-token'] || p_req.headers['authorization'];
+			// JWT expected either in Bearer or JWT header
+			if (l_token_from_header.startsWith('Bearer ')) {
+				l_token_from_header = l_token_from_header.slice(7, l_token_from_header.length);
+			}
+			if (l_token_from_header.startsWith('JWT ')) {
+				l_token_from_header = l_token_from_header.slice(4, l_token_from_header.length);
+			}
+
+			if (l_token_from_header) {
+				_jsonwebtoken2.default.verify(l_token_from_header, _config2.default.jwtSecret, async function (err, decoded) {
+					if (err) {
+						return p_res.json(_config2.default.signalsFrontendBackend.tokenNotValid);
+					} else {
+						var l_params = [];
+						l_params.push(decoded.email);
+						var l_user_data = await _database_action_mysql2.default.execute_select(_sqls2.default.getAllAttributesOfAUser, l_params);
+						(0, _lock_handler.resetLockCount)(p_req.ip);
+						var l_response_json = Object.assign({
+							name: l_user_data[0].name,
+							midname: l_user_data[0].midname,
+							surname: l_user_data[0].surname,
+							gender_id: l_user_data[0].gender_id,
+							birthday: l_user_data[0].formattedbirthday,
+							phone: l_user_data[0].phone
+						}, _config2.default.signalsFrontendBackend.tokenValid);
+						return p_res.json(l_response_json);
+					};
+				});
+			} else {
+				return p_res.json(_config2.default.signalsFrontendBackend.tokenNotSupplied);
+			}
+		}
+	}, {
 		key: 'updateEMail',
 		value: async function updateEMail(p_req, p_res) {
 			var l_email = p_req.body.email.toLowerCase();
@@ -351,7 +389,7 @@ var requestHandlers = function () {
 			if (_validations2.default.phone(l_phone) != "OK") return p_res.json(_config2.default.signalsFrontendBackend.phoneValdiationFailed);
 
 			var l_email = "";
-			var l_jwt_payload = _validations2.default.checkJWT(p_req);
+			var l_jwt_payload = await _validations2.default.checkJWT(p_req);
 			if ((0, _generic_library.nvl)(l_jwt_payload["email"], "x") == "x") return p_res.json(_config2.default.signalsFrontendBackend.tokenNotValid);else l_email = l_jwt_payload["email"];
 
 			var l_params = [];

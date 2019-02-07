@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken';
 import config from './config.js';
 import databaseActionMySQL from './database_action_mysql.js';
 import sqls from './sqls.js';
@@ -7,7 +8,7 @@ import {nvl} from './generic_library.js';
 class validations_ {
 	
 	constructor(){
-
+		this.checkJWT_ = this.checkJWT_.bind(this);
 	}
 
 	async email(p_email){
@@ -66,8 +67,8 @@ class validations_ {
 	checkJWT_(p_req) {
 		return new Promise(resolve => {
 			let l_token_from_header = p_req.headers['x-access-token'] || p_req.headers['authorization'];
-			if (l_token_from_header.startsWith('Bearer ')) l_token_from_header = l_token_from_header.slice(7, token.length);
-			if (l_token_from_header.startsWith('JWT '))l_token_from_header = l_token_from_header.slice(4, token.length);
+			if (l_token_from_header.startsWith('Bearer ')) l_token_from_header = l_token_from_header.slice(7, l_token_from_header.length);
+			if (l_token_from_header.startsWith('JWT '))l_token_from_header = l_token_from_header.slice(4, l_token_from_header.length);
 			if (l_token_from_header) {
 				jwt.verify(l_token_from_header, config.jwtSecret, (err, decoded) => {
 					if (err) {
@@ -82,7 +83,7 @@ class validations_ {
 	}
 
 	async checkJWT(p_req) {
-		var l_retval = await checkJWT_(p_req);
+		var l_retval = await this.checkJWT_(p_req);
 		return l_retval;
 	}
 

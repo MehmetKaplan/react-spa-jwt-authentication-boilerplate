@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _jsonwebtoken = require('jsonwebtoken');
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+
 var _config = require('./config.js');
 
 var _config2 = _interopRequireDefault(_config);
@@ -27,6 +31,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var validations_ = function () {
 	function validations_() {
 		_classCallCheck(this, validations_);
+
+		this.checkJWT_ = this.checkJWT_.bind(this);
 	}
 
 	_createClass(validations_, [{
@@ -95,10 +101,10 @@ var validations_ = function () {
 		value: function checkJWT_(p_req) {
 			return new Promise(function (resolve) {
 				var l_token_from_header = p_req.headers['x-access-token'] || p_req.headers['authorization'];
-				if (l_token_from_header.startsWith('Bearer ')) l_token_from_header = l_token_from_header.slice(7, token.length);
-				if (l_token_from_header.startsWith('JWT ')) l_token_from_header = l_token_from_header.slice(4, token.length);
+				if (l_token_from_header.startsWith('Bearer ')) l_token_from_header = l_token_from_header.slice(7, l_token_from_header.length);
+				if (l_token_from_header.startsWith('JWT ')) l_token_from_header = l_token_from_header.slice(4, l_token_from_header.length);
 				if (l_token_from_header) {
-					jwt.verify(l_token_from_header, _config2.default.jwtSecret, function (err, decoded) {
+					_jsonwebtoken2.default.verify(l_token_from_header, _config2.default.jwtSecret, function (err, decoded) {
 						if (err) {
 							resolve({});
 						} else {
@@ -111,7 +117,7 @@ var validations_ = function () {
 	}, {
 		key: 'checkJWT',
 		value: async function checkJWT(p_req) {
-			var l_retval = await checkJWT_(p_req);
+			var l_retval = await this.checkJWT_(p_req);
 			return l_retval;
 		}
 	}]);

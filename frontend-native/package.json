@@ -16,6 +16,7 @@
     "@expo/samples": "2.1.1",
     "@expo/vector-icons": "^9.0.0",
     "expo": "^32.0.2",
+    "moment": "^2.24.0",
     "native-base": "^2.10.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",

@@ -60,6 +60,9 @@ function main() {
 	app.post('/updateData', function (req, res) {
 		return rh.updateData(req, res);
 	});
+	app.post('/getUserData', function (req, res) {
+		return rh.getUserData(req, res);
+	});
 	app.all('/', function (req, res) {
 		return res.redirect("/test");
 	});
