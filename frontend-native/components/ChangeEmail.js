@@ -52,8 +52,8 @@ class ChangeEmail extends React.Component {
 		let l_fnc =  ((p_resp) => {
 			if (p_resp.result == "OK")
 			{
-				alert(JSON.stringify(p_resp));
-				this.props.setChangeEmail(this.state.email_value);
+				alert(p_resp.message);
+				this.props.setChangeEmail(this.state.newEMail_value);
 				this.props.setAppState(settingsScreenComponents.EMAILCHANGE2);
 			}
 			else {
