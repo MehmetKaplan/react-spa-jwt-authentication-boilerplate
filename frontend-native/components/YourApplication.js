@@ -55,14 +55,17 @@ class YourApplication extends React.Component {
 	};
 
 	componentDidMount(){
-		setInterval(() => {
+		let l_intervalPointer = setInterval(() => {
 			l_index = (this.state.colorIndex + 1) % colors.length;
 			this.setState({colorIndex: l_index})
 		}, 1000);
+		this.setState({intervalPointer: l_intervalPointer});
 		console.log(this.props.hostMachine);
 	}
 
-	
+	componentWillUnmount(){
+		clearInterval(this.state.intervalPointer);
+	}	
 	
 	render() {
 		let l_bgcolor = colors[this.state.colorIndex];

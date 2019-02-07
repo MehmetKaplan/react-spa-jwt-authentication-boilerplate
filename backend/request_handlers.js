@@ -397,7 +397,7 @@ export default class requestHandlers {
 		let l_params = [];
 		l_params.push(l_email);
 		let l_user_data = await databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
-		let l_hashed_pwd_from_db = l_user_data ? nvl(l_user_data['encrypted_password'], "xx") : "xx";
+		let l_hashed_pwd_from_db = l_user_data ? nvl(l_user_data[0]['encrypted_password'], "xx") : "xx";
 		if (!(bcrypt.compareSync(l_oldpassword, l_hashed_pwd_from_db))) return p_res.json(config.signalsFrontendBackend.wrongPassword);
 
 		bcrypt.hash(l_password, config.bcryptSaltRounds, async function(err, hash) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import {AsyncStorage} from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -6,6 +7,8 @@ import { Form, Item, Label, Input, Button, Text } from 'native-base';
 
 import {types, settingsScreenComponents} from '../redux-store.js';
 import config from '../common-logic/config.js';
+import {nvl} from '../common-logic/generic_library.js';
+import {fetch_data_v2} from '../common-logic/fetchhandler.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({
@@ -38,12 +41,29 @@ class ChangePassword extends React.Component {
 		// Place main purpose of component here
 
 		// use this.state.newPassword_value to send the confirmation code
-		alert(
-			"\n this.state.oldPassword_value:" + this.state.oldPassword_value
-			+ "\n this.state.newPassword_value:" + this.state.newPassword_value
-			+ "\n this.state.newPassword2_value:" + this.state.newPassword2_value
-		 );
-		this.props.setAppState(settingsScreenComponents.SETTINGS);
+		f_process_JWT = (p_JWT) => {
+			let l_method = "POST";
+			let l_uri = config.mainServerBaseURL + "/updatePassword";
+			let l_extra_headers = {
+				'Authorization': 'Bearer ' + nvl(p_JWT, "xx"),
+			};
+			let l_body = {
+				oldPassword: this.state.oldPassword_value,
+				password: this.state.newPassword_value,
+				password2: this.state.newPassword2_value,
+			};
+			let l_fnc =  ((p_resp) => {
+				if (p_resp.result == "OK"){
+					alert(p_resp.message);
+				}
+				else {
+					alert(p_resp.message);
+				}
+			}).bind(this);
+			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
+		}
+		AsyncStorage.getItem(config.JWTKey)
+			.then((l_JWT) => f_process_JWT(l_JWT));
 	}
 	
 

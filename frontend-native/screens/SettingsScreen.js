@@ -72,8 +72,9 @@ class SettingsScreen extends React.Component {
 				l_active_component = <Logout />;
 				break;
 			default:
-				// do nothing
-		}
+				l_active_component = <Settings />;
+				break;
+	}
 		return <ScrollView style={styles.container}>{l_active_component}</ScrollView>;
 	}
 }
