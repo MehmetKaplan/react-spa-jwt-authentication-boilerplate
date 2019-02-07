@@ -165,8 +165,8 @@ export default class requestHandlers {
 					bcrypt.hash(l_plain_password, config.bcryptSaltRounds, async function(err, hash) {
 						// Store hash in your password DB.
 						let l_params = [];
-						l_params.push(l_email);
 						l_params.push(hash);
+						l_params.push(l_email);
 						let l_update_result = await databaseActionMySQL.execute_updatedeleteinsert(sqls.updateEncryptedPassword, l_params);
 						if (l_update_result == "OK") {
 							resetLockCount(p_req.ip);

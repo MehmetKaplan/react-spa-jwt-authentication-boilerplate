@@ -75,10 +75,7 @@ export async function checkIPBasedFrequentUserGeneration(p_ip){
 export async function modifyIPBasedUserGenerationTime(p_ip){
 	let l_params = [];
 	l_params.push(p_ip);
-	try {
-		await databaseActionMySQL.execute_updatedeleteinsert(sqls.ipBasedNewUserSignupInsert, l_params);
-	 }
-	 catch(err) {
-		await databaseActionMySQL.execute_updatedeleteinsert(sqls.ipBasedNewUserSignupUpdate, l_params);
-	 }
+	let l_prev = await databaseActionMySQL.execute_select(sqls.ipBasedNewUserSignupSelect, l_params);
+	if (l_prev.length > 0) await databaseActionMySQL.execute_updatedeleteinsert(sqls.ipBasedNewUserSignupUpdate, l_params);
+	else await databaseActionMySQL.execute_updatedeleteinsert(sqls.ipBasedNewUserSignupInsert, l_params);
 }

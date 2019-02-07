@@ -196,7 +196,9 @@ After you cloned the whole structure with following principles you can use the e
 * ```backend/server.js```, as a standard Express application, keeps track of routes, all of which are API requests, except the web application (the ```frontend``` application)
 * ```backend/validations.js``` is resposible of the request parameters' validations.
 
+# Demo Video
+[Video for Frontend Native](./Videos/frontendnativedemo.mp4)
+
 # TO BE CONTINUED
 
-* Frontend Native (ongoing)
-* Frontend (not yet started)
+* Frontend web (ongoing)
