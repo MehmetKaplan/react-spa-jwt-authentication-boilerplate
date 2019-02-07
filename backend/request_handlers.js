@@ -348,36 +348,6 @@ export default class requestHandlers {
 		}
 	}
 
-	async updateEMail(p_req, p_res){
-		let l_email = p_req.body.email.toLowerCase();
-		if (checkLock(p_req.ip, l_email) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
-		await incrementLockCount(p_req.ip, l_email);
-
-		let l_email_token = p_req.body.emailtoken;
-		if (validations.email(l_email, l_email_token) != "OK")           return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
-		//not needed coming from JWT // if (validations.emailexistence(l_email) != "OK")                 return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
-		if ((await validations.emailNotExistence(l_email)) != "OK") 	  return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
-
-		let l_oldemail = "";
-		let l_jwt_payload = validations.checkJWT(p_req);
-		if( nvl(l_jwt_payload["email"], "x") == "x" ) return p_res.json(config.signalsFrontendBackend.tokenNotValid);
-		else l_oldemail = l_jwt_payload["email"];
-
-		let l_params = [];
-		l_params.push(l_email);
-		l_params.push(l_oldemail);
-		await databaseActionMySQL.execute_updatedeleteinsert(sqls.updateEMail, l_params);
-		if (l_result != "OK") return p_res.json(config.signalsFrontendBackend.signUpGenericError);
-
-		let l_retval_as_json = config.signalsFrontendBackend.eMailUpdated;
-		l_retval_as_json['JWT'] = jwt.sign(
-			{email: l_email},
-			config.jwtSecret,
-			{expiresIn: config.jwtExpire}
-		);
-		return p_res.json(l_retval_as_json);
-	}
-
 	async updatePassword(p_req, p_res){
 		if (checkLock(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		await incrementLockCount(p_req.ip);
@@ -414,6 +384,36 @@ export default class requestHandlers {
 				return p_res.json(config.signalsFrontendBackend.updatePasswordFailed);
 			}
 		});
+	}
+
+	async updateEMail(p_req, p_res){
+		let l_email = p_req.body.email.toLowerCase();
+		if (checkLock(p_req.ip, l_email) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+		await incrementLockCount(p_req.ip, l_email);
+
+		let l_email_token = p_req.body.emailtoken;
+		if (validations.email(l_email, l_email_token) != "OK")           return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
+		//not needed coming from JWT // if (validations.emailexistence(l_email) != "OK")                 return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
+		if ((await validations.emailNotExistence(l_email)) != "OK") 	  return p_res.json(config.signalsFrontendBackend.signUpInvalidEmail);
+
+		let l_oldemail = "";
+		let l_jwt_payload = validations.checkJWT(p_req);
+		if( nvl(l_jwt_payload["email"], "x") == "x" ) return p_res.json(config.signalsFrontendBackend.tokenNotValid);
+		else l_oldemail = l_jwt_payload["email"];
+
+		let l_params = [];
+		l_params.push(l_email);
+		l_params.push(l_oldemail);
+		await databaseActionMySQL.execute_updatedeleteinsert(sqls.updateEMail, l_params);
+		if (l_result != "OK") return p_res.json(config.signalsFrontendBackend.signUpGenericError);
+
+		let l_retval_as_json = config.signalsFrontendBackend.eMailUpdated;
+		l_retval_as_json['JWT'] = jwt.sign(
+			{email: l_email},
+			config.jwtSecret,
+			{expiresIn: config.jwtExpire}
+		);
+		return p_res.json(l_retval_as_json);
 	}
 
 	allOtherURLs(p_req, p_res){

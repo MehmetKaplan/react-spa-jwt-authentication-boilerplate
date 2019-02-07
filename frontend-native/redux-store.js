@@ -12,6 +12,7 @@ export const types = {
 	HOSTMACHINE: 'HOSTMACHINE',
 	SIGNUPEMAIL: 'SIGNUPEMAIL',
 	FORGOTPWDEMAILJWT: 'FORGOTPWDEMAILJWT',
+	CHANGEEMAIL: 'CHANGEEMAIL',
 };
 
 export const loginComponents = {
@@ -70,6 +71,9 @@ export const reducer = (p_state, p_action) => {
 		case types.HOMESCREENBLUE:
 			l_retval['homeScreenColor'] = 'blue';
 			break;
+		case types.CHANGEEMAIL:
+			l_retval['changeEmail'] = p_action.changeEmail;
+			break;
 		//deleteme - end
 		default:
 			// do nothing
@@ -87,6 +91,7 @@ export const initialState = {
 	hostMachine: "default value that should have been changed",
 	signUpEmail: "",
 	forgoTPwdEMailJWT: "",
+	changeEmail: "",
 };
 
 // Create a store, passing our reducer function and our initial state

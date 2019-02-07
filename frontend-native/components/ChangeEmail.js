@@ -6,6 +6,7 @@ import { Form, Item, Label, Input, Button, Text } from 'native-base';
 
 import {types, settingsScreenComponents} from '../redux-store.js';
 import config from '../common-logic/config.js';
+import {fetch_data_v2} from '../common-logic/fetchhandler.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({
@@ -15,6 +16,11 @@ function mapDispatchToProps(dispatch) {
 				activeSettingsScreenComponent: p_new_active_component,
 			})
 		},
+		setChangeEmail: (p_changeemail) => {dispatch({
+			type: types.CHANGEEMAIL,
+			changeEmail: p_changeemail
+		})},
+
 	})
 };
 
@@ -37,8 +43,24 @@ class ChangeEmail extends React.Component {
 	componentMainFunction(){
 		// Place main purpose of component here
 
-		// use this.state.newEMail_value to send the confirmation code
-		this.props.setAppState(settingsScreenComponents.EMAILCHANGE2);
+		let l_method = "POST";
+		let l_uri = config.mainServerBaseURL + "/generateEmailOwnershipToken";
+		let l_extra_headers = {};
+		let l_body = {
+			email: this.state.newEMail_value,
+		};
+		let l_fnc =  ((p_resp) => {
+			if (p_resp.result == "OK")
+			{
+				alert(JSON.stringify(p_resp));
+				this.props.setChangeEmail(this.state.email_value);
+				this.props.setAppState(settingsScreenComponents.EMAILCHANGE2);
+			}
+			else {
+				alert(p_resp.message);
+			}
+		}).bind(this);
+		fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
 	}
 
 	render() {
