@@ -9,7 +9,7 @@ import { Form, Item, Label, Input, Button, Text, Picker, DatePicker } from 'nati
 import CustomSpinner from './CustomSpinner.js';
 
 
-import {types, settingsScreenComponents} from '../redux-store.js';
+import {types, settingsScreenComponents} from '../common-logic/redux-store.js';
 import config from '../common-logic/config.js';
 
 import {nvl} from '../common-logic/generic_library.js';

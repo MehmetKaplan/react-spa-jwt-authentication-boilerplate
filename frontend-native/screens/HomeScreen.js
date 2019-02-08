@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import {types} from '../redux-store.js';
+import {types} from '../common-logic/redux-store.js';
 
 import YourApplication from '../components/YourApplication.js';
 

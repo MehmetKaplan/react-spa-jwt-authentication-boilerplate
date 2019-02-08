@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import {types, loginComponents} from '../redux-store.js';
+import {types, loginComponents} from '../common-logic/redux-store.js';
 
 import Subtitle from 'native-base';
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Form, Button, Text } from 'native-base';
 
-import {types, settingsScreenComponents, loginComponents} from '../redux-store.js';
+import {types, settingsScreenComponents, loginComponents} from '../common-logic/redux-store.js';
 import config from '../common-logic/config.js';
 
 

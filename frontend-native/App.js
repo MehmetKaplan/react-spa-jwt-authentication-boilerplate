@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider, connect } from 'react-redux';
-import {store} from './redux-store.js';
+import {store} from './common-logic/redux-store.js';
 import App_ from './App_.js';
 
 import {Text} from 'react-native';

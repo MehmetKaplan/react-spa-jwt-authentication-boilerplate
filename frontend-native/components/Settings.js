@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Form, Button, Text } from 'native-base';
 
-import {types, settingsScreenComponents} from '../redux-store.js';
+import {types, settingsScreenComponents} from '../common-logic/redux-store.js';
 import config from '../common-logic/config.js';
 
 function mapDispatchToProps(dispatch) {

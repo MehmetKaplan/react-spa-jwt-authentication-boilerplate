@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import {types, settingsScreenComponents} from '../redux-store.js';
+import {types, settingsScreenComponents} from '../common-logic/redux-store.js';
 import Settings from '../components/Settings.js';
 import ChangePassword from '../components/ChangePassword.js';
 import UpdateData from '../components/UpdateData.js';

@@ -178,8 +178,8 @@ After you cloned the whole structure with following principles you can use the e
 	* On the other hand logic of how the data is retrieved, manipulated and posted should be exactly the same for both web and native applications.
 * Start with command ```yarn start``` which runs Expo application. Rest is same as you are working in an Expo application.
 * The layout of pages are components and you can find them under the ```frontend-native/components``` folder. Modifying them you can change the view of your project however you like.
-* The redux store is in the ```frontend-native/redux-store.js``` file. You can update this file and use it similarly in your project.
-* Under the ```frontend-native/redux-store.js``` file, there is an object named ```homeScreenComponents```. It helps you decide your navigation. Add here the name of your component with a keyname. And use same keyname to be called by a dispatcher where the new component is to be placed in the ```frontend-native/screens/HomeScreen.js```.
+* The redux store is in the ```frontend-native/common-logic/redux-store.js``` file. You can update this file and use it similarly in your project.
+* Under the ```frontend-native/common-logic/redux-store.js``` file, there is an object named ```homeScreenComponents```. It helps you decide your navigation. Add here the name of your component with a keyname. And use same keyname to be called by a dispatcher where the new component is to be placed in the ```frontend-native/screens/HomeScreen.js```.
 
 
 ## Backend

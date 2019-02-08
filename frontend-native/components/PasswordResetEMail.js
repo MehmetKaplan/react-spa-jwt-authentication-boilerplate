@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Form, Item, Label, Input, Button, Text } from 'native-base';
 
-import {types, loginComponents} from '../redux-store.js';
+import {types, loginComponents} from '../common-logic/redux-store.js';
 import config from '../common-logic/config.js';
 
 import {fetch_data_v2} from '../common-logic/fetchhandler.js';

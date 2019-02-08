@@ -5,7 +5,7 @@ import AppNavigator from './navigation/AppNavigator';
 
 import { connect } from 'react-redux';
 
-import { types} from './redux-store.js';
+import { types} from './common-logic/redux-store.js';
 
 import NotLoggedScreen from './screens/NotLoggedScreen.js';
 
