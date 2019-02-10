@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 import config from './config';
 import requestHandlers from './request_handlers.js';
@@ -16,8 +17,12 @@ function main () {
 	let rh = new requestHandlers();
 	//app.use(bodyParser.json()); // Different routes require different bodyParsers
 	// Routes & Handlers
+	
+	app.use(cors());
+	app.options('*', cors());
+	
 	app.all('/test', (req, res) => rh.testConnection(req, res));
-	app.post('/checkJWT', (req, res) => rh.checkJWT(req, res));
+	app.all('/checkJWT', (req, res) => rh.checkJWT(req, res));
 	app.post('/login', (req, res) => rh.login(req, res));
 	app.post('/generateResetPwdToken', (req, res) => rh.generateResetPwdToken(req, res));
 	app.post('/resetPwd', (req, res) => rh.resetPwd(req, res));

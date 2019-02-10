@@ -1,28 +1,37 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Provider } from 'react-redux';
+import {store} from './common-logic/redux-store.js';
+import App_ from './App_.js';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+
+export default class App extends React.Component {
+	// Just a wrapper to set redux store
+	componentDidMount(){
+		// redux root level data update test >>> MOVED FROM App_.js
+		/*
+			setInterval(() => {
+				let l_type = store.getState().isLogged ? types.LOGOUT : types.LOGIN;
+				store.dispatch({type: l_type});
+				this.setState({logStateOfApp: store.getState().isLogged});
+			}, 10000);
+		*/
+		/*
+			var i = 0;
+			setInterval(() => {
+			i += 1; if (i > 4) i = 0;
+			store.dispatch({
+					type: types.LOGINNAV,
+					activeLoginComponent: Object.values(loginComponents)[i]
+				})
+			}, 1000);
+		*/
+
+	}
+	render() {
+		/* eslint-disable react/jsx-pascal-case */
+		return <Provider store={store}>
+			<App_ /> 
+		</Provider>;
+		/* eslint-enable react/jsx-pascal-case */
+	}
 }
-
-export default App;

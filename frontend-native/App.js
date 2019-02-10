@@ -1,9 +1,8 @@
 import React from 'react';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import {store} from './common-logic/redux-store.js';
 import App_ from './App_.js';
 
-import {Text} from 'react-native';
 
 export default class App extends React.Component {
 	// Just a wrapper to set redux store
@@ -29,8 +28,10 @@ export default class App extends React.Component {
 
 	}
 	render() {
+		/* eslint-disable react/jsx-pascal-case */
 		return <Provider store={store}>
-			<App_ />
-		</Provider>
+			<App_ /> 
+		</Provider>;
+		/* eslint-enable react/jsx-pascal-case */
 	}
 }
