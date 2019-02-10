@@ -21,6 +21,12 @@ export default class requestHandlers {
 		let l_retval = nvl(p_req.body, {});
 		l_retval['result'] = "OK";
 		l_retval['handler'] = "testConnection";
+		l_retval['JWT'] = jwt.sign(
+			{email: "test@test.com"},
+			config.jwtSecret,
+			{expiresIn: config.jwtExpire}
+		);
+		console.log(l_retval['JWT']);
 		return p_res.json(l_retval);
 	}
 
