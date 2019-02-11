@@ -1,13 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import {store} from './common-logic/redux-store.js';
-import App_ from './App_.js';
+import AppSub from './AppSub.js';
 
 
 export default class App extends React.Component {
 	// Just a wrapper to set redux store
 	componentDidMount(){
-		// redux root level data update test >>> MOVED FROM App_.js
+		// redux root level data update test >>> MOVED FROM AppSub.js
 		/*
 			setInterval(() => {
 				let l_type = store.getState().isLogged ? types.LOGOUT : types.LOGIN;
@@ -30,7 +30,7 @@ export default class App extends React.Component {
 	render() {
 		/* eslint-disable react/jsx-pascal-case */
 		return <Provider store={store}>
-			<App_ /> 
+			<AppSub /> 
 		</Provider>;
 		/* eslint-enable react/jsx-pascal-case */
 	}

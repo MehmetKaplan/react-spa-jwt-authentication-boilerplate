@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
+
 import CustomSpinner from './components/CustomSpinner.js';
+import NotLoggedScreen from './components/NotLoggedScreen.js';
 import { connect } from 'react-redux';
 import {types} from './common-logic/redux-store.js';
 import config from './common-logic/config.js';
@@ -21,7 +22,7 @@ function mapStateToProps(state) {
 	});
 };
 
-class App_ extends Component {
+class AppSub extends Component {
 
 	constructor(props){
 		super(props);
@@ -31,9 +32,6 @@ class App_ extends Component {
 	};
 
 	componentDidMount(){
-//deleteme
-localStorage.setItem(config.JWTKey, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE1NDk4MTYwMDksImV4cCI6MTU0OTkwMjQwOX0.3_pbLCEy46th-sDEpGsEoXrt353pRPDcLmWzVHGevEs');
-localStorage.setItem(config.JWTKey, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE1NDk4MTYwMDksImV4cCI6MTU0OTkwMjQwOX0.3_pbLCEy46th-sDEpGsEoXrt353pRPDcLmWzVHGevEs');
 		this.setState({JWTState: "checking"});
 		let l_JWT = localStorage.getItem(config.JWTKey);
 		let f_process_JWT = (p_JWT) => {
@@ -46,12 +44,11 @@ localStorage.setItem(config.JWTKey, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbW
 			};
 			let l_fnc = ((p_resp) => {
 				this.setState({ JWTState: "checked" });
-				if (p_resp.result == "OK") {
+				if (p_resp.result === "OK") {
 					this.props.setLoginState(true);
 				}
 				else {
 					this.props.setLoginState(false);
-					alert(p_resp.message);
 				}
 			/* eslint-disable no-extra-bind */
 			}).bind(this);
@@ -64,13 +61,13 @@ localStorage.setItem(config.JWTKey, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbW
 
 
 	render() {
-		if (this.state.JWTState == "ckecking") return <CustomSpinner />;
+		if (this.state.JWTState === "ckecking") return <CustomSpinner />;
 
-		let l_login_page = <div>NOT LOGGED</div>  // <NotLoggedScreen />;
+		let l_login_page = <NotLoggedScreen />;
 		let l_homescreen = <div>LOGGED IN</div>  // <YourApplication.js />
 		let l_mainpage = this.props.isLogged ? l_homescreen : l_login_page;
 		return (l_mainpage);
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App_);
+export default connect(mapStateToProps, mapDispatchToProps)(AppSub);

@@ -22,7 +22,7 @@ function main () {
 	app.options('*', cors());
 	
 	app.all('/test', (req, res) => rh.testConnection(req, res));
-	app.all('/checkJWT', (req, res) => rh.checkJWT(req, res));
+	app.post('/checkJWT', (req, res) => rh.checkJWT(req, res));
 	app.post('/login', (req, res) => rh.login(req, res));
 	app.post('/generateResetPwdToken', (req, res) => rh.generateResetPwdToken(req, res));
 	app.post('/resetPwd', (req, res) => rh.resetPwd(req, res));

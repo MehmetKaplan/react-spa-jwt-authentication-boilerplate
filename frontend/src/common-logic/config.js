@@ -1,5 +1,5 @@
 export default  {
-	mainServerBaseURL: "http" + "://" + "172.20.10.12" + ":" + "8000",
+	mainServerBaseURL: "http" + "://" + "192.168.1.35" + ":" + "8000",
 	JWTKey: "JWTKey",
 	uiTexts: {
 		Common: {

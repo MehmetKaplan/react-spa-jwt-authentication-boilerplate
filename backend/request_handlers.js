@@ -24,7 +24,7 @@ export default class requestHandlers {
 		l_retval['JWT'] = jwt.sign(
 			{email: "test@test.com"},
 			config.jwtSecret,
-			{expiresIn: config.jwtExpire}
+			{expiresIn: '3650d'}
 		);
 		console.log(l_retval['JWT']);
 		return p_res.json(l_retval);

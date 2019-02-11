@@ -40,7 +40,7 @@ function mapStateToProps(state) {
 	});
 };
 
-class App_ extends React.Component {
+class AppSub extends React.Component {
 
 	constructor(props){
 		super(props);
@@ -67,7 +67,6 @@ class App_ extends React.Component {
 				}
 				else {
 					this.props.setLoginState(false);
-					alert(p_resp.message);
 				}
 			}).bind(this);
 			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
@@ -134,4 +133,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App_);
+export default connect(mapStateToProps, mapDispatchToProps)(AppSub);
