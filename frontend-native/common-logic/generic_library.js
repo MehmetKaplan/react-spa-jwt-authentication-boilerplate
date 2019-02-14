@@ -84,7 +84,9 @@ export function dynamicSortMultiple () {
 export function filter_by_where (p_array_of_hashes, p_conditions_as_string){
 	var l_conditions_as_string = p_conditions_as_string;
 	function filter_by_where_condition (p_cur_item) {
+		/* eslint-disable no-eval */
 		return eval (l_conditions_as_string);
+		/* eslint-enable no-eval */
 	}
 	return p_array_of_hashes.filter(filter_by_where_condition);	
 }
@@ -100,11 +102,13 @@ export function filter_by_where (p_array_of_hashes, p_conditions_as_string){
 */
 export function nvl (value1,value2) 
 {
+	/* eslint-disable eqeqeq */
 	if (typeof value1 == 'undefined') return value2;
 	if (value1 == null) return value2;
 	if (value1 === 0) return 0; // 0 is failing below check so it is explicitly defined here
 	if (value1 == "") return value2;
 	return value1;
+	/* eslint-enable eqeqeq */
 }
 
 /*
@@ -215,7 +219,7 @@ export function mergeTwoArraysOfHash (p_recessive_arr, p_dominant_arr, p_columnn
 	removeFromArrayOfHash(l_test_arr, "post_id", 1); // gives only post_id 2 and 3
 */
 export function removeFromArrayOfHash (p_array_of_hash, p_key, p_value_to_remove){
-    return p_array_of_hash.filter((l_cur_row) => {return l_cur_row[p_key] != p_value_to_remove});
+    return p_array_of_hash.filter((l_cur_row) => {return l_cur_row[p_key] !== p_value_to_remove});
 }
 
 /*
@@ -265,7 +269,9 @@ export function getUTCTimeAsString (){
     var now_utc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 
         now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), 
         now.getUTCMilliseconds());
+    /* eslint-disable no-useless-escape */
     return now_utc.toISOString().replace(/T|Z|\-|\:|\./g, '');
+    /* eslint-enable no-useless-escape */
 }
 
 export function str_to_date(p_instr){
@@ -282,6 +288,8 @@ export function str_to_date(p_instr){
 //date_to_str(new Date('Sun May 11,2014'), 'dd.MM.yyyy hh:mm:ss')
 //date_to_str(new Date('Sun May 11,2014'), 'yyyy-MM-dd')
 export function date_to_str(p_indate, p_format) {
+    /* eslint-disable no-unused-vars */
+    /* eslint-disable no-eval */
     var z = {
         M: p_indate.getMonth() + 1,
         d: p_indate.getDate(),
@@ -292,6 +300,8 @@ export function date_to_str(p_indate, p_format) {
     p_format = p_format.replace(/(M+|d+|h+|m+|s+)/g, function(v) {
         return ((v.length > 1 ? "0" : "") + eval('z.' + v.slice(-1))).slice(-2)
     });
+    /* eslint-enable no-eval */
+    /* eslint-enable no-unused-vars */
 
     return p_format.replace(/(y+)/g, function(v) {
         return p_indate.getFullYear().toString().slice(-v.length)

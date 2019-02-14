@@ -98,29 +98,35 @@ class Login extends React.Component {
 			</Grid>
 			<Grid item xs={12}></Grid>
 			<Grid item xs={12}></Grid>
-			<Button variant="contained" 
-					color="secondary" 
-					className={classes.button}
-					onClick={this.componentMainFunction}
-			>
-				{config.uiTexts.Login.login} 
-			</Button>
+			<Grid item xs={12}>
+				<Button variant="contained" 
+						color="secondary" 
+						className={classes.button}
+						onClick={this.componentMainFunction}
+				>
+					{config.uiTexts.Login.login} 
+				</Button>
+			</Grid>
 			<Grid item xs={12}></Grid>
 			<Grid item xs={12}></Grid>
-			<Button variant="contained" 
-					className={classes.button}
-					onClick={() => this.props.setAppState(loginComponents.PWDRESET1)}
-			>
-				{config.uiTexts.Login.forgotPassword}
-			</Button>
+			<Grid item xs={12}>
+				<Button variant="contained" 
+						className={classes.button}
+						onClick={() => this.props.setAppState(loginComponents.PWDRESET1)}
+				>
+					{config.uiTexts.Login.forgotPassword}
+				</Button>
+			</Grid>
 			<Grid item xs={12}></Grid>
 			<Grid item xs={12}></Grid>
-			<Button variant="contained" 
-					className={classes.button}
-					onClick={() => this.props.setAppState(loginComponents.SIGNUP1)}
-			>
-				{config.uiTexts.Login.signUp}
-			</Button>
+			<Grid item xs={12}>
+				<Button variant="contained" 
+						className={classes.button}
+						onClick={() => this.props.setAppState(loginComponents.SIGNUP1)}
+				>
+					{config.uiTexts.Login.signUp}
+				</Button>
+			</Grid>
 		</Grid>;
 	} 
 }

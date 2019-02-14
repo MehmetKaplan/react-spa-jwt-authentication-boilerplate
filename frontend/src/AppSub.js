@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
+import AppNavigator from './navigation/AppNavigator.js';
 import CustomSpinner from './components/CustomSpinner.js';
-import NotLoggedScreen from './components/NotLoggedScreen.js';
+import NotLoggedScreen from './screens/NotLoggedScreen.js';
 import { connect } from 'react-redux';
 import {types} from './common-logic/redux-store.js';
 import config from './common-logic/config.js';
@@ -64,7 +65,7 @@ class AppSub extends Component {
 		if (this.state.JWTState === "ckecking") return <CustomSpinner />;
 
 		let l_login_page = <NotLoggedScreen />;
-		let l_homescreen = <div>LOGGED IN</div>  // <YourApplication.js />
+		let l_homescreen = <AppNavigator />
 		let l_mainpage = this.props.isLogged ? l_homescreen : l_login_page;
 		return (l_mainpage);
   }

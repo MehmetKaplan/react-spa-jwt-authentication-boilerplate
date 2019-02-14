@@ -1,5 +1,8 @@
 export default  {
-	mainServerBaseURL: "http" + "://" + "192.168.1.35" + ":" + "8000",
+	/* eslint-disable no-useless-concat */
+	mainServerBaseURL: "http" + "://" + "localhost" + ":" + "8000",
+	/* eslint-enable no-useless-concat */
+
 	JWTKey: "JWTKey",
 	uiTexts: {
 		Common: {
@@ -7,6 +10,13 @@ export default  {
 			submit: "Submit",
 			yes: "Yes",
 			no: "No",
+		},
+		NavigatorScreen: {
+			logout: "Logout",
+			yourapp1: "Your Application 1",
+			yourapp2: "Your Application 2",
+			settings: "Settings",
+			app_title: "App Title Comes Here",
 		},
 		ChangeEmail: {
 			newEMail: "New EMail",

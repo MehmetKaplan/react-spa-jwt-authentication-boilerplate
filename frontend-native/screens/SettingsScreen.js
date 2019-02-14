@@ -65,9 +65,6 @@ class SettingsScreen extends React.Component {
 			case (settingsScreenComponents.EMAILCHANGE1):
 				l_active_component = <ChangeEmail />;
 				break;
-			case (settingsScreenComponents.EMAILCHANGE2):
-				l_active_component = <ChangeEmailConfirm />;
-				break;
 			case (settingsScreenComponents.LOGOUT):
 				l_active_component = <Logout />;
 				break;
