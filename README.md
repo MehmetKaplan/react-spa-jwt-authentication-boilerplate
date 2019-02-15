@@ -136,6 +136,12 @@ export MYSQL_PASSWORD="yourdbpassword"  #Example "tiger"
 ############# react-spa-jwt-authentication-boilerplate #############
 ```
 
+Please note, if you are planning to use your gmail account as your mailer, you need to make the "Less secure app access" on from your gmail settings:
+
+![Google Setting - Less secure app access - Screenshot by Jan 2019](./ChartsAndDiagrams/GoogleLessSecureSetting.png)
+
+
+
 2. Download codes
 
 ```bash
