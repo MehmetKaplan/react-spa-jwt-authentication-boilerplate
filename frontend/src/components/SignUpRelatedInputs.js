@@ -186,15 +186,15 @@ class SignUpRelatedInputs extends React.Component {
 						onChange={(event) => {this.setState({ gender_id_value: event.target.value});}}
 						input={
 							<OutlinedInput
-								labelWidth={this.state.labelWidth}
+								labelWidth={50}
 								name="genderSelect"
 								id="gender-select"
 							/>
 						}
 					>
-						<MenuItem value={"1"}>label={config.uiTexts.SignUpRelatedInputs.genders.male}</MenuItem>
-						<MenuItem value={"2"}>label={config.uiTexts.SignUpRelatedInputs.genders.female}</MenuItem>
-						<MenuItem value={"3"}>label={config.uiTexts.SignUpRelatedInputs.genders.other}</MenuItem>
+						<MenuItem value={"1"}>{config.uiTexts.SignUpRelatedInputs.genders.male}</MenuItem>
+						<MenuItem value={"2"}>{config.uiTexts.SignUpRelatedInputs.genders.female}</MenuItem>
+						<MenuItem value={"3"}>{config.uiTexts.SignUpRelatedInputs.genders.other}</MenuItem>
 					</Select>
 				</FormControl>
 			</Grid>
@@ -209,7 +209,6 @@ class SignUpRelatedInputs extends React.Component {
 							shrink: true,
 						}}
 						onChange={(event) => {this.setState({ birthday_value: moment(event.target.value, "YYYY-MM-DD").toDate() });}}
-						textStyle={{ color: "green" }}
 					/>
 			</Grid>
 			<Grid item xs={12}>

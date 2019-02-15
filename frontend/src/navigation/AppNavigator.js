@@ -13,7 +13,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Menu from '@material-ui/core/Menu';
-import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
 import {nvl} from '../common-logic/generic_library.js';
@@ -67,6 +66,7 @@ export default class ContainerContents extends React.Component {
 		this.handleCloseLeftMenu();
 		this.handleCloseRightMenu();
 		//ReactDOM.render(, document.getElementById("content"));
+		this.setState({activeScreen: "SettingsScreen"});
 		event.preventDefault();
 	}
 
@@ -165,9 +165,7 @@ export default class ContainerContents extends React.Component {
 							</Grid>
 							<Grid item xs={10} >
 								<div align="center">
-									<Typography variant="h3" gutterBottom>
 										{this.state.app_title}
-									</Typography>
 								</div>
 							</Grid>
 							<Grid item xs={1}>
@@ -196,7 +194,7 @@ export default class ContainerContents extends React.Component {
 					</Toolbar>
 				</AppBar>
 				<div id="placeholder" name="placeholder" style={{height:"64px" }} />
-				{l_active_screen}
+				<div style={{display:'flex', justifyContent: 'center'}}> {l_active_screen} </div>
 			</div>
 		);
 	}

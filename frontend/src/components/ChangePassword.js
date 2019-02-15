@@ -37,7 +37,9 @@ class ChangePassword extends React.Component {
 		super();
 		this.componentMainFunction = this.componentMainFunction.bind(this);
 		this.state = {
+			oldPassword_value: "",
 			newPassword_value: "",
+			newPassword2_value: "",
 		};
 	}
 

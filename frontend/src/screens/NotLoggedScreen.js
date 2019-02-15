@@ -7,12 +7,10 @@ import { connect } from 'react-redux';
 import {types, loginComponents} from '../common-logic/redux-store.js';
 
 import Login from '../components/Login.js';
-/*
 import SignUpEmailConfirmation from '../components/SignUpEmailConfirmation.js';
 import SignUpRelatedInputs from '../components/SignUpRelatedInputs.js';
 import PasswordResetEMail from '../components/PasswordResetEMail.js';
 import PasswordResetNewPassword from '../components/PasswordResetNewPassword.js';
-*/
 
 function mapDispatchToProps(dispatch) {
 	return({
@@ -37,7 +35,6 @@ class NotLoggedScreen extends React.Component {
 			case (loginComponents.LOGIN):
 				l_active_component = <Login />;
 				break;
-/*
 			case (loginComponents.SIGNUP1):
 				l_active_component = <SignUpEmailConfirmation />;
 				break;
@@ -50,15 +47,16 @@ class NotLoggedScreen extends React.Component {
 			case (loginComponents.PWDRESET2):
 				l_active_component = <PasswordResetNewPassword />;
 				break;
-*/
 			default:
 				// do nothing
 		}
-		return <Grid container spacing={16}>
-			<Grid item xs={12}>
-				{l_active_component}
+		return <div style={{display:'flex', justifyContent: 'center'}}>
+			<Grid container spacing={16}>
+				<Grid item xs={12}>
+					{l_active_component}
+				</Grid>
 			</Grid>
-		</Grid>;
+		</div>;
 	}
 }
 

@@ -15,7 +15,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
@@ -105,7 +104,6 @@ class YourApplication extends React.Component {
 			this.setState({colorIndex: l_index})
 		}, 1000);
 		this.setState({intervalPointer: l_intervalPointer});
-		console.log(this.props.hostMachine);
 	}
 
 	componentWillUnmount(){
@@ -142,9 +140,7 @@ class YourApplication extends React.Component {
 					title={cards[0].name}
 				/>
 				<CardContent>
-					<Typography component="p">
-						title={cards[0].text}
-					</Typography>
+						{cards[0].text}
 				</CardContent>
 				<CardActions className={classes.actions} disableActionSpacing>
 					<IconButton aria-label="Add to favorites">
@@ -166,9 +162,9 @@ class YourApplication extends React.Component {
 				</CardActions>
 				<Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
 					<CardContent>
-						<Typography paragraph>{cards[0].name} </Typography>
-						<Typography paragraph>{cards[0].text} </Typography>
-						<Typography paragraph> You can directly wire your application here. </Typography>
+						{cards[0].name}
+						{cards[0].text}
+						 You can directly wire your application here.
 					</CardContent>
 				</Collapse>
 			</Card>
