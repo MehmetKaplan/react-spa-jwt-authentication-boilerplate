@@ -1,15 +1,18 @@
 export default  {
 	/* eslint-disable no-useless-concat */
-	mainServerBaseURL: "http" + "://" + "localhost" + ":" + "8000",
+	//mainServerBaseURL: "http" + "://" + "localhost" + ":" + "8000",
+	mainServerBaseURL: "http" + "://" + "172.20.10.12" + ":" + "8000",
 	/* eslint-enable no-useless-concat */
 
 	JWTKey: "JWTKey",
+	rememberMeKey: "RememberMe",
 	uiTexts: {
 		Common: {
 			back: "Back",
 			submit: "Submit",
 			yes: "Yes",
 			no: "No",
+			bye: "Bye",
 		},
 		NavigatorScreen: {
 			logout: "Logout",
@@ -60,6 +63,7 @@ export default  {
 			login: "Login",
 			forgotPassword: "Forgot Password",
 			signUp: "Sign Up",
+			rememberMe: "Don't Ask Password Next Time",
 		},
 		Logout: {
 			logout: "Are you sure to log out?",

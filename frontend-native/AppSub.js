@@ -51,29 +51,39 @@ class AppSub extends React.Component {
 	};
 
 	componentDidMount(){
-		this.setState({JWTState: "checking"});
-		f_process_JWT = (p_JWT) => {
-			let l_method = "POST";
-			let l_uri = config.mainServerBaseURL + "/checkJWT";
-			let l_extra_headers = {
-				'Authorization': 'Bearer ' + nvl(p_JWT, "xx"),
-			};
-			let l_body = {
-			};
-			let l_fnc =  ((p_resp) => {
-				this.setState({JWTState: "checked"});
-				if (p_resp.result == "OK"){
-					this.props.setLoginState(true);
+		AsyncStorage.getItem(config.rememberMeKey)
+			.then((l_rememberme) => {
+				if (l_rememberme !== "true") {
+					AsyncStorage.removeItem(config.JWTKey)
+						.then(()=>Promise.resolve());
 				}
-				else {
-					this.props.setLoginState(false);
+				else Promise.resolve();
+			})
+			.then(() => {
+				this.setState({JWTState: "checking"});
+				f_process_JWT = (p_JWT) => {
+					let l_method = "POST";
+					let l_uri = config.mainServerBaseURL + "/checkJWT";
+					let l_extra_headers = {
+						'Authorization': 'Bearer ' + nvl(p_JWT, "xx"),
+					};
+					let l_body = {
+					};
+					let l_fnc =  ((p_resp) => {
+						this.setState({JWTState: "checked"});
+						if (p_resp.result == "OK"){
+							this.props.setLoginState(true);
+						}
+						else {
+							this.props.setLoginState(false);
+						}
+					}).bind(this);
+					fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
 				}
-			}).bind(this);
-			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
-		}
-		AsyncStorage.getItem(config.JWTKey)
-			.then((l_JWT) => f_process_JWT(l_JWT));
-		this.props.setDevUrl();
+				AsyncStorage.getItem(config.JWTKey)
+					.then((l_JWT) => f_process_JWT(l_JWT));
+				this.props.setDevUrl();
+			});	
 	}
 
 

@@ -1,6 +1,7 @@
 export default  {
 	/* eslint-disable no-useless-concat */
-	mainServerBaseURL: "http" + "://" + "localhost" + ":" + "8000",
+	//mainServerBaseURL: "http" + "://" + "localhost" + ":" + "8000",
+	mainServerBaseURL: "http" + "://" + "172.20.10.12" + ":" + "8000",
 	/* eslint-enable no-useless-concat */
 
 	JWTKey: "JWTKey",

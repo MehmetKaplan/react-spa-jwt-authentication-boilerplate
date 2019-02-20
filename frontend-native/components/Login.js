@@ -3,7 +3,7 @@ import {AsyncStorage} from 'react-native';
 
 import { connect } from 'react-redux';
 
-import { Form, Item, Label, Input, Button, Text } from 'native-base';
+import { Form, Item, Label, Input, Button, Text, CheckBox, View } from 'native-base';
 
 import {types, loginComponents} from '../common-logic/redux-store.js';
 import config from '../common-logic/config.js';
@@ -36,7 +36,9 @@ class Login extends React.Component {
 		this.state = {
 			email_value: "",
 			password_value: "",
+			remember_me: false,
 		};
+		AsyncStorage.setItem(config.rememberMeKey, false.toString());
 	}
 
 	componentDidMount(){
@@ -89,6 +91,15 @@ class Login extends React.Component {
 				/>
 			</Item>
 			<Text></Text>
+			<Text></Text>
+			<View style={{flexDirection: 'row'}}>
+				<CheckBox checked={this.state.remember_me} color="red" onPress={()=>{
+					let l_new_state = !(this.state.remember_me);
+					AsyncStorage.setItem(config.rememberMeKey, l_new_state.toString())
+						.then(() =>this.setState({remember_me: l_new_state}));
+				}}/>
+				<Text>{"     " + config.uiTexts.Login.rememberMe}</Text>
+			</View>
 			<Text></Text>
 			<Button block danger onPress={this.componentMainFunction}><Text> {config.uiTexts.Login.login}  </Text></Button>
 			<Text></Text>

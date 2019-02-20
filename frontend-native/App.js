@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import {store} from './common-logic/redux-store.js';
+import config from './common-logic/config.js';
 import AppSub from './AppSub.js';
 
 
@@ -27,6 +28,15 @@ export default class App extends React.Component {
 		*/
 
 	}
+
+	componentWillUnmount(){
+		// React Native is not firing this code on app close.
+		// That is why we'll need to check 
+		// the customer preference of "remember me"
+		// in the next log in
+		alert(config.uiTexts.Common.bye);
+	}
+
 	render() {
 		/* eslint-disable react/jsx-pascal-case */
 		return <Provider store={store}>
