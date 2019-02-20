@@ -16,6 +16,12 @@ import {fetch_data_v2} from '../common-logic/fetchhandler.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({
+		setJWT: (l_JWT) => {
+			dispatch({
+				type: types.JWT,
+				JWT: l_JWT
+			})
+		},
 		setAppState: (p_new_active_component) => {
 			dispatch({
 				type: types.SETTINGSSCREENNAV,
@@ -27,6 +33,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return ({
+		JWT: state.JWT,
 		changeEmail: state.changeEmail,
 		activeSettingsScreenComponent: state.activeSettingsScreenComponent,
 	});
@@ -57,7 +64,8 @@ class ChangeEmailConfirm extends React.Component {
 			let l_fnc =  ((p_resp) => {
 				if (p_resp.result === "OK"){
 					alert(p_resp.message);
-					localStorage.setItem(config.JWTKey, p_resp.JWT);
+					localStorage.removeItem(config.JWTKey);
+					this.props.setJWT(p_resp.JWT);
 					this.props.setAppState(settingsScreenComponents.SETTINGS);
 				}
 				else {
@@ -68,8 +76,7 @@ class ChangeEmailConfirm extends React.Component {
 			/* eslint-enable no-extra-bind */
 			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
 		};
-		let l_JWT = localStorage.getItem(config.JWTKey);
-		f_process_JWT(l_JWT);
+		f_process_JWT(this.props.JWT);
 	}
 
 	render() {

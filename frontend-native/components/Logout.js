@@ -47,11 +47,11 @@ class Logout extends React.Component {
 
 	componentMainFunction(){
 		// Place main purpose of component here
+		this.props.setJWT('');
 		AsyncStorage.removeItem(config.JWTKey)
 		.then(() => {
 			this.props.setLoginState(false);
 			this.props.setAppState(loginComponents.LOGIN);
-			this.props.setJWT('');
 		});
 	}
 

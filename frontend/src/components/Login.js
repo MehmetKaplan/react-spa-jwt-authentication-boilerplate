@@ -6,6 +6,8 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import {types, loginComponents} from '../common-logic/redux-store.js';
 import config from '../common-logic/config.js';
@@ -13,6 +15,12 @@ import {fetch_data_v2} from '../common-logic/fetchhandler.js';
 
 function mapDispatchToProps(dispatch) {
 	return({
+		setJWT: (l_JWT) => {
+			dispatch({
+				type: types.JWT,
+				JWT: l_JWT
+			})
+		},
 		setAppState: (p_new_active_component) => {dispatch({
 			type: types.LOGINNAV,
 			activeLoginComponent: p_new_active_component
@@ -37,6 +45,7 @@ class Login extends React.Component {
 		this.state = {
 			email_value: "",
 			password_value: "",
+			remember_me: false,
 		};
 	}
 
@@ -56,8 +65,9 @@ class Login extends React.Component {
 		};
 		let l_fnc =  ((p_resp) => {
 			if (p_resp.result === "OK"){
-				localStorage.setItem(config.JWTKey, p_resp.JWT);
+				this.props.setJWT(p_resp.JWT);
 				this.props.setLoginState(true);
+				if (this.state.remember_me) localStorage.setItem(config.JWTKey, p_resp.JWT);
 			}
 			else alert(JSON.stringify(p_resp));
 		/* eslint-disable no-extra-bind */
@@ -94,6 +104,21 @@ class Login extends React.Component {
 					className={classes.textField}
 					margin="normal"
 					variant="outlined"
+				/>
+			</Grid>
+			<Grid item xs={12}>
+				<FormControlLabel
+					control={
+						<Checkbox
+							checked={this.state.remember_me}
+							onChange={() => {
+								let l_new_state = !(this.state.remember_me);
+								this.setState({remember_me: l_new_state});			
+							}}
+							value="checkedA"
+						/>
+					}
+					label={config.uiTexts.Login.rememberMe}
 				/>
 			</Grid>
 			<Grid item xs={12}></Grid>

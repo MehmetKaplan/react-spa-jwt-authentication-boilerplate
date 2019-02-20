@@ -14,6 +14,12 @@ import config from '../common-logic/config.js';
 
 function mapDispatchToProps(dispatch) {
 	return({
+		setJWT: (l_JWT) => {
+			dispatch({
+				type: types.JWT,
+				JWT: l_JWT
+			})
+		},
 		setAppState: (p_new_active_component) => {dispatch({
 			type: types.SETTINGSSCREENNAV,
 			activeSettingsScreenComponent: p_new_active_component
@@ -44,6 +50,7 @@ class Logout extends React.Component {
 
 	componentMainFunction(){
 		// Place main purpose of component here
+		this.props.setJWT('');
 		localStorage.removeItem(config.JWTKey);
 		this.props.setLoginState(false);
 		this.props.setAppState(loginComponents.LOGIN);

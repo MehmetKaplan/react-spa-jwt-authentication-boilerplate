@@ -46,7 +46,6 @@ export default class ContainerContents extends React.Component {
 		this.fillStyleConstants();
 
 		this.onPressSettings = this.onPressSettings.bind(this);
-		this.onPressLogout = this.onPressLogout.bind(this);
 		this.onPressYourApp1 = this.onPressYourApp1.bind(this);
 		this.onPressYourApp2 = this.onPressYourApp2.bind(this);
 
@@ -67,13 +66,6 @@ export default class ContainerContents extends React.Component {
 		this.handleCloseRightMenu();
 		//ReactDOM.render(, document.getElementById("content"));
 		this.setState({activeScreen: "SettingsScreen"});
-		event.preventDefault();
-	}
-
-	onPressLogout(event) {
-		this.handleCloseLeftMenu();
-		this.handleCloseRightMenu();
-		localStorage.clear();
 		event.preventDefault();
 	}
 

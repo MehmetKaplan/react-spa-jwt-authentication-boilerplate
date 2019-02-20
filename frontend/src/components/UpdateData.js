@@ -35,6 +35,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return ({
+		JWT: state.JWT,
 		activeSettingsScreenComponent: state.activeSettingsScreenComponent,
 	});
 };
@@ -82,9 +83,8 @@ class UpdateData extends React.Component {
 			}).bind(this);
 			/* eslint-enable no-extra-bind */
 			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
-		}
-		let l_JWT = localStorage.getItem(config.JWTKey);
-		f_process_JWT(l_JWT);
+		};
+		f_process_JWT(this.props.JWT);
 	}
 
 	componentDidMount(){
@@ -115,9 +115,8 @@ class UpdateData extends React.Component {
 			}).bind(this);
 			/* eslint-enable no-extra-bind */
 			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
-		}
-		let l_JWT = localStorage.getItem(config.JWTKey);
-		f_process_JWT(l_JWT);
+		};
+		f_process_JWT(this.props.JWT);
 	}
 
 	render() {

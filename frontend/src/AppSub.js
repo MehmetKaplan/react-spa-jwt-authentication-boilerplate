@@ -11,9 +11,15 @@ import {nvl} from './common-logic/generic_library.js';
 
 function mapDispatchToProps(dispatch) {
 	return({
-			  setLoginState: (l_logIn) => {
-						 let l_type = l_logIn ?  types.LOGIN : types.LOGOUT;
-						 dispatch({type: l_type})},
+		setJWT: (l_JWT) => {
+			dispatch({
+				type: types.JWT,
+				JWT: l_JWT
+			})
+		},
+		setLoginState: (l_logIn) => {
+					let l_type = l_logIn ?  types.LOGIN : types.LOGOUT;
+					dispatch({type: l_type})},
 	})
 };
 
@@ -46,6 +52,7 @@ class AppSub extends Component {
 			let l_fnc = ((p_resp) => {
 				this.setState({ JWTState: "checked" });
 				if (p_resp.result === "OK") {
+					this.props.setJWT(p_JWT);
 					this.props.setLoginState(true);
 				}
 				else {
