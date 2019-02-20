@@ -12,6 +12,12 @@ import {fetch_data_v2} from '../common-logic/fetchhandler.js';
 
 function mapDispatchToProps(dispatch) {
 	return ({
+		setJWT: (l_JWT) => {
+			dispatch({
+				type: types.JWT,
+				JWT: l_JWT
+			})
+		},
 		setAppState: (p_new_active_component) => {
 			dispatch({
 				type: types.SETTINGSSCREENNAV,
@@ -23,6 +29,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return ({
+		JWT: state.JWT,
 		changeEmail: state.changeEmail,
 		activeSettingsScreenComponent: state.activeSettingsScreenComponent,
 	});
@@ -53,20 +60,17 @@ class ChangeEmailConfirm extends React.Component {
 			let l_fnc =  ((p_resp) => {
 				if (p_resp.result == "OK"){
 					alert(p_resp.message);
-					AsyncStorage.setItem(config.JWTKey, p_resp.JWT)
-					.then(() => {
-						this.props.setAppState(settingsScreenComponents.SETTINGS);
-					});
+					AsyncStorage.removeItem(config.JWTKey); // Remove old key
+					this.props.setJWT(p_resp.JWT);
+					this.props.setAppState(settingsScreenComponents.SETTINGS);
 				}
 				else {
 					alert(p_resp.message);
 				}
 			}).bind(this);
 			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
-		}
-		AsyncStorage.getItem(config.JWTKey)
-			.then((l_JWT) => f_process_JWT(l_JWT));
-
+		};
+		f_process_JWT(this.props.JWT);
 	}
 
 	render() {

@@ -41,7 +41,6 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
 	return({
 		homeScreenColorFromUp: state.homeScreenColor,
-		hostMachine: state.hostMachine,
 	});
 };
 
@@ -60,7 +59,6 @@ class YourApplication extends React.Component {
 			this.setState({colorIndex: l_index})
 		}, 1000);
 		this.setState({intervalPointer: l_intervalPointer});
-		console.log(this.props.hostMachine);
 	}
 
 	componentWillUnmount(){

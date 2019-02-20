@@ -2,6 +2,7 @@ import { createStore } from 'redux';
 
 // Define action types
 export const types = {
+	JWT: 'JWT',
 	HOMESCREENNAV: 'NAVIGATEHOMESCREENCOMPONENT',
 	SETTINGSSCREENNAV: 'NAVIGATESETTINGSCREENCOMPONENT',
 	LOGINNAV: 'NAVIGATELOGINCOMPONENT',
@@ -9,7 +10,6 @@ export const types = {
 	LOGOUT: 'LOGOUT',
 	HOMESCREENRED: 'RED',
 	HOMESCREENBLUE: 'BLUE',
-	HOSTMACHINE: 'HOSTMACHINE',
 	SIGNUPEMAIL: 'SIGNUPEMAIL',
 	FORGOTPWDEMAILJWT: 'FORGOTPWDEMAILJWT',
 	CHANGEEMAIL: 'CHANGEEMAIL',
@@ -40,6 +40,9 @@ export const homeScreenComponents = {
 export const reducer = (p_state, p_action) => {
 	let l_retval = Object.assign({}, p_state); // do not mutate p_state
 	switch (p_action.type) {
+		case types.JWT:
+			l_retval['JWT'] = p_action.JWT;
+			break;
 		case types.HOMESCREENNAV:
 			l_retval['activeHomeScreenComponent'] = p_action.activeHomeScreenComponent;
 			break;
@@ -54,9 +57,6 @@ export const reducer = (p_state, p_action) => {
 			break;
 		case types.LOGOUT:
 			l_retval['isLogged'] = false;
-			break;
-		case types.HOSTMACHINE:
-			l_retval['hostMachine'] = p_action.hostMachine;
 			break;
 		case types.SIGNUPEMAIL:
 			l_retval['signUpEmail'] = p_action.signUpEmail;
@@ -83,12 +83,12 @@ export const reducer = (p_state, p_action) => {
 
 // Define the initial state of our store
 export const initialState = {
+	JWT: '',
 	activeLoginComponent: loginComponents.LOGIN,
 	activeSettingsScreenComponent: settingsScreenComponents.SETTINGS,
 	activeHomeScreenComponent: null,
 	isLogged: false,
 	homeScreenColor: 'red',
-	hostMachine: "default value that should have been changed",
 	signUpEmail: "",
 	forgoTPwdEMailJWT: "",
 	changeEmail: "",

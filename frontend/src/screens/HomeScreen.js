@@ -20,7 +20,6 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
 	return({
 		homeScreenColorFromUp: state.homeScreenColor,
-		hostMachine: state.hostMachine,
 	});
 };
 

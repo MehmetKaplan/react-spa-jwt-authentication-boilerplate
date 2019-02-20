@@ -12,6 +12,12 @@ import {fetch_data_v2} from '../common-logic/fetchhandler.js';
 
 function mapDispatchToProps(dispatch) {
 	return({
+		setJWT: (l_JWT) => {
+			dispatch({
+				type: types.JWT,
+				JWT: l_JWT
+			})
+		},
 		setAppState: (p_new_active_component) => {dispatch({
 			type: types.LOGINNAV,
 			activeLoginComponent: p_new_active_component
@@ -38,7 +44,6 @@ class Login extends React.Component {
 			password_value: "",
 			remember_me: false,
 		};
-		AsyncStorage.setItem(config.rememberMeKey, false.toString());
 	}
 
 	componentDidMount(){
@@ -57,10 +62,9 @@ class Login extends React.Component {
 		};
 		let l_fnc =  ((p_resp) => {
 			if (p_resp.result == "OK"){
-				AsyncStorage.setItem(config.JWTKey, p_resp.JWT)
-					.then(() => {
-						this.props.setLoginState(true);
-					});
+				this.props.setJWT(p_resp.JWT);
+				this.props.setLoginState(true);
+				if (this.state.remember_me) AsyncStorage.setItem(config.JWTKey, p_resp.JWT);
 			}
 			else alert(JSON.stringify(p_resp));
 		}).bind(this);
@@ -95,8 +99,7 @@ class Login extends React.Component {
 			<View style={{flexDirection: 'row'}}>
 				<CheckBox checked={this.state.remember_me} color="red" onPress={()=>{
 					let l_new_state = !(this.state.remember_me);
-					AsyncStorage.setItem(config.rememberMeKey, l_new_state.toString())
-						.then(() =>this.setState({remember_me: l_new_state}));
+					this.setState({remember_me: l_new_state});
 				}}/>
 				<Text>{"     " + config.uiTexts.Login.rememberMe}</Text>
 			</View>

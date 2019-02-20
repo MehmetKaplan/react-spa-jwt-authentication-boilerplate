@@ -1,5 +1,4 @@
 import React from 'react';
-import {AsyncStorage} from 'react-native';
 
 import { connect } from 'react-redux';
 import moment from "moment";
@@ -28,6 +27,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return ({
+		JWT: state.JWT,
 		activeSettingsScreenComponent: state.activeSettingsScreenComponent,
 	});
 };
@@ -73,9 +73,8 @@ class UpdateData extends React.Component {
 				}
 			}).bind(this);
 			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
-		}
-		AsyncStorage.getItem(config.JWTKey)
-			.then((l_JWT) => f_process_JWT(l_JWT));
+		};
+		f_process_JWT(this.props.JWT);
 	}
 
 	componentDidMount(){
@@ -104,9 +103,8 @@ class UpdateData extends React.Component {
 				}
 			}).bind(this);
 			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
-		}
-		AsyncStorage.getItem(config.JWTKey)
-			.then((l_JWT) => f_process_JWT(l_JWT));
+		};
+		f_process_JWT(this.props.JWT);
 	}
 
 	render() {

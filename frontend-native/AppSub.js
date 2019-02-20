@@ -18,24 +18,21 @@ import {nvl} from './common-logic/generic_library.js';
 
 function mapDispatchToProps(dispatch) {
 	return({
+		setJWT: (l_JWT) => {
+			dispatch({
+				type: types.JWT,
+				JWT: l_JWT
+			})
+		},
 		setLoginState: (l_logIn) => {
 			let l_type = l_logIn ?  types.LOGIN : types.LOGOUT;
 			dispatch({type: l_type})},
-		setDevUrl: () => {
-			let { manifest } = Constants;
-			let api = (typeof manifest.packagerOpts === `object`) && manifest.packagerOpts.dev
-				? manifest.debuggerHost.split(`:`).shift().concat(`:3000`)
-				: `api.example.com`;
-			dispatch({
-				type: types.HOSTMACHINE,
-				hostMachine: api
-			})
-		}
 	})
 };
 
 function mapStateToProps(state) {
 	return({
+		JWT: state.JWT,
 		isLogged: state.isLogged,
 	});
 };
@@ -51,39 +48,29 @@ class AppSub extends React.Component {
 	};
 
 	componentDidMount(){
-		AsyncStorage.getItem(config.rememberMeKey)
-			.then((l_rememberme) => {
-				if (l_rememberme !== "true") {
-					AsyncStorage.removeItem(config.JWTKey)
-						.then(()=>Promise.resolve());
+		this.setState({JWTState: "checking"});
+		f_process_JWT = (p_JWT) => {
+			let l_method = "POST";
+			let l_uri = config.mainServerBaseURL + "/checkJWT";
+			let l_extra_headers = {
+				'Authorization': 'Bearer ' + nvl(p_JWT, "xx"),
+			};
+			let l_body = {
+			};
+			let l_fnc =  ((p_resp) => {
+				this.setState({JWTState: "checked"});
+				if (p_resp.result == "OK"){
+					this.props.setJWT(p_JWT);
+					this.props.setLoginState(true);
 				}
-				else Promise.resolve();
-			})
-			.then(() => {
-				this.setState({JWTState: "checking"});
-				f_process_JWT = (p_JWT) => {
-					let l_method = "POST";
-					let l_uri = config.mainServerBaseURL + "/checkJWT";
-					let l_extra_headers = {
-						'Authorization': 'Bearer ' + nvl(p_JWT, "xx"),
-					};
-					let l_body = {
-					};
-					let l_fnc =  ((p_resp) => {
-						this.setState({JWTState: "checked"});
-						if (p_resp.result == "OK"){
-							this.props.setLoginState(true);
-						}
-						else {
-							this.props.setLoginState(false);
-						}
-					}).bind(this);
-					fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
+				else {
+					this.props.setLoginState(false);
 				}
-				AsyncStorage.getItem(config.JWTKey)
-					.then((l_JWT) => f_process_JWT(l_JWT));
-				this.props.setDevUrl();
-			});	
+			}).bind(this);
+			fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
+		}
+		AsyncStorage.getItem(config.JWTKey)
+			.then((l_JWT) => f_process_JWT(l_JWT));
 	}
 
 
