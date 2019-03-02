@@ -318,6 +318,7 @@ The license is MIT and full text [here](LICENSE).
 * cors license [here](./OtherLicenses/cors.txt)
 * date-and-time license [here](./OtherLicenses/date-and-time.txt)
 * rimraf license [here](./OtherLicenses/rimraf.txt)
+* morgan license [here](./OtherLicenses/morgan.txt)
 
 ### Frontend used modules
 

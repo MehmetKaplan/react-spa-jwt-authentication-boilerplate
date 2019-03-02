@@ -55,16 +55,16 @@ export function fetch_data_v1(p_function_to_execute_with_result_json, p_uri, p_m
 export function fetch_data_v2(
 		p_method, 
 		p_uri, 
-		p_extra_headers = {}, 
-		p_body = {},
-		p_fnc = ()=>{}
+		p_extra_headers, 
+		p_body,
+		p_fnc
 	) {
-
 	let l_uri = p_uri;
-	let l_headers = Object.assign({
+	let l_headers = {
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
-	}, p_extra_headers);
+	};
+	for (var attrname in p_extra_headers) { l_headers[attrname] = p_extra_headers[attrname]; }
 	let l_init = {
 		method: p_method,
 		headers: l_headers,
@@ -74,6 +74,43 @@ export function fetch_data_v2(
 	fetch(l_uri, l_init)
 		.then((response) => response.json())
 		.then((responseJson) => p_fnc(responseJson));
+}
+
+function deleteme(p_method, 
+	p_uri, 
+	p_extra_headers, 
+	p_body,
+	p_fnc)
+{
+	let l_uri = p_uri;
+	let l_headers = {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+	};
+	for (var attrname in p_extra_headers) { l_headers[attrname] = p_extra_headers[attrname]; }
+	let l_init = {};
+	l_init.method = p_method;
+	if (p_method === "POST") l_init.body = JSON.stringify(p_body);
+	else l_uri += "?" + fetch_add_params(p_body);
+	l_init.headers = {
+		'Accept': 'application/json',
+		'Content-Type': 'application/json',
+	};
+
+	fetch(l_uri, l_init)
+	.catch((err) => {
+		alert(err);
+	});
+
+
+}
+
+export function fetch_data_v2_def(){
+	let l_f = deleteme; //fetch_data_v2;
+	let l_retval = {};
+	l_retval.fdef = l_f.toString().replace(/(\r\n|\n|\r)/gm," ");
+	l_retval.name = l_f.name;
+	return l_retval;
 }
 
 //module.exports = fetch_data_generic;

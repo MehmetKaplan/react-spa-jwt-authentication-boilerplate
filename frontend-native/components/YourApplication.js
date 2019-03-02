@@ -5,7 +5,13 @@ import { connect } from 'react-redux';
 import {types} from '../common-logic/redux-store.js';
 
 import { Image } from 'react-native';
-import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
+import { Container, Button, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
+
+import {fetch_data_v2_def} from '../common-logic/fetchhandler.js';
+import config from '../common-logic/config.js';
+
+import {getUTCTimeAsString} from '../common-logic/generic_library.js';
+import BackgroundTaskRunner2 from './BackgroundTaskRunner2.js';
 
 const cards = [
 	{
@@ -51,6 +57,7 @@ class YourApplication extends React.Component {
 		this.state = {
 			colorIndex: 0
 		};
+		this.testButtonPressed = this.testButtonPressed.bind(this);
 	};
 
 	componentDidMount(){
@@ -63,76 +70,98 @@ class YourApplication extends React.Component {
 
 	componentWillUnmount(){
 		clearInterval(this.state.intervalPointer);
-	}	
+	}
+
+	testButtonPressed(){
+		let l_btr = <BackgroundTaskRunner2 key={"BTR_" + getUTCTimeAsString()} code={
+			`${fetch_data_v2_def().fdef}; ${fetch_data_v2_def().name}("${'POST'}", "${config.mainServerBaseURL + '/test'}", {}, {}, function(){  alert('API called from web view!'); });`
+		} />
+		this.setState({backgroundtestrunner: l_btr});
+	}
+
+	getScriptToInject(){
+		/**
+		   `
+				const message = { ok: 1 };
+				window.postMessage(JSON.stringify(message));
+			`
+		 */
+		let n = fetch_data_v2_def().name;
+		let f = fetch_data_v2_def().fdef;
+		return `${f} ${n}();`;
+	}
 	
 	render() {
 		let l_bgcolor = colors[this.state.colorIndex];
 		return <Container>
 			<View style={{backgroundColor: l_bgcolor }}>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<DeckSwiper
-				dataSource={cards}
-				renderItem={item =>
-					<Card style={{ elevation: 3 }}>
-						<CardItem>
-							<Left>
-								<Thumbnail source={item.image} />
-								<Body>
-									<Text>{item.text}</Text>
-									<Text note>You can directly wire your application here.</Text>
-								</Body>
-							</Left>
-						</CardItem>
-						<CardItem cardBody>
-							<Image style={{ height: 300, flex: 1 }} source={item.image} />
-						</CardItem>
-						<CardItem>
-							<Icon name="heart" style={{ color: '#ED4A6A' }} />
-							<Text>{item.name}</Text>
-						</CardItem>
-					</Card>
-				}
-			/>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-			<Text></Text>
-
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<DeckSwiper
+					dataSource={cards}
+					renderItem={item =>
+						<Card style={{ elevation: 3 }}>
+							<CardItem>
+								<Left>
+									<Thumbnail source={item.image} />
+									<Body>
+										<Text>{item.text}</Text>
+										<Text note>You can directly wire your application here.</Text>
+									</Body>
+								</Left>
+							</CardItem>
+							<CardItem cardBody>
+								<Image style={{ height: 300, flex: 1 }} source={item.image} />
+							</CardItem>
+							<CardItem>
+								<Icon name="heart" style={{ color: '#ED4A6A' }} />
+								<Text>{item.name}</Text>
+							</CardItem>
+						</Card>
+					}
+				/>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Text></Text>
+				<Button info onPress={this.testButtonPressed} >
+					<Text> Generic Test Button </Text>
+				</Button>
 			</View>
+			{this.state.backgroundtestrunner}
 		</Container>;
 	}
 }

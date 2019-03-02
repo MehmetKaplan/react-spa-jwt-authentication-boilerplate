@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log,./yarn.lock,.npmrc,./database_scripts --copy-files --presets=es2015",
+    "build": "rimraf dist/* && babel ./src/ --out-dir dist/ --copy-files --presets=es2015",
     "start-prod": "npm run build && node dist/server.js",
-    "start": "npx nodemon --ext js --ignore ./dist --exec yarn start-prod"
+    "start": "npx nodemon --watch ./src --ignore ./dist --ext js --exec yarn start-prod"
   },
   "keywords": [
     "JWT",
@@ -28,6 +28,7 @@
     "date-and-time": "^0.6.3",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
+    "morgan": "^1.9.1",
     "mysql": "^2.16.0",
     "nodemailer": "^5.1.1"
   },
