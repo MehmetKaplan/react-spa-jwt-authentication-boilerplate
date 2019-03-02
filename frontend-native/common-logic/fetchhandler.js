@@ -53,18 +53,17 @@ export function fetch_data_v1(p_function_to_execute_with_result_json, p_uri, p_m
 }
 
 export function fetch_data_v2(
-		p_method, 
-		p_uri, 
-		p_extra_headers, 
-		p_body,
-		p_fnc
-	) {
+	p_method, 
+	p_uri, 
+	p_extra_headers = {}, 
+	p_body = {},
+	p_fnc = ()=>{}
+) {
 	let l_uri = p_uri;
-	let l_headers = {
+	let l_headers = Object.assign({
 		Accept: 'application/json',
 		'Content-Type': 'application/json',
-	};
-	for (var attrname in p_extra_headers) { l_headers[attrname] = p_extra_headers[attrname]; }
+	}, p_extra_headers);
 	let l_init = {
 		method: p_method,
 		headers: l_headers,

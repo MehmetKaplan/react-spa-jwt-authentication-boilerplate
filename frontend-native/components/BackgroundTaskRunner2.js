@@ -44,7 +44,7 @@ alert("I am here");
        <WebView
           ref={webview => { this.webview = webview; }}
 					source={{
-            uri: "https://www.google.com"
+						html: "<html><body>DEFAULT TEXT</body></html>"
             }}
             injectedJavaScript={this.injectjs()}
             javaScriptEnabled = {true}
