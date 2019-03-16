@@ -18,21 +18,23 @@ export default class requestHandlers {
 	}
 
 	testConnection(p_req, p_res){
-//deleteme
-console.log("I am here");
-		let l_retval = nvl(p_req.body, {});
+		console.log("This is the /test route");
+		let l_retval = {};
 		l_retval['result'] = "OK";
 		l_retval['handler'] = "testConnection";
-		l_retval['JWT'] = jwt.sign(
-			{email: "test@test.com"},
-			config.jwtSecret,
-			{expiresIn: '3650d'}
-		);
-		console.log("This is the /test route and this is the generated JWT: ");
-		console.log(l_retval['JWT']);
-		//return p_res.send("<html><body>Something Came</body></html>");
-		//return p_res.json(l_retval);
-		return p_res.send("{a: '123'}");
+		l_retval['p_req_method'] = p_req.method;
+		l_retval['p_req_headers'] = p_req.headers;
+		l_retval['p_req_body'] = nvl(p_req.body, {});
+		l_retval['p_req_query'] = nvl(p_req.query, {});
+		console.log(JSON.stringify(l_retval, null, "\t"));
+		/*
+			l_retval['JWT'] = jwt.sign(
+				{email: "test@test.com"},
+				config.jwtSecret,
+				{expiresIn: '3650d'}
+			);
+		*/
+		return p_res.json(l_retval);
 	}
 
 	async checkJWT(p_req, p_res){

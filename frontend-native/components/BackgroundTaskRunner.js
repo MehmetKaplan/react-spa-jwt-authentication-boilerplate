@@ -1,62 +1,63 @@
-import React, { Component } from 'react';
-import { WebView } from 'react-native';
+import * as React from 'react';
+import { Text, View, StyleSheet, WebView } from 'react-native';
 
-export default class BackgroundTaskRunner extends Component {
+import {background_fetch_str} from '../common-logic/fetchhandler.js';
+
+export default class BackgroundTaskRunner extends React.Component {
 
 	constructor(props){
 		super(props);
 		this.state = {
-			html: "<html><body>Nothing here</body></html>"
+			webViewLoaded: false
 		};
-
+		this.handleMessage = this.handleMessage.bind(this);
 	};
 
-	componentDidMount(){
-		this.runJSInBackground(this.props.code);
+	injectjs() {
+		let jsCode = background_fetch_str(this.props.method, this.props.uri, this.props.extra_header, this.props.body);
+		return jsCode;
+	}
+
+	handleMessage = (e) => {
+		//console.log('message from webview:', message);
+		alert(`Message from webview: ${JSON.stringify(e.nativeEvent.data, null, " ")}`);
 	}
 
 	render() {
- 		return (
-			 <WebView
-					ref={el => this.webView = el}
+		//injectedJavaScript: lets you inject JavaScript code to be executed within the context of the WebView.
+		//injectJavaScript: lets you inject JavaScript code that is executed immediately on the WebView, with no return value.
+		return (
+			<View style={styles.container}>
+				<WebView
+					ref={webview => { this.webview = webview; }}
+					onLoad={() => {
+						if ( this.state.webViewLoaded ) return;
+						this.setState({ webViewLoaded: true });
+					}}
 					source={{
-						 html: this.state.html,
-//						 uri: 'http' + '://172.20.10.12:8000/test',
-					  }}
-					  originWhitelist={['*']}
-					/>
-
-		/*
-			<WebView
-				ref={el => this.webView = el}
-				source={{html: '<html><body></body></html>'}}
-				onMessage={this.handleMessage}
-			/>
-		*/
-		)
-	}
-	runJSInBackground (code) {
-		// To check the code that is to be executed from backend
-		//console.log(code);
-		//this.webView.injectJavaScript(code)
-		this.webView.injectJavaScript(`
-				var l_headers = "";
-				var l_init = {
-				};
-				fetch("http" + "://172.20.10.12:8000/test").then(response => response.html())
-				.then(text => {
-					this.setState({ html: text });
-				})
-				.catch((err) => {
-					alert(err);
-				});
-			`);
-	}
-	handleMessage = (e) => {
-		const message = e.nativeEvent.data;
-		console.log('message from webview:', message);
-		alert(message);
+						//html: "<html><body>DEFAULT TEXT</body></html>"
+						html: "DEFAULT TEXT2"
+					}}
+					injectedJavaScript={this.injectjs()}
+					javaScriptEnabled={true}
+					style={styles.webview}
+					onMessage={this.state.webViewLoaded ? this.handleMessage : null}
+				/>
+			</View>
+		);
 	}
 }
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#F5F5F5',
+	},
+	webview: {
+		flex: 1,
+		alignSelf: 'stretch',
+	},
+});
+
 
 

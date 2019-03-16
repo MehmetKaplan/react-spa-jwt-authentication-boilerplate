@@ -42,7 +42,7 @@ Following should apply for the whole structure:
 
 ## Backend
 
-* Source code in ```./backend``` directory
+* Source code in ```./backend/src``` directory
 * Based on [Express](https://expressjs.com/)
 * All authentication is with [JWT](https://jwt.io/) (the node library [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) is used)
 * Passwords are hashed by [bcrypt](https://www.npmjs.com/package/bcrypt)
@@ -87,7 +87,7 @@ git clone https://github.com/MehmetKaplan/react-spa-jwt-authentication-boilerpla
 3. Go to database script folder
 
 ```bash
-cd my-authentication-app/backend/database
+cd my-authentication-app/backend/database_scripts
 ```
 
 Skip below 2 steps, if you have another relational database system. But assure to generate a schema named AuthUsersDB and under that schema generate the objects stated in Generate_Objects.sql file.
@@ -208,14 +208,14 @@ After you cloned the whole structure with following principles you can use the e
 
 * Start with command ```yarn start``` which runs Express application framework. Rest is same as you are working in an [Express](https://expressjs.com/) web application.
 	* Middleware (the JS code that connects requests with responses) are not placed in a directory structure since the logic is pretty straight forward.
-* All behaviour configurations should be placed under ```backend/config.js``` file.
-* Database selects are in ```backend/sqls.js``` so that from a single point the persistent layer interaction can be analysed. 
-* The email communication with users is governed by ```backend/mailer.js```.
-* The fraudelent requests are to be detected by ```backend/lock_handler.js```.
-* ```backend/database_action_mysql.js``` governs communication with MySQL database with 2 simple wrapper functions. By default they are left as logging the sql statements that they are executing.
-* ```backend/generic_library.js``` keeps a few helper javascript function.
-* ```backend/server.js```, as a standard Express application, keeps track of routes, all of which are API requests, except the web application (the ```frontend``` application)
-* ```backend/validations.js``` is resposible of the request parameters' validations.
+* All behaviour configurations should be placed under ```backend/src/config.js``` file.
+* Database selects are in ```backend/src/sqls.js``` so that from a single point the persistent layer interaction can be analysed. 
+* The email communication with users is governed by ```backend/src/mailer.js```.
+* The fraudelent requests are to be detected by ```backend/src/lock_handler.js```.
+* ```backend/database_scripts/database_action_mysql.js``` governs communication with MySQL database with 2 simple wrapper functions. By default they are left as logging the sql statements that they are executing.
+* ```backend/src/generic_library.js``` keeps a few helper javascript function.
+* ```backend/src/server.js```, as a standard Express application, keeps track of routes, all of which are API requests, except the web application (the ```frontend``` application)
+* ```backend/src/validations.js``` is resposible of the request parameters' validations.
 
 ## Flows
 

@@ -7,11 +7,11 @@ import {types} from '../common-logic/redux-store.js';
 import { Image } from 'react-native';
 import { Container, Button, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon } from 'native-base';
 
-import {fetch_data_v2_def} from '../common-logic/fetchhandler.js';
 import config from '../common-logic/config.js';
+import {nvl} from '../common-logic/generic_library.js';
 
 import {getUTCTimeAsString} from '../common-logic/generic_library.js';
-import BackgroundTaskRunner2 from './BackgroundTaskRunner2.js';
+import BackgroundTaskRunner from './BackgroundTaskRunner.js';
 
 const cards = [
 	{
@@ -46,6 +46,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return({
+		JWT: state.JWT,
 		homeScreenColorFromUp: state.homeScreenColor,
 	});
 };
@@ -72,25 +73,16 @@ class YourApplication extends React.Component {
 		clearInterval(this.state.intervalPointer);
 	}
 
-	testButtonPressed(){
-		let l_btr = <BackgroundTaskRunner2 key={"BTR_" + getUTCTimeAsString()} code={
-			`${fetch_data_v2_def().fdef}; ${fetch_data_v2_def().name}("${'POST'}", "${config.mainServerBaseURL + '/test'}", {}, {}, function(){  alert('API called from web view!'); });`
-		} />
+	testButtonPressed(event){
+		let l_btr = <BackgroundTaskRunner 
+			key={"BTR_" + getUTCTimeAsString()}
+			method={"POST"}
+			uri={config.mainServerBaseURL + "/test"}
+			body={{a: 1, b: 2, dummy: "value", dangerous_characters: "\"'`@<>[}{[\n\t"}}
+			extra_header={{Authorization: 'Bearer ' + nvl(this.props.JWT, "xx")}}
+		/>
 		this.setState({backgroundtestrunner: l_btr});
-	}
-
-	getScriptToInject(){
-		/**
-		   `
-				const message = { ok: 1 };
-				window.postMessage(JSON.stringify(message));
-			`
-		 */
-		let n = fetch_data_v2_def().name;
-		let f = fetch_data_v2_def().fdef;
-		return `${f} ${n}();`;
-	}
-	
+	}	
 	render() {
 		let l_bgcolor = colors[this.state.colorIndex];
 		return <Container>

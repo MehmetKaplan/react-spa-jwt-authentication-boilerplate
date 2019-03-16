@@ -16,7 +16,7 @@ export default class BackgroundTaskRunner2 extends React.Component {
       body: 'bar',
       userId: 1
 	 });
-    fetch('http://172.20.10.12:8000/test', {
+    fetch('http://172.20.10.12:8000/test', {   //DevSkim: ignore DS137138
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

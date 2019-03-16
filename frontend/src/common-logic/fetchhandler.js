@@ -6,7 +6,6 @@ export function fetch_add_params (p_params_as_json){
 	return l_retval
 }
 
-
 export function fetch_data_v1(p_function_to_execute_with_result_json, p_uri, p_method, p_params_as_json, p_cross_or_same_origin, p_origin){
 	if (['GET', 'POST', 'PUT'].indexOf(p_method.toUpperCase()) < 0) {
 		throw Object.assign(new Error("Unknown method: " + p_method + ". Allowed are GET, POST, PUT."), { code: 400 });
@@ -53,13 +52,12 @@ export function fetch_data_v1(p_function_to_execute_with_result_json, p_uri, p_m
 }
 
 export function fetch_data_v2(
-		p_method, 
-		p_uri, 
-		p_extra_headers = {}, 
-		p_body = {},
-		p_fnc = ()=>{}
-	) {
-
+	p_method, 
+	p_uri, 
+	p_extra_headers = {}, 
+	p_body = {},
+	p_fnc = ()=>{}
+) {
 	let l_uri = p_uri;
 	let l_headers = Object.assign({
 		Accept: 'application/json',
@@ -74,6 +72,39 @@ export function fetch_data_v2(
 	fetch(l_uri, l_init)
 		.then((response) => response.json())
 		.then((responseJson) => p_fnc(responseJson));
+}
+
+export function background_fetch_str(
+	p_method, 
+	p_uri, 
+	p_extra_headers = {}, 
+	p_body = {},
+){
+	let l_uri = p_uri;
+	let l_headers = Object.assign({
+		'Content-Type': 'application/json',
+	}, p_extra_headers);
+	let l_body_str = "";
+	if (p_method === "POST") l_body_str = `body: JSON.stringify(${JSON.stringify(p_body)}),`;
+	else l_uri += "?" + fetch_add_params(p_body).replace(/"/g, '\\"').replace(/'/g, "\\'");
+
+	let l_retval = `
+		fetch("${l_uri}", {
+			method: "${p_method}",
+			headers: ${JSON.stringify(l_headers)},
+			${l_body_str}
+		})
+		.then(response => {
+			return response.json()
+		})
+		.then(responseJson => {
+			postMessage(JSON.stringify(responseJson));
+		})
+		.catch((err) => {
+			alert(err);
+		});
+	`;
+	return l_retval;
 }
 
 //module.exports = fetch_data_generic;
