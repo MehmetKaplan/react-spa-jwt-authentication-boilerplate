@@ -303,6 +303,12 @@ Below is the comparison of component flows in native and web application. As you
 
 ![Component Flows](./ChartsAndDiagrams/ComponentFlows.png)
 
+## Change Log
+
+16.03.2019: For frontend-native background task runner added. This is a WebView class which executes delegated tasks (fetch as primary goal) at the background and gives back the result. The aim is to avoid the impact on user experience because of single-thread nature of the JavaScript. As of now Expo SDK32 has a bug that prevents reading data from the WebView. It is expected to be solved in SDK33.
+
+Next Action: Implement web worker structure for same purpose in frontend web side. And once SDK33 is released finalise the development for frontend-native side.
+
 ## Licenses
 
 The license is MIT and full text [here](LICENSE).

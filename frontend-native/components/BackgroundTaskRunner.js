@@ -20,6 +20,8 @@ export default class BackgroundTaskRunner extends React.Component {
 
 	handleMessage = (e) => {
 		//console.log('message from webview:', message);
+		// AFTER EXPO SDK33 (SDK32 has a bug) retest here
+		// In SDK32 the WebView's onMessage was not triggering this function
 		alert(`Message from webview: ${JSON.stringify(e.nativeEvent.data, null, " ")}`);
 	}
 
