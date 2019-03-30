@@ -20,7 +20,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
+import config from '../common-logic/config.js';
+import {nvl} from '../common-logic/generic_library.js';
+
+import {getUTCTimeAsString} from '../common-logic/generic_library.js';
+import BackgroundTaskRunner from './BackgroundTaskRunner.js';
 
 const cards = [
 	{
@@ -95,6 +102,7 @@ class YourApplication extends React.Component {
 			colorIndex: 0,
 			expanded: false,
 		};
+		this.testButtonPressed = this.testButtonPressed.bind(this);
 	};
 
 	componentDidMount(){
@@ -113,60 +121,83 @@ class YourApplication extends React.Component {
 		this.setState(state => ({ expanded: !state.expanded }));
 	};
 
+	testButtonPressed(event){
+		let l_btr = <BackgroundTaskRunner 
+			key={"BTR_" + getUTCTimeAsString()}
+			method={"POST"}
+			uri={config.mainServerBaseURL + "/test"}
+			body={{a: 1, b: 2, dummy: "value", current_time: getUTCTimeAsString(), dangerous_characters: "\"'`@<>[}{[\n\t"}}
+			extra_header={{Authorization: 'Bearer ' + nvl(this.props.JWT, "xx")}}
+		/>
+		this.setState({backgroundtestrunner: l_btr});
+	}	
+
 	render() {
 		const { classes } = this.props;
 		let l_bgcolor = colors[this.state.colorIndex];
 
 		return (
-			<Card className={classes.card} style={{ backgroundColor: l_bgcolor }}>
-				<CardHeader
-					avatar={
-						<Avatar aria-label="Avatar" className={classes.avatar}>
-							<img src={cards[0].image} alt=""/>
-						</Avatar>
-					}
-					action={
-						<IconButton>
-							<MoreVertIcon />
-						</IconButton>
-					}
-					title={cards[0].name}
-					subheader=""
-				/>
-				<CardMedia
-					className={classes.media}
-					image={cards[0].image}
-					title={cards[0].name}
-				/>
-				<CardContent>
-						{cards[0].text}
-				</CardContent>
-				<CardActions className={classes.actions} disableActionSpacing>
-					<IconButton aria-label="Add to favorites">
-						<FavoriteIcon />
-					</IconButton>
-					<IconButton aria-label="Share">
-						<ShareIcon />
-					</IconButton>
-					<IconButton
-						className={classnames(classes.expand, {
-							[classes.expandOpen]: this.state.expanded,
-						})}
-						onClick={this.handleExpandClick}
-						aria-expanded={this.state.expanded}
-						aria-label="Show more"
-					>
-						<ExpandMoreIcon />
-					</IconButton>
-				</CardActions>
-				<Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-					<CardContent>
-						{cards[0].name}
-						{cards[0].text}
-						 You can directly wire your application here.
-					</CardContent>
-				</Collapse>
-			</Card>
+			<Grid container spacing={24}>
+				<Grid item xs={12}>
+					<Card className={classes.card} style={{ backgroundColor: l_bgcolor }}>
+						<CardHeader
+							avatar={
+								<Avatar aria-label="Avatar" className={classes.avatar}>
+									<img src={cards[0].image} alt="" />
+								</Avatar>
+							}
+							action={
+								<IconButton>
+									<MoreVertIcon />
+								</IconButton>
+							}
+							title={cards[0].name}
+							subheader=""
+						/>
+						<CardMedia
+							className={classes.media}
+							image={cards[0].image}
+							title={cards[0].name}
+						/>
+						<CardContent>
+							{cards[0].text}
+						</CardContent>
+						<CardActions className={classes.actions} disableActionSpacing>
+							<IconButton aria-label="Add to favorites">
+								<FavoriteIcon />
+							</IconButton>
+							<IconButton aria-label="Share">
+								<ShareIcon />
+							</IconButton>
+							<IconButton
+								className={classnames(classes.expand, {
+									[classes.expandOpen]: this.state.expanded,
+								})}
+								onClick={this.handleExpandClick}
+								aria-expanded={this.state.expanded}
+								aria-label="Show more"
+							>
+								<ExpandMoreIcon />
+							</IconButton>
+						</CardActions>
+						<Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+							<CardContent>
+								{cards[0].name}
+								{cards[0].text}
+								You can directly wire your application here.
+							</CardContent>
+						</Collapse>
+					</Card>
+				</Grid>
+				<Grid item xs={12}>
+					<Button variant="contained" color="primary" onClick={this.testButtonPressed}>
+						Generic Test Button
+					</Button>
+				</Grid>
+				<Grid item xs={12}>
+					{this.state.backgroundtestrunner}
+				</Grid>
+			</Grid>
 		);
 	}
 }
