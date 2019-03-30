@@ -28,7 +28,7 @@ export default class BackgroundTaskRunner extends React.Component {
 			console.log("Received response:");
 			console.log(e.data);
 		}, false);
-		workerInstance.postMessage("bar");
+		workerInstance.postMessage(this.injectjs());
 	}
 
 	render() {
