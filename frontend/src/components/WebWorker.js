@@ -7,6 +7,6 @@ export default function WebWorker(args) {
 console.log("Executing: ");
 console.log(e.data);
 		eval(e.data); // eslint-disable-line no-eval
-		postMessage("Response");
+		//postMessage("Response");
 	};
 }

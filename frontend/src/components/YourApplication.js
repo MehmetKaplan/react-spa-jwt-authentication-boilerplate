@@ -64,6 +64,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return ({
+		JWT: state.JWT,
 		homeScreenColorFromUp: state.homeScreenColor,
 	});
 };

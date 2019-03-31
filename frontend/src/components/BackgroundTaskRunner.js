@@ -25,8 +25,9 @@ export default class BackgroundTaskRunner extends React.Component {
 
 	componentDidMount(){
 		workerInstance.addEventListener("message", e => {
-			console.log("Received response:");
-			console.log(e.data);
+//deleteme			
+console.log("Received response:");
+console.log(e.data);
 		}, false);
 		workerInstance.postMessage(this.injectjs());
 	}

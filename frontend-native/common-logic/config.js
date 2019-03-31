@@ -4,7 +4,7 @@ export default  {
 	//mainServerBaseURL: "http" + "://" + "172.20.10.12" + ":" + "8000",
 	//mainServerBaseURL: "http" + "://" + "192.168.1.38" + ":" + "8000",
 	//mainServerBaseURL: "http" + "://" + "172.17.22.78" + ":" + "8000",
-	mainServerBaseURL: "http" + "://" + "192.168.1.40" + ":" + "8000",
+	mainServerBaseURL: "http" + "://" + "192.168.1.38" + ":" + "8000",
 
 	/* eslint-enable no-useless-concat */
 
