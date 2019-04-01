@@ -2,5 +2,6 @@ node_modules
 dist
 build
 Video
+OAuthCredentials
 **/.DS_Store
 *.swp
