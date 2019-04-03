@@ -1,4 +1,5 @@
 export default  {
+	debugMode: true,
 	jwtSecret: process.env.JWT_SECRET,
 	jwtExpire: '24h', // expires in 24 hours
 	jwtExpirePasswordReset: '1h', // expires in 1 hour
@@ -49,6 +50,11 @@ export default  {
 		updatePasswordSuccessful:    		{result: "OK", 		message: 'Password updated '},
 		updatePasswordFailed:       		{result: "NOK", 		message: 'Password could not be updated '},
 		ipBasedFrequentUserGeneration:	{result: "NOK",       message: 'Suspected automated user generation '},
+		socialLoginFailed:					{result: "NOK",       message: 'Social login failed '},
+		socialSites:							{
+			facebook: "FB",
+			google: "google",
+		},
 	},
 	passwordResetEMailSubject: "Password Reset Request",
 	passwordResetEMail: "\

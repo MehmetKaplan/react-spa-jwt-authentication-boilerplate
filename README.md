@@ -287,6 +287,8 @@ Here we'll try to look at the infrastructure from different angles
 ##### Process
 ![Update Data Sequence Diagram](./ChartsAndDiagrams/UpdateData.svg)
 
+#### Social Login
+![Social Login Sequence Diagram](./ChartsAndDiagrams/SocialLogin.svg)
 
 **Please be informed that this project is under development, not yet finalized and open to any contribution from opensource community.**
 
@@ -303,11 +305,45 @@ Below is the comparison of component flows in native and web application. As you
 
 ![Component Flows](./ChartsAndDiagrams/ComponentFlows.png)
 
+## Social Logins
+
+### Facebook LogIn
+
+For Facebook login, as a standard approach, you need to obtain the Application ID and and configure it in the ```./frontend-native/common-logic/config.js```. 
+
+*This id should propagate to ```./frontend/src/common-logic/config.js``` when the ```copy_common-logic.sh``` is run under ```./frontend-native/common-logic/```.*
+
+#### Frontend-Native
+
+- Configure ```"facebookScheme": "fbYOUR-FB-APP-ID",``` parameter in the ```./frontend-native/app.json``` file. Be careful that, there is ```fb``` in front of your application id.
+- Configure ```facebookAppId``` and ```facebookDisplayName``` keys ny obtaining the values from https://docs.expo.io/versions/latest/sdk/facebook/ in section 4. 
+
+Also you'll need to follow instructions in https://docs.expo.io/versions/latest/sdk/facebook/. 
+
+## Things To Do Before Going to Production
+
+### Backend
+
+- Go through environment variables and carry them
+- Go through the config parameters
+- Build the backend server and deploy the application
+- Start up the application in production server
+
+### Build standalone applications
+
+Follow the instructions in https://docs.expo.io/versions/latest/distribution/building-standalone-apps/#building-standalone-apps
+
+### Facebook Login
+
+- Have a public privcy policy URL and configure it in Facebook developers then change your Facebook application settings to production.
+- For iOS, get your apps Bundle ID from iOS Developer Console and configure it in the Facebook developer page (during devlopment we have been using Expo's bundle id)
+- For Android build your application, then go as stated in https://docs.expo.io/versions/latest/sdk/facebook/
+
 ## Change Log
 
 16.03.2019: For frontend-native background task runner added. This is a WebView class which executes delegated tasks (fetch as primary goal) at the background and gives back the result. The aim is to avoid the impact on user experience because of single-thread nature of the JavaScript. As of now Expo SDK32 has a bug that prevents reading data from the WebView. It is expected to be solved in SDK33.
 
-Next Action: Implement web worker structure for same purpose in frontend web side. And once SDK33 is released finalise the development for frontend-native side.
+31.03.2019: Implemented web worker structure for same purpose in frontend web side.
 
 ## Licenses
 
@@ -325,6 +361,7 @@ The license is MIT and full text [here](LICENSE).
 * date-and-time license [here](./OtherLicenses/date-and-time.txt)
 * rimraf license [here](./OtherLicenses/rimraf.txt)
 * morgan license [here](./OtherLicenses/morgan.txt)
+* node-fetch license [here](./OtherLicenses/node-fetch.txt)
 
 ### Frontend used modules
 

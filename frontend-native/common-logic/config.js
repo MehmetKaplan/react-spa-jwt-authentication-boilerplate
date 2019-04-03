@@ -1,15 +1,15 @@
 export default  {
 	/* eslint-disable no-useless-concat */
 	//mainServerBaseURL: "http" + "://" + "localhost" + ":" + "8000",
-	//mainServerBaseURL: "http" + "://" + "172.20.10.12" + ":" + "8000",
-	//mainServerBaseURL: "http" + "://" + "192.168.1.38" + ":" + "8000",
 	//mainServerBaseURL: "http" + "://" + "172.17.22.78" + ":" + "8000",
-	mainServerBaseURL: "http" + "://" + "192.168.1.38" + ":" + "8000",
+	//mainServerBaseURL: "http" + "://" + "172.20.10.3" + ":" + "8000",
+	mainServerBaseURL: "http" + "://" + "192.168.1.100" + ":" + "8000",
 
 	/* eslint-enable no-useless-concat */
 
 	JWTKey: "JWTKey",
 	rememberMeKey: "RememberMe",
+	FacebookAppID: "312680782763024",
 	uiTexts: {
 		Common: {
 			back: "Back",
@@ -68,6 +68,7 @@ export default  {
 			forgotPassword: "Forgot Password",
 			signUp: "Sign Up",
 			rememberMe: "Don't Ask Password Next Time",
+			FacebookLogin: "Login with Facebook",
 		},
 		Logout: {
 			logout: "Are you sure to log out?",
@@ -102,5 +103,11 @@ export default  {
 				other: "other",
 			},
 		}
-	}
+	},
+	signalsFrontendBackend: {
+		socialSites:							{
+			facebook: "FB",
+			google: "google",
+		},
+	},
 }

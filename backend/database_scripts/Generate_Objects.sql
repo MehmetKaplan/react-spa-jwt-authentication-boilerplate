@@ -11,7 +11,9 @@ create table AuthUsersDB.users
 	birthday datetime,
 	phone varchar(100),
 	ResetPasswordSecondToken varchar(255),
-	ResetPasswordSecondTokenValidFrom varchar(255)
+	ResetPasswordSecondTokenValidFrom varchar(255),
+	facebookid varchar(50),
+	googleid varchar(50)
 );
 alter table AuthUsersDB.users add constraint idx_users_email unique key(email);
 

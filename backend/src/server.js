@@ -25,6 +25,7 @@ function main () {
 	app.all('/test', (req, res) => rh.testConnection(req, res));
 	app.post('/checkJWT', (req, res) => rh.checkJWT(req, res));
 	app.post('/login', (req, res) => rh.login(req, res));
+	app.post('/loginViaSocial', (req, res) => rh.loginViaSocial(req, res));
 	app.post('/generateResetPwdToken', (req, res) => rh.generateResetPwdToken(req, res));
 	app.post('/resetPwd', (req, res) => rh.resetPwd(req, res));
 	app.post('/signUp', (req, res) => rh.signUp(req, res));

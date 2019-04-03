@@ -4,11 +4,14 @@
     "description": "A very interesting project.",
     "slug": "frontend-native",
     "privacy": "public",
-    "sdkVersion": "32.0.0",
+	 "sdkVersion": "32.0.0",
+	 "facebookScheme": "fb312680782763024",
+	 "facebookAppId": "312680782763024",
+	 "facebookDisplayName": "React SPA JWT Authentication",
     "platforms": [
       "ios",
       "android"
-    ],
+    ], 
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

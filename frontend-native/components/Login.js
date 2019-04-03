@@ -1,9 +1,11 @@
 import React from 'react';
 import {AsyncStorage} from 'react-native';
 
+import { Facebook } from 'expo';
+
 import { connect } from 'react-redux';
 
-import { Form, Item, Label, Input, Button, Text, CheckBox, View } from 'native-base';
+import { Form, Item, Label, Input, Button, Text, CheckBox, View, Icon } from 'native-base';
 
 import {types, loginComponents} from '../common-logic/redux-store.js';
 import config from '../common-logic/config.js';
@@ -39,6 +41,7 @@ class Login extends React.Component {
 	constructor() {
 		super();
 		this.componentMainFunction = this.componentMainFunction.bind(this);
+		this.FBLogIn = this.FBLogIn.bind(this);
 		this.state = {
 			email_value: "",
 			password_value: "",
@@ -71,6 +74,44 @@ class Login extends React.Component {
 		fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
 	}
 
+	async FBLogIn() {
+		try {
+			let {
+				type,
+				token,
+				expires,
+				permissions,
+				declinedPermissions,
+			} = await Facebook.logInWithReadPermissionsAsync(config.FacebookAppID, {
+				permissions: ['public_profile', 'email'],
+				behavior: 'web',
+			});
+			if (type === 'success') {
+				let l_method = "POST";
+				let l_uri = config.mainServerBaseURL + "/loginViaSocial";
+				let l_extra_headers = {};
+				let l_body = {
+					socialsite: config.signalsFrontendBackend.socialSites.facebook,
+					token: token,
+				};
+				let l_fnc =  ((p_resp) => {
+					if (p_resp.result == "OK"){
+						this.props.setJWT(p_resp.JWT);
+						this.props.setLoginState(true);
+						if (this.state.remember_me) AsyncStorage.setItem(config.JWTKey, p_resp.JWT);
+					}
+					else alert(JSON.stringify(p_resp));
+				}).bind(this);
+				fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
+			}
+			else {
+				// type === 'cancel'
+			}
+		}
+		catch ({ message }) {
+			alert(`Facebook Login Error: ${message}`);
+		}
+	 }
 
 	render() {
 		return <Form>
@@ -111,6 +152,9 @@ class Login extends React.Component {
 			<Text></Text>
 			<Text></Text>
 			<Button light onPress={() => this.props.setAppState(loginComponents.SIGNUP1)}><Text>{config.uiTexts.Login.signUp}</Text></Button>
+			<Text></Text>
+			<Text></Text>
+			<Button light onPress={this.FBLogIn}><Icon name="logo-facebook" /><Text>{config.uiTexts.Login.FacebookLogin}</Text></Button>
 		</Form>;
 	} 
 }

@@ -1,0 +1,17 @@
+sequenceDiagram
+	Participant User
+	Participant Application(Web or Native)
+	Participant Web Application Server
+	Participant Database
+	Participant Social Site (Facebook or Google)
+	User -->> Application(Web or Native): Choose to login via social sites
+	Application(Web or Native) -->> Social Site (Facebook or Google): Ask for permission
+	Social Site (Facebook or Google) -->> User: Show landing page
+	User -->> Social Site (Facebook or Google): Grant access to "React SPA JWT Authentication" application
+	Social Site (Facebook or Google) -->> Application(Web or Native): Send token
+	Application(Web or Native) -->> Web Application Server: /loginViaSocial - Transfer the token
+	Web Application Server -->> Social Site (Facebook or Google): Get user email and name
+	Web Application Server -->> Database: Generate new user or update existing user
+	Web Application Server -->> Web Application Server: Generate JWT
+	Web Application Server -->> Application(Web or Native): Save the JWT and continue login process 
+	

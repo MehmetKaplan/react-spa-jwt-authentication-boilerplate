@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt, { compareSync } from 'bcrypt';
 import date from 'date-and-time';
+import fetch from 'node-fetch';
 
 import config from './config';
 import sqls from './sqls.js';
@@ -68,14 +69,14 @@ export default class requestHandlers {
 	}
 
 	async login(p_req, p_res){
-		let l_email = p_req.body.email.toLowerCase();;
+		let l_email = p_req.body.email.toLowerCase();
 		if (checkLock(p_req.ip, l_email) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		await incrementLockCount(p_req.ip, l_email);
 		let l_password = p_req.body.password;
 		let l_params = [];
 		l_params.push(l_email);
 		let l_user_data = await databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
-		let l_hashed_pwd_from_db
+		let l_hashed_pwd_from_db;
 		if (l_user_data.length > 0) l_hashed_pwd_from_db = nvl(l_user_data[0]['encrypted_password'], "xx");
 		else l_hashed_pwd_from_db = "xx";
 		//sqlt is incorporated in l_hashed_pwd_from_db so bcrypt does not need it again
@@ -94,6 +95,94 @@ export default class requestHandlers {
 				return p_res.json(config.signalsFrontendBackend.wrongPassword);
 			}
 		});
+	}
+
+	async loginViaSocial(p_req, p_res){
+		if (checkLock(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
+		await incrementLockCount(p_req.ip);
+		if (config.debugMode) console.log("Step 1");
+		let l_fnc_generate_new_user = async (p_respjson) => {
+			let l_sql;
+			if (p_req.body.socialsite === config.signalsFrontendBackend.socialSites.facebook) l_sql = sqls.signUpSocialFacebook;
+			if (p_req.body.socialsite === config.signalsFrontendBackend.socialSites.google) l_sql = sqls.signUpSocialGoogle;
+			let l_params = [];
+			l_params.push(p_respjson.email);
+			l_params.push(p_respjson.first_name);
+			l_params.push(p_respjson.middle_name);
+			l_params.push(p_respjson.last_name);
+			l_params.push(p_respjson.id);
+			let l_retval = await databaseActionMySQL.execute_updatedeleteinsert(l_sql, l_params);
+			return l_retval;
+		}
+		if (config.debugMode) console.log("Step 2");
+		let l_fnc_update_existing_user = async (p_respjson) => {
+			let l_sql;
+			if (p_req.body.socialsite === config.signalsFrontendBackend.socialSites.facebook) 	l_sql = sqls.updateSocialFacebook;
+			if (p_req.body.socialsite === config.signalsFrontendBackend.socialSites.google)   	l_sql = sqls.updateSocialGoogle;
+			let l_params = [];
+			l_params.push(p_respjson.first_name);
+			l_params.push(p_respjson.middle_name);
+			l_params.push(p_respjson.last_name);
+			l_params.push(p_respjson.id);
+			l_params.push(p_respjson.email);
+			let l_retval = await databaseActionMySQL.execute_updatedeleteinsert(l_sql, l_params);
+			return l_retval;
+		}
+		if (config.debugMode) console.log("Step 3");
+		let l_fnc_db_tasks = async (p_respjson) => {
+			let l_params = [];
+			l_params.push(p_respjson.email);
+			let l_user_data = await databaseActionMySQL.execute_select(sqls.getAllAttributesOfAUser, l_params);
+			if (l_user_data.length < 1) {
+				let l_res = await l_fnc_generate_new_user(p_respjson);
+				if (l_res !== "OK") return "NOK";
+			}
+			else {
+				let l_res = await l_fnc_update_existing_user(p_respjson);
+				if (l_res !== "OK") return "NOK";
+			};
+			return "OK";
+		}
+		if (config.debugMode) console.log("Step 4");
+		if (p_req.body.socialsite === config.signalsFrontendBackend.socialSites.facebook) {
+			let l_permissions = "id,first_name,last_name,middle_name,name,name_format,picture,short_name,email";
+			if (config.debugMode) console.log("Step 5");
+			fetch(`https://graph.facebook.com/me?access_token=${p_req.body.token}&fields=${l_permissions}`)
+				.then(response => {
+					return response.json()
+				})
+				.then(responseJson => {
+					if (config.debugMode) console.log("Step 6");
+					if (config.debugMode) {
+						console.log("Response from FACEBOOK: ")
+						console.log(JSON.stringify(responseJson, null, "\t"));
+					};
+					l_fnc_db_tasks(responseJson)
+						.then (l_result => {
+							if (config.debugMode) console.log("Step 7");
+							if (l_result === "OK") {
+								let l_retval_as_json = config.signalsFrontendBackend.authenticationSuccessful;
+								l_retval_as_json['JWT'] = jwt.sign(
+									{ email: responseJson.email },
+									config.jwtSecret,
+									{ expiresIn: config.jwtExpire }
+								);
+								return p_res.json(l_retval_as_json);
+							}
+							else {
+								return p_res.json(config.signalsFrontendBackend.socialLoginFailed);
+							}	
+						});
+				})
+				.catch((err) => {
+					if (config.debugMode) console.log(JSON.stringify(err));
+					return p_res.json(config.signalsFrontendBackend.socialLoginFailed);
+				});
+		}
+		else {
+			if (config.debugMode) console.log("WRONG SOCIAL SITE INDICATOR!!!");
+			return p_res.json(config.signalsFrontendBackend.socialLoginFailed);
+		}
 	}
 
 	async generateResetPwdToken(p_req, p_res){
