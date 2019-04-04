@@ -103,5 +103,11 @@ export default  {
 				other: "other",
 			},
 		}
-	}
+	},
+	signalsFrontendBackend: {
+		socialSites:							{
+			facebook: "FB",
+			google: "google",
+		},
+	},
 }
