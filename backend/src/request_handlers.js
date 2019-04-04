@@ -100,7 +100,7 @@ export default class requestHandlers {
 	async loginViaSocial(p_req, p_res){
 		if (checkLock(p_req.ip) == "LOCKED") return p_res.json(config.signalsFrontendBackend.locked);
 		await incrementLockCount(p_req.ip);
-		if (config.debugMode) console.log("Step 1");
+		if (config.debugMode) console.log("Social Login Step 1");
 		let l_fnc_generate_new_user = async (p_respjson) => {
 			let l_sql;
 			if (p_req.body.socialsite === config.signalsFrontendBackend.socialSites.facebook) l_sql = sqls.signUpSocialFacebook;
@@ -114,7 +114,7 @@ export default class requestHandlers {
 			let l_retval = await databaseActionMySQL.execute_updatedeleteinsert(l_sql, l_params);
 			return l_retval;
 		}
-		if (config.debugMode) console.log("Step 2");
+		if (config.debugMode) console.log("Social Login Step 2");
 		let l_fnc_update_existing_user = async (p_respjson) => {
 			let l_sql;
 			if (p_req.body.socialsite === config.signalsFrontendBackend.socialSites.facebook) 	l_sql = sqls.updateSocialFacebook;
@@ -128,7 +128,7 @@ export default class requestHandlers {
 			let l_retval = await databaseActionMySQL.execute_updatedeleteinsert(l_sql, l_params);
 			return l_retval;
 		}
-		if (config.debugMode) console.log("Step 3");
+		if (config.debugMode) console.log("Social Login Step 3");
 		let l_fnc_db_tasks = async (p_respjson) => {
 			let l_params = [];
 			l_params.push(p_respjson.email);
@@ -143,23 +143,23 @@ export default class requestHandlers {
 			};
 			return "OK";
 		}
-		if (config.debugMode) console.log("Step 4");
+		if (config.debugMode) console.log("Social Login Step 4");
 		if (p_req.body.socialsite === config.signalsFrontendBackend.socialSites.facebook) {
 			let l_permissions = "id,first_name,last_name,middle_name,name,name_format,picture,short_name,email";
-			if (config.debugMode) console.log("Step 5");
+			if (config.debugMode) console.log("Social Login Step 5");
 			fetch(`https://graph.facebook.com/me?access_token=${p_req.body.token}&fields=${l_permissions}`)
 				.then(response => {
 					return response.json()
 				})
 				.then(responseJson => {
-					if (config.debugMode) console.log("Step 6");
+					if (config.debugMode) console.log("Social Login Step 6");
 					if (config.debugMode) {
 						console.log("Response from FACEBOOK: ")
 						console.log(JSON.stringify(responseJson, null, "\t"));
 					};
 					l_fnc_db_tasks(responseJson)
 						.then (l_result => {
-							if (config.debugMode) console.log("Step 7");
+							if (config.debugMode) console.log("Social Login Step 7");
 							if (l_result === "OK") {
 								let l_retval_as_json = config.signalsFrontendBackend.authenticationSuccessful;
 								l_retval_as_json['JWT'] = jwt.sign(

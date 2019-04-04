@@ -10,6 +10,9 @@ export default  {
 	JWTKey: "JWTKey",
 	rememberMeKey: "RememberMe",
 	FacebookAppID: "312680782763024",
+	//GoogleClientIdWeb: '251867410582-ljs4f27nkb4gh3bvov1nmktce1ldri10.apps.googleusercontent.com',
+	GoogleClientIdIOS: "251867410582-kuducdo0d01cpd6iirm0b6fdsud7affh.apps.googleusercontent.com",
+	GoogleClientIdAndroid: "251867410582-o4kblifgn470pfbh549velp0rlna69dl.apps.googleusercontent.com",
 	uiTexts: {
 		Common: {
 			back: "Back",
@@ -69,6 +72,7 @@ export default  {
 			signUp: "Sign Up",
 			rememberMe: "Don't Ask Password Next Time",
 			FacebookLogin: "Login with Facebook",
+			GoogleLogin: "Login with Google",
 		},
 		Logout: {
 			logout: "Are you sure to log out?",

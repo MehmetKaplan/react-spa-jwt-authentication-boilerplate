@@ -1,7 +1,8 @@
 import React from 'react';
-import {AsyncStorage} from 'react-native';
+import {AsyncStorage, Platform} from 'react-native';
 
 import { Facebook } from 'expo';
+import { Google } from 'expo';
 
 import { connect } from 'react-redux';
 
@@ -42,6 +43,7 @@ class Login extends React.Component {
 		super();
 		this.componentMainFunction = this.componentMainFunction.bind(this);
 		this.FBLogIn = this.FBLogIn.bind(this);
+		this.GoogleLogIn = this.GoogleLogIn.bind(this);
 		this.state = {
 			email_value: "",
 			password_value: "",
@@ -103,15 +105,44 @@ class Login extends React.Component {
 					else alert(JSON.stringify(p_resp));
 				}).bind(this);
 				fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
-			}
-			else {
-				// type === 'cancel'
-			}
+			};
 		}
 		catch ({ message }) {
 			alert(`Facebook Login Error: ${message}`);
 		}
-	 }
+	}
+
+	async GoogleLogIn(){
+		try{
+			const { type, accessToken } = await Google.logInAsync({ 
+				clientId: (Platform.OS === 'android') ? config.GoogleClientIdAndroid : config.GoogleClientIdIOS,
+				scopes: ['profile', 'email'],
+			});
+			if (type === 'success') {
+				let l_method = "POST";
+				let l_uri = config.mainServerBaseURL + "/loginViaSocial";
+				let l_extra_headers = {};
+				let l_body = {
+					socialsite: config.signalsFrontendBackend.socialSites.google,
+					token: accessToken,
+				};
+				let l_fnc =  ((p_resp) => {
+					if (p_resp.result == "OK"){
+						this.props.setJWT(p_resp.JWT);
+						this.props.setLoginState(true);
+						if (this.state.remember_me) AsyncStorage.setItem(config.JWTKey, p_resp.JWT);
+					}
+					else alert(JSON.stringify(p_resp));
+				}).bind(this);
+				fetch_data_v2(l_method, l_uri, l_extra_headers, l_body, l_fnc);
+			};
+		}
+		catch ({ message }) {
+			alert(`Google Login Error: ${message}`);
+		}
+
+
+	}
 
 	render() {
 		return <Form>
@@ -148,13 +179,16 @@ class Login extends React.Component {
 			<Button block danger onPress={this.componentMainFunction}><Text> {config.uiTexts.Login.login}  </Text></Button>
 			<Text></Text>
 			<Text></Text>
-			<Button light onPress={() => this.props.setAppState(loginComponents.PWDRESET1)}><Text>{config.uiTexts.Login.forgotPassword}</Text></Button>
+			<Button block light onPress={() => this.props.setAppState(loginComponents.PWDRESET1)}><Text>{config.uiTexts.Login.forgotPassword}</Text></Button>
 			<Text></Text>
 			<Text></Text>
-			<Button light onPress={() => this.props.setAppState(loginComponents.SIGNUP1)}><Text>{config.uiTexts.Login.signUp}</Text></Button>
+			<Button block light onPress={() => this.props.setAppState(loginComponents.SIGNUP1)}><Text>{config.uiTexts.Login.signUp}</Text></Button>
 			<Text></Text>
 			<Text></Text>
-			<Button light onPress={this.FBLogIn}><Icon name="logo-facebook" /><Text>{config.uiTexts.Login.FacebookLogin}</Text></Button>
+			<Button block light onPress={this.FBLogIn}><Icon name="logo-facebook" /><Text>{config.uiTexts.Login.FacebookLogin}</Text></Button>
+			<Text></Text>
+			<Text></Text>
+			<Button block light onPress={this.GoogleLogIn}><Icon name="logo-google" /><Text>{config.uiTexts.Login.GoogleLogin}</Text></Button>
 		</Form>;
 	} 
 }
