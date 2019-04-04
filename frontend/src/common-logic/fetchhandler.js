@@ -71,7 +71,10 @@ export function fetch_data_v2(
 	else l_uri += "?" + fetch_add_params(p_body);
 	fetch(l_uri, l_init)
 		.then((response) => response.json())
-		.then((responseJson) => p_fnc(responseJson));
+		.then((responseJson) => p_fnc(responseJson))
+		.catch((err) => {
+			alert(err);
+		});
 }
 
 export function background_fetch_str(
@@ -101,7 +104,7 @@ export function background_fetch_str(
 			postMessage(JSON.stringify(responseJson));
 		})
 		.catch((err) => {
-			alert(err);
+			alert("Error from fetchhandler: " + err);
 		});
 	`;
 	return l_retval;

@@ -104,7 +104,7 @@ export function background_fetch_str(
 			postMessage(JSON.stringify(responseJson));
 		})
 		.catch((err) => {
-			alert(err);
+			alert("Error from fetchhandler: " + err);
 		});
 	`;
 	return l_retval;
