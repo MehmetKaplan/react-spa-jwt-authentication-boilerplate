@@ -16,10 +16,10 @@
     "redux": "^4.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "getapi.sh && react-scripts start",
+    "build": "getapi.sh && react-scripts build",
+    "test": "getapi.sh && react-scripts test",
+    "eject": "getapi.sh && react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"

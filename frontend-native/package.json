@@ -3,11 +3,11 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "eject": "expo eject",
-    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+    "start": "getapi.sh && expo start",
+    "android": "getapi.sh && expo start --android",
+    "ios": "getapi.sh && expo start --ios",
+    "eject": "getapi.sh && expo eject",
+    "test": "getapi.sh && node ./node_modules/jest/bin/jest.js --watchAll"
   },
   "jest": {
     "preset": "jest-expo"

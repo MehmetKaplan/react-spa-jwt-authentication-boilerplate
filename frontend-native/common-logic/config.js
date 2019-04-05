@@ -1,11 +1,12 @@
-export default  {
-	/* eslint-disable no-useless-concat */
-	//mainServerBaseURL: "http" + "://" + "localhost" + ":" + "8000",
-	//mainServerBaseURL: "http" + "://" + "172.17.22.78" + ":" + "8000",
-	//mainServerBaseURL: "http" + "://" + "172.20.10.3" + ":" + "8000",
-	mainServerBaseURL: "http" + "://" + "192.168.1.100" + ":" + "8000",
+const debugMode_ = true;
 
-	/* eslint-enable no-useless-concat */
+import testApi from './api-ip.js';
+
+export default  {
+	debugMode: debugMode_,
+	mainServerBaseURL: debugMode_ 
+						? testApi.testServerBaseURL // eslint-disable-line no-useless-concat
+						: "HERE COMES PRODUCTION API URL",
 
 	JWTKey: "JWTKey",
 	rememberMeKey: "RememberMe",
