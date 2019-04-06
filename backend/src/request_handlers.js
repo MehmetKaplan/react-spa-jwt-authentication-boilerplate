@@ -145,21 +145,64 @@ export default class requestHandlers {
 		}
 		if (config.debugMode) console.log("Social Login Step 4");
 		if (p_req.body.socialsite === config.signalsFrontendBackend.socialSites.facebook) {
-			let l_permissions = "id,first_name,last_name,middle_name,name,name_format,picture,short_name,email";
+			let l_permissions // = "id,first_name,last_name,middle_name,name,name_format,picture,short_name,email";
+			l_permissions = "id,email,first_name,last_name,middle_name"// To be consistent with Google
 			if (config.debugMode) console.log("Social Login Step 5");
 			fetch(`https://graph.facebook.com/me?access_token=${p_req.body.token}&fields=${l_permissions}`)
 				.then(response => {
 					return response.json()
 				})
 				.then(responseJson => {
-					if (config.debugMode) console.log("Social Login Step 6");
+					if (config.debugMode) console.log("Social Login Step 6 (Facebook)");
 					if (config.debugMode) {
 						console.log("Response from FACEBOOK: ")
 						console.log(JSON.stringify(responseJson, null, "\t"));
 					};
 					l_fnc_db_tasks(responseJson)
 						.then (l_result => {
-							if (config.debugMode) console.log("Social Login Step 7");
+							if (config.debugMode) console.log("Social Login Step 7 (Facebook)");
+							if (l_result === "OK") {
+								let l_retval_as_json = config.signalsFrontendBackend.authenticationSuccessful;
+								l_retval_as_json['JWT'] = jwt.sign(
+									{ email: responseJson.email },
+									config.jwtSecret,
+									{ expiresIn: config.jwtExpire }
+								);
+								return p_res.json(l_retval_as_json);
+							}
+							else {
+								return p_res.json(config.signalsFrontendBackend.socialLoginFailed);
+							}	
+						});
+				})
+				.catch((err) => {
+					if (config.debugMode) console.log(JSON.stringify(err));
+					return p_res.json(config.signalsFrontendBackend.socialLoginFailed);
+				});
+		}
+		else if (p_req.body.socialsite === config.signalsFrontendBackend.socialSites.google) {
+			let l_permissions// = "id,first_name,last_name,middle_name,name,name_format,picture,short_name,email";
+			l_permissions = "id,email,given_name,family_name,verified_email"// To be consistent with Facebook
+			if (config.debugMode) console.log("Social Login Step 5");
+			fetch(` https://www.googleapis.com/userinfo/v2/me?oauth_token=${p_req.body.token}&fields=${l_permissions}`) // 
+				.then(response => {
+					return response.json()
+				})
+				.then(responseJson => {
+					if (config.debugMode) console.log("Social Login Step 6 (Google)");
+					if (config.debugMode) {
+						console.log("Response from GOOGLE: ")
+						console.log(JSON.stringify(responseJson, null, "\t"));
+					};
+					let l_responseJsonEnriched = Object.assign({
+						first_name: responseJson.given_name,
+						last_name: responseJson.family_name,
+						middle_name: "",
+					}, responseJson);
+					if (!(l_responseJsonEnriched.verified_email)) return p_res.json(config.signalsFrontendBackend.socialLoginFailed);
+					l_fnc_db_tasks(l_responseJsonEnriched)
+						.then (l_result => {
+							if (config.debugMode) console.log("Social Login Step 7 (Google)");
 							if (l_result === "OK") {
 								let l_retval_as_json = config.signalsFrontendBackend.authenticationSuccessful;
 								l_retval_as_json['JWT'] = jwt.sign(

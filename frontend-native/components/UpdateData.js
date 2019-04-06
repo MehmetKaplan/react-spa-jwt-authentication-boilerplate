@@ -93,8 +93,8 @@ class UpdateData extends React.Component {
 						name_value: p_resp.name,
 						midname_value: p_resp.midname,
 						surname_value: p_resp.surname,
-						gender_id_value: p_resp.gender_id.toString(),
-						birthday_value: moment(p_resp.birthday, 'YYYYMMDDhhmmss').toDate(),
+						gender_id_value: nvl(p_resp.gender_id, "3").toString(),
+						birthday_value: (nvl(p_resp.birthday, "") === "") ? moment(new Date(2000, 1, 1), 'YYYYMMDDhhmmss').toDate() : moment(p_resp.birthday, 'YYYYMMDDhhmmss').toDate(),
 						phone_value: p_resp.phone,
 					});
 				}
@@ -160,7 +160,7 @@ class UpdateData extends React.Component {
 				note
 				mode="dropdown"
 				placeholder={config.uiTexts.UpdateData.gender_id} 
-				selectedValue={this.state.gender_id_value}
+				selectedValue={nvl(this.state.gender_id_value, "3")}
 				itemStyle={{ foregroundColor: "green"}}
 				onValueChange={(value) => {this.setState({gender_id_value: value})}}
 			>
@@ -172,7 +172,7 @@ class UpdateData extends React.Component {
 			<Text></Text>
 			<Text></Text>
 			<DatePicker
-				defaultDate={this.state.birthday_value}
+				defaultDate={nvl(this.state.birthday_value, new Date(2000, 1, 1))}
 				minimumDate={new Date(1930, 1, 1)}
 				maximumDate={new Date()}
 				locale={"en"}
