@@ -108,7 +108,10 @@ class PasswordResetEMail extends React.Component {
 	}
 }
 
-const greenTheme = createMuiTheme({ palette: { primary: green } })
+const greenTheme = createMuiTheme({ 
+	palette: { primary: green },
+	typography: {useNextVariants: true,},
+})
 
 const styles = theme => ({
 	container: {
