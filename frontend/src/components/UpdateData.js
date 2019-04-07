@@ -103,8 +103,8 @@ class UpdateData extends React.Component {
 						name_value: p_resp.name,
 						midname_value: p_resp.midname,
 						surname_value: p_resp.surname,
-						gender_id_value: p_resp.gender_id.toString(),
-						birthday_value: moment(p_resp.birthday, 'YYYYMMDDhhmmss').toDate(),
+						gender_id_value: nvl(p_resp.gender_id, "3").toString(),
+						birthday_value: (nvl(p_resp.birthday, "") === "") ? moment(new Date(2000, 1, 1), 'YYYYMMDDhhmmss').toDate() : moment(p_resp.birthday, 'YYYYMMDDhhmmss').toDate(),
 						phone_value: p_resp.phone,
 					});
 				}

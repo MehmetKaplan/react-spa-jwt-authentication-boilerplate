@@ -1,6 +1,6 @@
-const debugMode_ = true;
-
 import testApi from './api-ip.js';
+
+const debugMode_ = true;
 
 export default  {
 	debugMode: debugMode_,
@@ -11,7 +11,7 @@ export default  {
 	JWTKey: "JWTKey",
 	rememberMeKey: "RememberMe",
 	FacebookAppID: "312680782763024",
-	//GoogleClientIdWeb: '251867410582-ljs4f27nkb4gh3bvov1nmktce1ldri10.apps.googleusercontent.com',
+	GoogleClientIdWeb: '251867410582-ljs4f27nkb4gh3bvov1nmktce1ldri10.apps.googleusercontent.com',
 	GoogleClientIdIOS: "251867410582-kuducdo0d01cpd6iirm0b6fdsud7affh.apps.googleusercontent.com",
 	GoogleClientIdAndroid: "251867410582-o4kblifgn470pfbh549velp0rlna69dl.apps.googleusercontent.com",
 	uiTexts: {
