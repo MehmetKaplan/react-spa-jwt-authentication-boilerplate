@@ -370,6 +370,7 @@ The license is MIT and full text [here](LICENSE).
 * react-scripts license [here](./OtherLicenses/react-scripts.txt)
 * redux license [here](./OtherLicenses/redux.txt)
 * moment license [here](./OtherLicenses/moment.txt)
+* react-device-detect license [here](./OtherLicenses/react-device-detect.txt)
 
 ### Frontend Native used modules
 
