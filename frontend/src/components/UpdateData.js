@@ -169,7 +169,7 @@ class UpdateData extends React.Component {
 			<Grid item xs={12}>
 				<TextField
 					label={config.uiTexts.UpdateData.phone}
-					value={this.state.phone_value}
+					value={nvl(this.state.phone_value, "")}
 					onChange={(event) => { this.setState({ phone_value: event.target.value }) }}
 					className={classes.textField}
 					margin="normal"
