@@ -1,3 +1,3 @@
 export default {
-	testServerBaseURL: "http" + "://" + "172.20.10.3" + ":" + "8000", // eslint-disable-line no-useless-concat
+	testServerBaseURL: "http" + "://" + "192.168.1.100" + ":" + "8000", // eslint-disable-line no-useless-concat
 }

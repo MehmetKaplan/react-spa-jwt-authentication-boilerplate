@@ -1,6 +1,6 @@
-const debugMode_ = true;
-
 import testApi from './api-ip.js';
+
+const debugMode_ = true;
 
 export default  {
 	debugMode: debugMode_,
