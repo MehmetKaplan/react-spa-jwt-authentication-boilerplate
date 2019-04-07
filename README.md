@@ -344,6 +344,7 @@ Follow the instructions in https://docs.expo.io/versions/latest/distribution/bui
 16.03.2019: For frontend-native background task runner added. This is a WebView class which executes delegated tasks (fetch as primary goal) at the background and gives back the result. The aim is to avoid the impact on user experience because of single-thread nature of the JavaScript. As of now Expo SDK32 has a bug that prevents reading data from the WebView. It is expected to be solved in SDK33.
 
 31.03.2019: Implemented web worker structure for same purpose in frontend web side.
+07.04.2019: Social Login Completed
 
 ## Licenses
 
