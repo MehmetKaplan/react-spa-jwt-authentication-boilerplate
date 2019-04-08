@@ -53,7 +53,7 @@ Following should apply for the whole structure:
 
 ## Setup
 
-0. Please note if you are not using MySQL, you'll need to modify database connections in the code. That is why we suggest you to setup MySQL. For a clean guide to set up MySQL for Ubuntu yo can refer [here](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04).
+0. If you are not using MySQL, you'll need to modify database connections in the code. That is why we suggest you to setup MySQL. For a clean guide to set up MySQL for Ubuntu yo can refer [here](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04).
 
 1. Set environment parameters for mail and relational database. If you choose to use MySQL and linux adding following lines to `~/.bashrc` file should be sufficient. (Please update username, password, etc correctly.)
 
@@ -72,7 +72,7 @@ export MYSQL_PASSWORD="yourdbpassword"  #Example "tiger"
 ############# react-spa-jwt-authentication-boilerplate #############
 ```
 
-Please note, if you are planning to use your gmail account as your mailer, you need to make the "Less secure app access" on from your gmail settings:
+If you are planning to use your gmail account as your mailer, you need to make the "Less secure app access" on from your gmail settings:
 
 ![Google Setting - Less secure app access - Screenshot by Jan 2019](./ChartsAndDiagrams/GoogleLessSecureSetting.png)
 
@@ -289,8 +289,6 @@ Here we'll try to look at the infrastructure from different angles
 
 #### Social Login
 ![Social Login Sequence Diagram](./ChartsAndDiagrams/SocialLogin.svg)
-
-**Please be informed that this project is under development, not yet finalized and open to any contribution from opensource community.**
 
 ## React Component (Class) Flows
 
