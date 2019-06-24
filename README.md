@@ -337,6 +337,10 @@ Follow the instructions in https://docs.expo.io/versions/latest/distribution/bui
 - For iOS, get your apps Bundle ID from iOS Developer Console and configure it in the Facebook developer page (during devlopment we have been using Expo's bundle id)
 - For Android build your application, then go as stated in https://docs.expo.io/versions/latest/sdk/facebook/
 
+### Android vs iOS
+
+- WebView must be tested on Android since it has differentiated code.
+
 ## Change Log
 
 16.03.2019: For frontend-native background task runner added. This is a WebView class which executes delegated tasks (fetch as primary goal) at the background and gives back the result. The aim is to avoid the impact on user experience because of single-thread nature of the JavaScript. As of now Expo SDK32 has a bug that prevents reading data from the WebView. It is expected to be solved in SDK33.
