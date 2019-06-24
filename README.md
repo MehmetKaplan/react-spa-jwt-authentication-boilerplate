@@ -384,3 +384,5 @@ The license is MIT and full text [here](LICENSE).
 * redux license [here](./OtherLicenses/redux.txt)
 * babel license [here](./OtherLicenses/babel.txt)
 * moment license [here](./OtherLicenses/moment.txt)
+* react-native-webview license [here](./OtherLicenses/react-native-webview.txt)
+

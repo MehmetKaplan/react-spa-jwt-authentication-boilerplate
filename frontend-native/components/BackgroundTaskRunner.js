@@ -1,65 +1,45 @@
-import * as React from 'react';
-import { Text, View, StyleSheet, WebView } from 'react-native';
+import React, { Component } from 'react';
+import { Platform, View } from 'react-native';
 
-import {background_fetch_str} from '../common-logic/fetchhandler.js';
+import { WebView } from 'react-native-webview'; 
+
+import { background_fetch_str } from '../common-logic/fetchhandler.js';
 
 export default class BackgroundTaskRunner extends React.Component {
-
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
 			webViewLoaded: false
 		};
-		this.handleMessage = this.handleMessage.bind(this);
 	};
-
-	injectjs() {
-		let jsCode = background_fetch_str(this.props.method, this.props.uri, this.props.extra_header, this.props.body);
-		return jsCode;
-	}
-
 	handleMessage = (e) => {
-		//console.log('message from webview:', message);
-		// AFTER EXPO SDK33 (SDK32 has a bug) retest here
-		// In SDK32 the WebView's onMessage was not triggering this function
 		alert(`Message from webview: ${JSON.stringify(e.nativeEvent.data, null, " ")}`);
 	}
-
+	htmlSource() {
+		let l_postMessageText = (Platform.OS === 'ios')
+			? `window.ReactNativeWebView.postMessage(JSON.stringify(responseJson));\n\n`
+			: `document.ReactNativeWebView.postMessage(JSON.stringify(responseJson));\n\n`;
+		let l_injectJS = background_fetch_str(this.props.method, this.props.uri, this.props.extra_header, this.props.body).replace("postMessage(JSON.stringify(responseJson));", l_postMessageText);
+		return `
+			<html>
+				<head></head>
+				<body>
+				<script>
+						${l_injectJS}
+				</script>
+				</body>
+			</html>`;
+	}
+	
 	render() {
-		//injectedJavaScript: lets you inject JavaScript code to be executed within the context of the WebView.
-		//injectJavaScript: lets you inject JavaScript code that is executed immediately on the WebView, with no return value.
+		const html = this.htmlSource();
 		return (
-			<View style={styles.container}>
+			<View style={{ flex: 1 }}>
 				<WebView
-					ref={webview => { this.webview = webview; }}
-					onLoad={() => {
-						if ( this.state.webViewLoaded ) return;
-						this.setState({ webViewLoaded: true });
-					}}
-					source={{
-						//html: "<html><body>DEFAULT TEXT</body></html>"
-						html: "DEFAULT TEXT2"
-					}}
-					injectedJavaScript={this.injectjs()}
-					javaScriptEnabled={true}
-					style={styles.webview}
-					onMessage={this.state.webViewLoaded ? this.handleMessage : null}
+					source={{ html }}
+					onMessage={(e) => this.handleMessage(e)}
 				/>
 			</View>
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#F5F5F5',
-	},
-	webview: {
-		flex: 1,
-		alignSelf: 'stretch',
-	},
-});
-
-
-

@@ -1,6 +1,10 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
-import { AppLoading, Asset, Font, Icon, Constants } from 'expo';
+import { AppLoading, Constants } from 'expo';
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
+import * as Icon from '@expo/vector-icons';
+
 import AppNavigator from './navigation/AppNavigator';
 
 import { connect } from 'react-redux';
