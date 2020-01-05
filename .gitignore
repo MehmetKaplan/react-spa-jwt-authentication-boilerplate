@@ -3,5 +3,5 @@ dist
 build
 Video
 OAuthCredentials
-**/.DS_Store
 *.swp
+**/.DS_Store
